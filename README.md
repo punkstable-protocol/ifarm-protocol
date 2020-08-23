@@ -3,7 +3,6 @@
 ifarm is an experimental protocol building upon the most exciting innovations in programmable money and governance. Built by a team of DeFi natives, it seeks to create:
 
 •	a next generation Yield Farming aggregator<br/>
-•	a governable treasury to further support stability<br/>
 •	fully on-chain governance to enable decentralized control and evolution from it under stable<br/>
 •	a fair distribution mechanism that incentivizes key community members to actively take the reins of governance
 

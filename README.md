@@ -1,6 +1,6 @@
 # ifarm Protocol
 ## The Protocol
-Yam is an experimental protocol building upon the most exciting innovations in programmable money and governance. Built by a team of DeFi natives, it seeks to create:
+ifarm is an experimental protocol building upon the most exciting innovations in programmable money and governance. Built by a team of DeFi natives, it seeks to create:
 
 •	a next generation Yield Farming aggregator<br/>
 •	a governable treasury to further support stability<br/>
@@ -75,3 +75,5 @@ Much of this codebase is modified from existing works, including:
 [Synthetix](https://synthetix.io) - Rewards staking contract
 
 [YEarn](https://yearn.finance)/[YFI](https://ygov.finance) - Initial fair distribution implementation
+
+[YAM](https://yam.finance)/[YAM](https://ygov.finance) - Initial fair distribution implementation and an elastic supply to seek eventual price stability

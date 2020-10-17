@@ -6,7 +6,7 @@ const IFAPool = artifacts.require('IFAPool');
 const IFAMaster = artifacts.require('IFAMaster');
 const MockERC20 = artifacts.require('MockERC20');
 const Timelock = artifacts.require('Timelock');
-const WETHVault = artifacts.require('WETHVault');
+const ChateauLafitte = artifacts.require('ChateauLafitte');
 
 function encodeParameters(types, values) {
     const abi = new ethers.utils.AbiCoder();
@@ -30,9 +30,9 @@ contract('Timelock', ([alice, bob, carol, dev, minter, incent]) => {
         const K_STRATEGY_CREATE_IFA = 0;
         await this.ifaMaster.addStrategy(K_STRATEGY_CREATE_IFA, this.createIFA.address);
 
-        this.wethVault = await WETHVault.new(this.ifaMaster.address, this.createIFA.address, { from: alice });
-        const K_VAULT_WETH = 0;
-        await this.ifaMaster.addVault(K_VAULT_WETH, this.wethVault.address);
+        this.chateauLafitte = await ChateauLafitte.new(this.ifaMaster.address, this.createIFA.address, { from: alice });
+        const K_VAULT_CHATEAU_LAFITTE = 2;
+        await this.ifaMaster.addVault(K_VAULT_CHATEAU_LAFITTE, this.chateauLafitte.address);
 
         this.timelock = await Timelock.new(bob, '259200', { from: alice });
 
@@ -40,7 +40,7 @@ contract('Timelock', ([alice, bob, carol, dev, minter, incent]) => {
         await this.ifa.transferOwnership(this.createIFA.address, { from: alice });
         await this.pool.transferOwnership(this.timelock.address, { from: alice });
         await this.createIFA.transferOwnership(this.timelock.address, { from: alice });
-        await this.wethVault.transferOwnership(this.timelock.address, { from: alice });
+        await this.chateauLafitte.transferOwnership(this.timelock.address, { from: alice });
     });
 
     it('should not allow non-owner to do operation', async () => {
@@ -89,12 +89,12 @@ contract('Timelock', ([alice, bob, carol, dev, minter, incent]) => {
         const eta = (await time.latest()).add(time.duration.days(3));
         await this.timelock.queueTransaction(
             this.pool.address, '0', 'setPoolInfo(uint256,address,address,uint256)',
-            encodeParameters(['uint256', 'address', 'address', 'uint256'], ['0', this.wETH.address, this.wethVault.address, '1234']), eta, { from: bob },
+            encodeParameters(['uint256', 'address', 'address', 'uint256'], ['0', this.wETH.address, this.chateauLafitte.address, '1234']), eta, { from: bob },
         );
         await time.increase(time.duration.days(3));
         await this.timelock.executeTransaction(
             this.pool.address, '0', 'setPoolInfo(uint256,address,address,uint256)',
-            encodeParameters(['uint256', 'address', 'address', 'uint256'], ['0', this.wETH.address, this.wethVault.address, '1234']), eta, { from: bob },
+            encodeParameters(['uint256', 'address', 'address', 'uint256'], ['0', this.wETH.address, this.chateauLafitte.address, '1234']), eta, { from: bob },
         );
         assert.equal((await this.pool.poolMap('0')).valueOf().startTime, '1234');
     });

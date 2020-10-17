@@ -10,9 +10,9 @@ import "../IFAMaster.sol";
 contract Parities {
     using SafeMath for uint256;
 
-    uint256 constant K_MADE_iUSD = 1;
-    uint256 constant K_MADE_iBTC = 2;
-    uint256 constant K_MADE_iETH = 3;
+    uint256 constant K_MADE_iUSD = 0;
+    uint256 constant K_MADE_iBTC = 1;
+    uint256 constant K_MADE_iETH = 2;
 
 
     IFAMaster public ifaMaster;
@@ -25,22 +25,22 @@ contract Parities {
     function getIFAToiTokenRate(address _itoken) public view returns (uint256) {
         require(_itoken != address(0), "error iToken address");
         uint256 key = ifaMaster.iTokenKey(_itoken);
+        require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported iToken");
         if (key == K_MADE_iUSD) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.sCRV(), _itoken);
             (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.sCRV(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
-        } else if (key == K_MADE_iBTC) {
+        }
+        if (key == K_MADE_iBTC) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.btcCRV(), _itoken);
             (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.btcCRV(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
-        } else if (key == K_MADE_iETH) {
+        }
+        if (key == K_MADE_iETH) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.wETH(), _itoken);
             (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.wETH(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
         }
-
-        // don't reach here forever
-        require(false, "Not supported iToken");
         return 0;
     }
 

@@ -50,9 +50,9 @@ contract IFADataBoard is Ownable {
 
         uint256 vaultSupply = vault.totalSupply();
 
+        // 10 IFA per block
+        uint256 factor = 10;
 
-        uint256 factor = 1;
-        // 1 IFA per block
         if (vaultSupply == 0) {
             // Assume $1 is put in.
             return getIFAPrice() * factor * 5760 * 100 * allocPoint / totalAlloc / 1e6;

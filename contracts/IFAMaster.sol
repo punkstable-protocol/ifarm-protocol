@@ -24,9 +24,9 @@ K_VAULT_CHATSWORTH_HOUSE = 7;
 K_VAULT_CHATEAU_MARGAUX = 8;
 
 b) Elastic token addresses are immutable once set, and the list may grow:
-K_MADE_iUSD = 1;
-K_MADE_iBTC = 2;
-K_MADE_iETH = 3;
+K_MADE_iUSD = 0;
+K_MADE_iBTC = 1;
+K_MADE_iETH = 2;
 
 
 c) Strategy addresses are mutable:
@@ -52,7 +52,6 @@ contract IFAMaster is Ownable {
 
     address public pool;
     address public bank;
-    address public snailRevenue;
     address public revenue;
     address public costco;
 
@@ -91,11 +90,6 @@ contract IFAMaster is Ownable {
     // Mutable in case we want to upgrade this module.
     function setRevenue(address _revenue) external onlyOwner {
         revenue = _revenue;
-    }
-
-    // Mutable in case we want to upgrade this module.
-    function setSnailRevenue(address _snailRevenue) external onlyOwner {
-        snailRevenue = _snailRevenue;
     }
 
     // Mutable in case we want to upgrade this module.

@@ -9,22 +9,15 @@ import "./IStrategy.sol";
 import "../IFAMaster.sol";
 
 // This contract has the power to change IFA allocation among
-// different pools, but can't mint more than 100,000 IFA tokens.
+// different pools, but can't mint more than 21,000,000 IFA tokens.
 // With ALL_BLOCKS_AMOUNT and IFA_PER_BLOCK,
 
-// we have 100,000 * 1 = 100,000
-// For the remaining 900,000 IFA, we will need to deploy a new contract called
-// CreateMoreIFA after the community can make a decision by voting.
-//
-// Currently this contract is the only owner of IFAToken and is itself owned by
-// Timelock, and it has a function transferToCreateMoreIFA to transfer the
-// ownership to CreateMoreIFA once all the 100,000 tokens are out.
-
+// Currently this contract is the only owner of IFAToken and is itself owned by Timelock
 
 contract CreateIFA is IStrategy, Ownable {
     using SafeMath for uint256;
 
-    uint256 public constant ALL_BLOCKS_AMOUNT = 21000000;
+    uint256 public constant ALL_BLOCKS_AMOUNT = 2100000;
     uint256 public constant IFA_PER_BLOCK = 10 * 1e18;
 
     uint256 constant PER_SHARE_SIZE = 1e12;
@@ -206,10 +199,6 @@ contract CreateIFA is IStrategy, Ownable {
         return ifaMaster.ifa();
     }
 
-    // This only happens after all the 100,000 tokens are minted, and should
-    // be after the community can vote (I promise by then Timelock will
-    // be administrated by GovernorAlpha).
-    //
     // Community (of the future), please make sure _createMoreIFA contract is
     // safe enough to pull the trigger.
     function transferToCreateMoreIFA(address _createMoreIFA) external onlyOwner {

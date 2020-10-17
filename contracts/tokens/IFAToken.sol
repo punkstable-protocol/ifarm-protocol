@@ -4,7 +4,6 @@ pragma solidity 0.6.12;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-// This token is owned by ../strategies/CreateIFA.sol
 contract IFAToken is ERC20("ifarm.finance", "IFA"), Ownable {
     uint256 public iTokenGovThreshold = 5; // 0.5%
 

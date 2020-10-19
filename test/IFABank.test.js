@@ -138,17 +138,18 @@ contract('IFABank', ([alice, bob, carol]) => {
         assert.equal(balanceOfWETH.valueOf(), 100000);
 
         // Now he can return loan of index 0.
-        await this.ieth.approve(this.bank.address, 1000000, {from: bob});  // Block 9
-
-        // part of interest should be paied by IFA. please make sure there is sufficient IFA's balance in bob's wallet
-        await this.bank.payBackInFull(0, {from: bob});
-
         // He paid for Loan(LoanId = 0):
+        // Total borrowed iETH(LoanId = 0 and LoanId = 1):1000000 iETH
+        await this.ieth.approve(this.bank.address, 1000000, {from: bob});  // Block 9
+        // part of interest should be paied by IFA. please make sure there is sufficient IFA's balance in bob's wallet
         // 1. principal:600000 iETH
         // 2. interest: 600000 * 0.0005 iETH equivalent of IFA
+        // assume 300 iETH = 2 IFA
+        await this.ifa.approve(this.bank.address, 2, {from: bob});
+
+        await this.bank.payBackInFull(0, {from: bob});
         balanceOfiETH = await this.ieth.balanceOf(bob);
         assert.equal(balanceOfiETH.valueOf(), 700000);
-        // assume 300 iETH = 2 IFA
         // 35 - 2 = 33 IFA
         // Just write an assumption here, please mock and check this case.
         assert.equal(balanceOfIFA.valueOf(), 33);
@@ -156,43 +157,47 @@ contract('IFABank', ([alice, bob, carol]) => {
         // Bob can withdraw now.
         this.pool.withdraw(2, 500000, {from: bob});  // Block 10
 
-        // Not enough ieth left, he can't pay off index 1 now.
+        // Bob transfer 100000 iETH to alice or swap iETH for USDT in uniswap or iETH rebased
+        await this.ieth.transfer(alice, 100000, {from: bob});
+
+        // Not enough iETH left, he can't pay off index 1 now.
         await expectRevert(
             this.bank.payBackInFull(1, {from: bob}),  // Block 11
             'burn amount exceeds balance'
         );
 
         // 2 years later. Someone else, carol can collect the debt.
-        //await this.bank.collectDebt(2, { from: bob });
         await time.increase(time.duration.years(2));
 
         // Bob has some vault asset locked.
         var balanceOfBobVault = await this.chateauLafitte.balanceOf(bob);
         assert.equal(balanceOfBobVault.valueOf(), 500000);
         var lockedBalanceOfBobVault = await this.chateauLafitte.lockedAmount(bob);
-        // 100000 * 100 / 70 = 142857 is locked.
+        // 100000 * 100 / 70 = 142857 wETH is locked.
         assert.equal(lockedBalanceOfBobVault.valueOf(), 142857);
 
-        // Carol stakes 2000000, and quickly borrows 1400000
+        // Carol stakes 2000000 wETH, and quickly borrows 1400000 iETH
         await this.wETH.approve(this.pool.address, 2000000, {from: carol});
         await this.pool.deposit(2, 2000000, {from: carol});
         await this.bank.borrow(2, 1400000, {from: carol});
         balanceOfiETH = await this.ieth.balanceOf(carol);
         assert.equal(balanceOfiETH.valueOf(), 1400000);
 
-        // Now carol can collect bob's debt, which are loanId = 0 and 1.
+        // Now carol can collect bob's debt, which is loanId = 1.
         await this.ieth.approve(this.bank.address, 1400000, {from: carol});
-        await this.ifa.approve(this.bank.address, 22222, {from: carol});
+        // assume carol bought 2000 IFA from uniswap
+        // and assume [28571 + (142857 - 128571) / 2] iETH = 35714 iETH = 1500 IFA
+        await this.ifa.approve(this.bank.address, 1500, {from: carol});
         // Bob's debt details:
-        // the debt principal is 100000
-        // The locked wETH amount is 100000 / 70 * 100 = 142857
-        // The accumulated debt of loanId #1 is 100000 / 70 * 90 = 128571
-        // the debt interest is 128571 - 100000 = 28571 
-        // Coral nees to pay 100000 with ieth and pay [28571 + (142857 - 128571) / 2] ieth equivalent of IFA
+        // the debt principal is 100000 iETH
+        // The locked wETH amount is 100000 / 70 * 100 = 142857 wETH
+        // The accumulated debt of loanId #1 is 100000 / 70 * 90 = 128571 iETH
+        // the debt interest is 128571 - 100000 = 28571 iETH
+        // Coral nees to pay 100000 with iETH and pay [28571 + (142857 - 128571) / 2] iETH equivalent of IFA
         await this.bank.collectDebt(2, 1, {from: carol});
  
         balanceOfiETH = await this.ieth.balanceOf(carol);
-        assert.equal(balanceOfiETH.valueOf(), 1264286);
+        assert.equal(balanceOfiETH.valueOf(), 1300000);
 
         // Bob should lose his locked asset. 500000 - 142857 = 357143
         balanceOfBobVault = await this.chateauLafitte.balanceOf(bob);

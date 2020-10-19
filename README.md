@@ -1,7 +1,7 @@
 # ifarm.finance
 
 ## Processing Farm for Governance Token Capitalization
-The ifarm is also based on a unique lending model for Governance Tokens
+The ifarm is based on a unique lending model for Governance Tokens
 
 ## Main effect
 

@@ -24,9 +24,9 @@ K_VAULT_CHATSWORTH_HOUSE = 7;
 K_VAULT_CHATEAU_MARGAUX = 8;
 
 b) Elastic token addresses are immutable once set, and the list may grow:
-K_MADE_iUSD = 0;
-K_MADE_iBTC = 1;
-K_MADE_iETH = 2;
+K_MADE_iUSD = 1;
+K_MADE_iBTC = 2;
+K_MADE_iETH = 3;
 
 
 c) Strategy addresses are mutable:

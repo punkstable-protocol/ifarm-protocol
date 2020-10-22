@@ -5,11 +5,11 @@
 
 // Token
 // deployed first
-const IFA = artifacts.require("IFA");
+const IFA = artifacts.require("IFAToken");
 
 // IFAGovernance
 // deployed second
-const IFAGov = artifacts.require("IFAGovernorAlpha");
+const IFAGov = artifacts.require("GovernorAlpha");
 const IFATimelock = artifacts.require("Timelock");
 
 
@@ -17,7 +17,7 @@ const IFATimelock = artifacts.require("Timelock");
 
 const migration = async (deployer, network, accounts) => {
     await Promise.all([
-        deployIFAGovernance(deployer, network),
+        deployIFAGovernance(deployer, network, accounts),
     ]);
 };
 
@@ -30,12 +30,13 @@ module.exports = migration;
 // This is at the expense of having to do 6 extra txs to sync the migrations
 // contract
 
-async function deployIFAGovernance(deployer, network) {
+async function deployIFAGovernance(deployer, network, accounts) {
     await deployer.deploy(IFA);
-    await deployer.deploy(IFATimelock);
+    await deployer.deploy(IFATimelock, accounts[0], 86400);
 
     await deployer.deploy(IFAGov,
         IFATimelock.address,
-        IFA.address
+        IFA.address,
+        accounts[0]
     );
 }

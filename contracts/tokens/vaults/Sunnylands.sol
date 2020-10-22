@@ -6,7 +6,6 @@ import "../IFAVault.sol";
 // Owned by Timelock
 contract Sunnylands is IFAVault {
     // seed btcCRV, harvest IFA, borrow iBTC
-    // origin code: wETH Vault
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA

@@ -10,9 +10,9 @@ import "../IFAMaster.sol";
 contract Parities {
     using SafeMath for uint256;
 
-    uint256 constant K_MADE_iUSD = 0;
-    uint256 constant K_MADE_iBTC = 1;
-    uint256 constant K_MADE_iETH = 2;
+    uint256 constant K_MADE_iUSD = 1;
+    uint256 constant K_MADE_iBTC = 2;
+    uint256 constant K_MADE_iETH = 3;
 
 
     IFAMaster public ifaMaster;

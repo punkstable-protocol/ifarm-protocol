@@ -6,7 +6,6 @@ import "../IFAVault.sol";
 // Owned by Timelock
 contract ChateauLafitte is IFAVault {
     // seed wETH, harvest IFA, borrow iETH
-    // origin code: wETH Vault
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA

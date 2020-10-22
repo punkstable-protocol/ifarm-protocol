@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "./Parities.sol";
 
 // This contract is owned by the dev.
-// When new IFA tokens are minted, 50% will be sent here.
+// When new IFA tokens are minted, 5% will be sent here.
 // Anyone can purchase IFA with iUSD/iBTC/iETH with a 5% discount.
 // dev can withdraw any token other than IFA from it.
 contract Costco is Parities, Ownable {

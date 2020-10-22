@@ -37,13 +37,14 @@ contract('IFABank', ([alice, bob, carol]) => {
 
         this.iETH = new web3.eth.Contract(parsed.abi, iETHContractAddress);
         this.iETH.address = iETHContractAddress;
-        await this.ifaMaster.addIFAMade(K_MADE_iETH, this.iETH.address, {from: alice});
 
         this.pool = await IFAPool.new({from: alice});
         await this.ifaMaster.setPool(this.pool.address, {from: alice});
 
         this.bank = await IFABank.new(this.ifaMaster.address, {from: alice});
         await this.ifaMaster.setBank(this.bank.address, {from: alice});
+        // assume iETH owned by alice
+        await this.iETH.setBanker(this.bank.address, {from: alice});
 
         this.revenue = await IFARevenue.new(this.ifaMaster.address, {from: alice});
         await this.ifaMaster.setRevenue(this.revenue.address, {from: alice});

@@ -20,10 +20,8 @@ contract ShareRevenue is IStrategy, Ownable {
 
     mapping(address => uint256) private valuePerShare;  // By vault.
 
-    constructor(IFAMaster _ifaMaster, IERC20 _lpToken) public {
+    constructor(IFAMaster _ifaMaster) public {
         ifaMaster = _ifaMaster;
-
-        _lpToken.approve(ifaMaster.pool(), type(uint256).max);
 
         IERC20(ifaMaster.ifa()).approve(ifaMaster.pool(), type(uint256).max);
     }
@@ -32,7 +30,7 @@ contract ShareRevenue is IStrategy, Ownable {
         _token.approve(ifaMaster.pool(), type(uint256).max);
     }
 
-    function getValuePerShare(address _vault) external view override returns(uint256) {
+    function getValuePerShare(address _vault) external view override returns (uint256) {
         return valuePerShare[_vault];
     }
 
@@ -84,7 +82,7 @@ contract ShareRevenue is IStrategy, Ownable {
     /**
      * @dev See {IStrategy-getTargetToken}.
      */
-    function getTargetToken() external view override returns(address) {
+    function getTargetToken() external view override returns (address) {
         return ifaMaster.ifa();
     }
 }

@@ -88,14 +88,12 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
     context('Only harvest without exit', async () => {
         it('Single user', async () => {
             let amount = toWei('10')
-            let advanceBlockNum = 1;
 
             await this.sCRV.approve(this.pool.address, amount, { from: bob });
 
             await this.pool.deposit(poolMap.BirrCastle, amount, { from: bob });
             let lastRewardBlock = await time.latestBlock();
-
-            await time.advanceBlockTo(lastRewardBlock.toNumber() + advanceBlockNum);
+            await time.advanceBlock(); // block + 1
 
             await this.pool.claim(poolMap.BirrCastle, { from: bob });
 
@@ -109,7 +107,6 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
 
         it('Multiple users', async () => {
             let amount = toWei('10')
-            let advanceBlockNum = 1;
 
             // First user
             await this.sCRV.approve(this.pool.address, amount, { from: bob });
@@ -117,7 +114,8 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
 
             await this.pool.deposit(poolMap.BirrCastle, amount, { from: bob });
 
-            await time.advanceBlockTo(lastRewardBlock.toNumber() + advanceBlockNum);
+            await time.advanceBlock(); // block + 1
+
             let multiplier = await getMultiplier(lastRewardBlock);
 
             await this.pool.claim(poolMap.BirrCastle, { from: bob });
@@ -129,7 +127,7 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
             // Second user
             let twoAmount = toWei('20')
             lastRewardBlock = await time.latestBlock();
-            await this.sCRV.approve(this.pool.address, twoAmount, { from: carol }); //block 0
+            await this.sCRV.approve(this.pool.address, twoAmount, { from: carol });
             await this.pool.deposit(poolMap.BirrCastle, twoAmount, { from: carol });
 
             lastRewardBlock = await time.latestBlock();
@@ -153,7 +151,7 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
             await this.pool.deposit(poolMap.BirrCastle, amount, { from: bob });
             let lastRewardBlock = await time.latestBlock();
 
-            await time.advanceBlockTo(lastRewardBlock.toNumber() + advanceBlockNum);
+            await time.advanceBlock(); // block + 1
 
             await this.pool.withdraw(poolMap.BirrCastle, amount, { from: bob });
             let multiplier = await getMultiplier(lastRewardBlock);

@@ -1,6 +1,6 @@
-const iTokenDelegator = require("../../build/contracts/iTokenDelegator.json");
 const UniswapV2Router02 = require("../contractsJson/UniswapV2Router02.json");
 const UniswapV2Factory = require("../contractsJson/UniswapV2Factory.json");
+const iTokenDelegator = require("../contractsJson/iTokenDelegator.json");
 const wETH = require("../contractsJson/wETH.json");
 const IFA = require("../../build/contracts/IFAToken.json");
 

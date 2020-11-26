@@ -6,11 +6,11 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../IFAMaster.sol";
 import "./ICalculator.sol";
 
-// This calculator fitures out lending iUSD by depositing sCRV.
+// This calculator futures out lending iUSD by depositing DAI.
 // All the money are still managed by the pool, but the calculator tells him
 // what to do.
 // This contract is owned by Timelock.
-contract sCRVCalculator is Ownable, ICalculator {
+contract DAICalculator is Ownable, ICalculator {
     using SafeMath for uint256;
 
     uint256 constant RATE_BASE = 1e6;
@@ -159,7 +159,7 @@ contract sCRVCalculator is Ownable, ICalculator {
         require(msg.sender == ifaMaster.bank(), "sender not bank");
 
         uint256 lockedAmount = _amount.mul(LTV_BASE).div(minimumLTV);
-        require(lockedAmount >= 500, "lock at least 500 sCRV");
+        require(lockedAmount >= 500, "lock at least 500 DAI");
 
         loanInfo[nextLoanId].who = _who;
         loanInfo[nextLoanId].amount = _amount;

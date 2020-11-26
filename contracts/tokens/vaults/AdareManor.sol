@@ -5,7 +5,7 @@ import "../IFAVault.sol";
 
 // Owned by Timelock
 contract AdareManor is IFAVault {
-    // iUSD-sCRV UNI-V2 LP
+    // iUSD-DAI UNI-V2 LP
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA,

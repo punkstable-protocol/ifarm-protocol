@@ -6,11 +6,11 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../IFAMaster.sol";
 import "./ICalculator.sol";
 
-// This calculator fitures out lending iBTC by depositing btcCRV.
+// This calculator futures out lending iBTC by depositing wBTC.
 // All the money are still managed by the pool, but the calculator tells him
 // what to do.
 // This contract is owned by Timelock.
-contract btcCRVCalculator is Ownable, ICalculator {
+contract wBTCCalculator is Ownable, ICalculator {
     using SafeMath for uint256;
 
     uint256 constant RATE_BASE = 1e6;
@@ -159,7 +159,7 @@ contract btcCRVCalculator is Ownable, ICalculator {
         require(msg.sender == ifaMaster.bank(), "sender not bank");
 
         uint256 lockedAmount = _amount.mul(LTV_BASE).div(minimumLTV);
-        require(lockedAmount.mul(20) >= 1, "lock at least 0.05 btcCRV");
+        require(lockedAmount.mul(20) >= 1, "lock at least 0.05 wBTC");
 
         loanInfo[nextLoanId].who = _who;
         loanInfo[nextLoanId].amount = _amount;

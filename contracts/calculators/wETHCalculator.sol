@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../IFAMaster.sol";
 import "./ICalculator.sol";
 
-// This calculator fitures out lending iETH by depositing WETH.
+// This calculator futures out lending iETH by depositing WETH.
 // All the money are still managed by the pool, but the calculator tells him
 // what to do.
 // This contract is owned by Timelock.

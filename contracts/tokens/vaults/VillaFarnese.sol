@@ -5,7 +5,7 @@ import "../IFAVault.sol";
 
 // Owned by Timelock
 contract VillaFarnese is IFAVault {
-    // IFA-sCRV UNI-V2 LP
+    // IFA-DAI UNI-V2 LP
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA,

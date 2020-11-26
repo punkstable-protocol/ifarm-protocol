@@ -5,7 +5,7 @@ import "../IFAVault.sol";
 
 // Owned by Timelock
 contract BirrCastle is IFAVault {
-    // seed sCRV, harvest IFA, borrow iUSD
+    // seed DAI, harvest IFA, borrow iUSD
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA

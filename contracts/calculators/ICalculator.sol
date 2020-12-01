@@ -7,6 +7,7 @@ abstract contract ICalculator {
     function rate() external view virtual returns(uint256);
     function minimumLTV() external view virtual returns(uint256);
     function maximumLTV() external view virtual returns(uint256);
+    function minimumSize() external view virtual returns(uint256);
 
     // Get next loan Id.
     function getNextLoanId() external view virtual returns(uint256);
@@ -51,6 +52,11 @@ abstract contract ICalculator {
     //
     // Only IFAPool can call this contract.
     function payBackInFull(uint256 _loanId) external virtual;
+
+    // Pay back to a loan partially and returns the amount to unlock.
+    //
+    // Only IFAPool can call this contract.
+    function payBackPartially(uint256 _loanId, uint256 _paidPrincipal) external virtual returns (uint256);
 
     // Collect debt if someone defaults.
     //

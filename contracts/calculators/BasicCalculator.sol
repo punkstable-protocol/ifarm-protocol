@@ -19,11 +19,11 @@ contract BasicCalculator is Ownable, ICalculator {
 
     IFAMaster public ifaMaster;
 
-    uint256 public override rate = 500;  // Daily interest rate, a number between 0 and 10000.
-    uint256 public override minimumLTV = 70;  // Minimum Loan-to-value ratio, a number between 10 and 90.
-    uint256 public override maximumLTV = 90;  // Maximum Loan-to-value ratio, a number between 15 and 95.
+    uint256 public override rate;  // Daily interest rate, a number between 0 and 10000.
+    uint256 public override minimumLTV;  // Minimum Loan-to-value ratio, a number between 10 and 90.
+    uint256 public override maximumLTV;  // Maximum Loan-to-value ratio, a number between 15 and 95.
 
-    uint256 public override minimumSize = 1;  // The minimum borrowing amount.
+    uint256 public override minimumSize;  // The minimum borrowing amount.
 
     // We will start with rate = 500, which means 0.05% daily interest.
     // We will initially set _minimumLTV as 90, and maximumLTV as 95.

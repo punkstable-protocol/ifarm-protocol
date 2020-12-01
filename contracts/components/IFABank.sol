@@ -36,6 +36,7 @@ contract IFABank is Parities, Ownable {
     event Borrow(address indexed user, uint256 indexed index, uint256 indexed poolId, uint256 amount);
     event PayBackInFull(address indexed user, uint256 indexed index);
     event CollectDebt(address indexed user, uint256 indexed poolId, uint256 loanId);
+    event PayBackPartially(address indexed user, uint256 indexed index, uint256 amount);
 
     constructor(IFAMaster _ifaMaster) Parities(_ifaMaster) public {
     }
@@ -103,6 +104,42 @@ contract IFABank is Parities, Ownable {
 
         emit PayBackInFull(msg.sender, _index);
     }
+
+    // Pay back to a loan partially.
+    function payBackPartially(uint256 _index, uint256 _amount) external {
+        require(_index < loanList[msg.sender].length, "getTotalLoan: index out of range");
+        PoolInfo storage pool = poolMap[loanList[msg.sender][_index].poolId];
+        require(address(pool.calculator) != address(0), "no calculator");
+
+        uint256 loanId = loanList[msg.sender][_index].loanId;
+        uint256 lockedAmount = pool.calculator.getLoanLockedAmount(loanId);
+        uint256 principal = pool.calculator.getLoanPrincipal(loanId);
+        uint256 interest = pool.calculator.getLoanInterest(loanId);
+
+        require(_amount <= principal + interest, "Paid too much");
+
+        uint256 paidPrincipal = _amount.mul(principal).div(principal + interest);
+        uint256 paidInterest = _amount.sub(paidPrincipal);
+
+        // Burn principal.
+        uint256 itokenscalingFactor = pool.itoken.itokensScalingFactor();
+        uint256 truePaidPrincipal = paidPrincipal.mul(itokenscalingFactor).div(10 ** 18);
+
+        pool.itoken.burnFrom(msg.sender, truePaidPrincipal);
+
+        // Transfer interest to ifaRevenue, which settled with IFA
+        uint256 paidIFAAmount = paidInterest.mul(getIFAToiTokenRate(address(pool.itoken))).div(100);
+        IERC20(ifaMaster.ifa()).transferFrom(msg.sender, ifaMaster.revenue(), paidIFAAmount);
+
+        // Recalculate.
+        uint256 amountToUnlock = pool.calculator.payBackPartially(loanId, paidPrincipal);
+        // Unlocks in vault.
+        pool.vault.unlockByBank(msg.sender, amountToUnlock);
+
+        emit PayBackPartially(msg.sender, _index, _amount);
+    }
+
+
 
     // Collect debt if someone defaults. Collector keeps half of the profit.
     function collectDebt(uint256 _poolId, uint256 _loanId) external {

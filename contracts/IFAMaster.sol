@@ -34,8 +34,8 @@ K_STRATEGY_CREATE_IFA = 0;
 K_STRATEGY_SHARE_REVENUE = 1;
 
 d) Calculator addresses are mutable:
-K_CALCULATOR_sCRV = 0;
-K_CALCULATOR_btcCRV = 1;
+K_CALCULATOR_DAI = 0;
+K_CALCULATOR_wBTC = 1;
 K_CALCULATOR_wETH = 2;
 
 
@@ -56,8 +56,8 @@ contract IFAMaster is Ownable {
     address public costco;
 
     address public ifa;
-    address public sCRV;
-    address public btcCRV;
+    address public dai;
+    address public wBTC;
     address public wETH;
     address public usd;
 
@@ -65,6 +65,11 @@ contract IFAMaster is Ownable {
 
     mapping(address => bool) public isVault;
     mapping(uint256 => address) public vaultByKey;
+
+    // Reserved for V2
+    // GT means Governance Token
+    mapping(address => bool) public isGTMade;
+    mapping(uint256 => address) public gtMadeByKey;
 
     mapping(address => uint256) public iTokenKey;
 
@@ -104,15 +109,15 @@ contract IFAMaster is Ownable {
     }
 
     // Immutable once set.
-    function setsCRV(address _sCRV) external onlyOwner {
-        require(sCRV == address(0));
-        sCRV = _sCRV;
+    function setDAI(address _dai) external onlyOwner {
+        require(dai == address(0));
+        dai = _dai;
     }
 
     // Immutable once set.
-    function setbtcCRV(address _btcCRV) external onlyOwner {
-        require(btcCRV == address(0));
-        btcCRV = _btcCRV;
+    function setwBTC(address _wBTC) external onlyOwner {
+        require(wBTC == address(0));
+        wBTC = _wBTC;
     }
 
     // Immutable once set.
@@ -145,6 +150,15 @@ contract IFAMaster is Ownable {
 
         isVault[_vault] = true;
         vaultByKey[_key] = _vault;
+    }
+
+    // Reserved for V2
+    // Immutable once added, and you can always add more.
+    function addGTMade(uint256 _key, address _gtMade) external onlyOwner {
+        require(gtMadeByKey[_key] == address(0), "gtMade: key is taken");
+
+        isGTMade[_gtMade] = true;
+        gtMadeByKey[_key] = _gtMade;
     }
 
     // Mutable and removable.

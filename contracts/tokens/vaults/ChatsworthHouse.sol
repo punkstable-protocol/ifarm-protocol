@@ -5,7 +5,7 @@ import "../IFAVault.sol";
 
 // Owned by Timelock
 contract ChatsworthHouse is IFAVault {
-    // IFA-btcCRV UNI-V2 LP
+    // IFA-wBTC UNI-V2 LP
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA,

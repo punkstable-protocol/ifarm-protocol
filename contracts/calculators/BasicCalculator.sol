@@ -6,21 +6,24 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../IFAMaster.sol";
 import "./ICalculator.sol";
 
-// This calculator fitures out lending iETH by depositing WETH.
+// This calculator futures out lending iXXX by depositing XXX.
 // All the money are still managed by the pool, but the calculator tells him
 // what to do.
 // This contract is owned by Timelock.
-contract WETHCalculator is Ownable, ICalculator {
+contract BasicCalculator is Ownable, ICalculator {
     using SafeMath for uint256;
 
     uint256 constant RATE_BASE = 1e6;
     uint256 constant LTV_BASE = 100;
+    uint256 constant MINI_BASE = 1;
 
     IFAMaster public ifaMaster;
 
     uint256 public override rate;  // Daily interest rate, a number between 0 and 10000.
     uint256 public override minimumLTV;  // Minimum Loan-to-value ratio, a number between 10 and 90.
     uint256 public override maximumLTV;  // Maximum Loan-to-value ratio, a number between 15 and 95.
+
+    uint256 public override minimumSize;  // The minimum borrowing amount.
 
     // We will start with rate = 500, which means 0.05% daily interest.
     // We will initially set _minimumLTV as 90, and maximumLTV as 95.
@@ -30,10 +33,10 @@ contract WETHCalculator is Ownable, ICalculator {
 
     // Info of each loan.
     struct LoanInfo {
-        address who;  // The user that creates the loan.
-        uint256 amount;  // How many iETH tokens the user has lended.
-        uint256 lockedAmount;  // How many WETH tokens the user has locked.
-        uint256 time;  // When the loan is created or updated.
+        address who;  // The user that creats the loan.
+        uint256 amount;  // How many iXXX tokens the user has lended.
+        uint256 lockedAmount;  // How many XXX tokens the user has locked.
+        uint256 time;  // When the loan is created.
         uint256 rate;  // At what daily interest rate the user lended.
         uint256 minimumLTV;  // At what minimum loan-to-deposit ratio the user lended.
         uint256 maximumLTV;  // At what maximum loan-to-deposit ratio the user lended.
@@ -42,8 +45,17 @@ contract WETHCalculator is Ownable, ICalculator {
     mapping (uint256 => LoanInfo) public loanInfo;  // loanId => LoanInfo
     uint256 private nextLoanId;
 
-    constructor(IFAMaster _ifaMaster) public {
+    // eg,
+    // _rate = 500, which means 0.05% daily interest
+    // _minimumLTV = 70, which means minimum Loan-to-value ratio = 70%
+    // _maximumLTV = 90, which means maximum Loan-to-value ratio = 90%
+    // _minimumSize = 20, which means locked amount at least 1/20
+    constructor(IFAMaster _ifaMaster, uint256 _rate, uint256 _minimumLTV, uint256 _maximumLTV, uint256 _minimumSize) public {
         ifaMaster = _ifaMaster;
+        rate = _rate;
+        minimumLTV = _minimumLTV;
+        maximumLTV = _maximumLTV;
+        minimumSize = _minimumSize;
     }
 
     // Change the bank's interest rate and LTVs.
@@ -58,6 +70,10 @@ contract WETHCalculator is Ownable, ICalculator {
         rate = _rate;
         minimumLTV = _minimumLTV;
         maximumLTV = _maximumLTV;
+    }
+
+    function MinimumSize(uint256 _minimumSize) public onlyOwner {
+        minimumSize = _minimumSize;
     }
 
     /**
@@ -159,7 +175,7 @@ contract WETHCalculator is Ownable, ICalculator {
         require(msg.sender == ifaMaster.bank(), "sender not bank");
 
         uint256 lockedAmount = _amount.mul(LTV_BASE).div(minimumLTV);
-        require(lockedAmount >= 1, "lock at least 1 WETH");
+        require(lockedAmount >= MINI_BASE.div(minimumSize), "lock token not enough");
 
         loanInfo[nextLoanId].who = _who;
         loanInfo[nextLoanId].amount = _amount;
@@ -179,8 +195,22 @@ contract WETHCalculator is Ownable, ICalculator {
 
         loanInfo[_loanId].amount = 0;
         loanInfo[_loanId].lockedAmount = 0;
+    }
 
-        loanInfo[_loanId].time = now;
+    /**
+     * @dev See {ICalculator-payBackPartially}.
+     */
+    function payBackPartially(uint256 _loanId, uint256 _paidPrincipal) external override returns (uint256) {
+        require(msg.sender == ifaMaster.bank(), "sender not bank");
+
+        uint256 oldAmount = loanInfo[_loanId].amount;
+        uint256 oldLockedAmount = loanInfo[_loanId].lockedAmount;
+        require(_paidPrincipal <= oldAmount, "paid too much");
+
+        loanInfo[_loanId].amount = loanInfo[_loanId].amount.sub(_paidPrincipal);
+        loanInfo[_loanId].lockedAmount = loanInfo[_loanId].lockedAmount.mul(loanInfo[_loanId].amount).div(oldAmount);
+
+        return oldLockedAmount - loanInfo[_loanId].lockedAmount;
     }
 
     /**
@@ -190,14 +220,13 @@ contract WETHCalculator is Ownable, ICalculator {
         require(msg.sender == ifaMaster.bank(), "sender not bank");
 
         uint256 loanTotal = getLoanTotal(_loanId);
-
         uint256 maximumLoan = loanInfo[_loanId].lockedAmount.mul(loanInfo[_loanId].maximumLTV).div(LTV_BASE);
+
         // You can collect only if the user defaults.
         require(loanTotal >= maximumLoan, "collectDebt: >=");
 
         // Now the debt is clear. IFAPool, please do the rest.
         loanInfo[_loanId].amount = 0;
         loanInfo[_loanId].lockedAmount = 0;
-        loanInfo[_loanId].time = now;
     }
 }

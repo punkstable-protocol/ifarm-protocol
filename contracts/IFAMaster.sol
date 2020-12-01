@@ -66,6 +66,11 @@ contract IFAMaster is Ownable {
     mapping(address => bool) public isVault;
     mapping(uint256 => address) public vaultByKey;
 
+    // Reserved for V2
+    // GT means Governance Token
+    mapping(address => bool) public isGTMade;
+    mapping(uint256 => address) public gtMadeByKey;
+
     mapping(address => uint256) public iTokenKey;
 
     mapping(address => bool) public isStrategy;
@@ -145,6 +150,15 @@ contract IFAMaster is Ownable {
 
         isVault[_vault] = true;
         vaultByKey[_key] = _vault;
+    }
+
+    // Reserved for V2
+    // Immutable once added, and you can always add more.
+    function addGTMade(uint256 _key, address _gtMade) external onlyOwner {
+        require(gtMadeByKey[_key] == address(0), "gtMade: key is taken");
+
+        isGTMade[_gtMade] = true;
+        gtMadeByKey[_key] = _gtMade;
     }
 
     // Mutable and removable.

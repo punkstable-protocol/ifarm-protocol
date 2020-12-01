@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../IFAMaster.sol";
 import "./ICalculator.sol";
 
-// This calculator futures out lending sdXXX by depositing XXX.
+// This calculator futures out lending iXXX by depositing XXX.
 // All the money are still managed by the pool, but the calculator tells him
 // what to do.
 // This contract is owned by Timelock.
@@ -15,6 +15,7 @@ contract BasicCalculator is Ownable, ICalculator {
 
     uint256 constant RATE_BASE = 1e6;
     uint256 constant LTV_BASE = 100;
+    uint256 constant MINI_BASE = 1;
 
     IFAMaster public ifaMaster;
 
@@ -33,7 +34,7 @@ contract BasicCalculator is Ownable, ICalculator {
     // Info of each loan.
     struct LoanInfo {
         address who;  // The user that creats the loan.
-        uint256 amount;  // How many sdXXX tokens the user has lended.
+        uint256 amount;  // How many iXXX tokens the user has lended.
         uint256 lockedAmount;  // How many XXX tokens the user has locked.
         uint256 time;  // When the loan is created.
         uint256 rate;  // At what daily interest rate the user lended.
@@ -44,8 +45,17 @@ contract BasicCalculator is Ownable, ICalculator {
     mapping (uint256 => LoanInfo) public loanInfo;  // loanId => LoanInfo
     uint256 private nextLoanId;
 
-    constructor(IFAMaster _ifaMaster) public {
+    // eg,
+    // _rate = 500, which means 0.05% daily interest
+    // _minimumLTV = 70, which means minimum Loan-to-value ratio = 70%
+    // _maximumLTV = 90, which means maximum Loan-to-value ratio = 90%
+    // _minimumSize = 20, which means locked amount at least 1/20
+    constructor(IFAMaster _ifaMaster, uint256 _rate, uint256 _minimumLTV, uint256 _maximumLTV, uint256 _minimumSize) public {
         ifaMaster = _ifaMaster;
+        rate = _rate;
+        minimumLTV = _minimumLTV;
+        maximumLTV = _maximumLTV;
+        minimumSize = _minimumSize;
     }
 
     // Change the bank's interest rate and LTVs.
@@ -165,7 +175,7 @@ contract BasicCalculator is Ownable, ICalculator {
         require(msg.sender == ifaMaster.bank(), "sender not bank");
 
         uint256 lockedAmount = _amount.mul(LTV_BASE).div(minimumLTV);
-        require(lockedAmount >= minimumSize, "lock enough token");
+        require(lockedAmount >= MINI_BASE.div(minimumSize), "lock token not enough");
 
         loanInfo[nextLoanId].who = _who;
         loanInfo[nextLoanId].amount = _amount;

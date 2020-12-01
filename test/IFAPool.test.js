@@ -105,6 +105,10 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
             assert.equal(expectedEarned, ifaReward.valueOf());
         });
 
+        it.skip('Single user mul seed', async () => {
+            
+        });
+
         it('Multiple users', async () => {
             let amount = toWei('10')
 

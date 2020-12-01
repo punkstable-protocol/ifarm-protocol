@@ -352,7 +352,7 @@ contract('IFABank', ([alice, bob, carol]) => {
                 assert.equal(borrowAmount, iETHBalanceOf.current - iETHBalanceOf.init, 'borrow amount error');
             });
 
-            it('borrow iETH pay BackIn Full', async () => {
+            it.only('borrow iETH pay BackIn Full', async () => {
                 let funds = toWei('200');
                 let seedwETHAmount = toWei('100');
                 let borrowAmount = toWei('70');    // borrow iETH
@@ -820,7 +820,7 @@ contract('testing deploy migrate', (accounts) => {
             console.log(ifaBalanceOf);
         });
 
-        it.only('seed lp token 3 - 8', async () => {
+        it('seed lp token 3 - 8', async () => {
             let poolId = 3;
             let seedAmount = toWei('100');
             let ifaBalanceOf = {

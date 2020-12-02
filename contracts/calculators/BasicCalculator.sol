@@ -15,7 +15,7 @@ contract BasicCalculator is Ownable, ICalculator {
 
     uint256 constant RATE_BASE = 1e6;
     uint256 constant LTV_BASE = 100;
-    uint256 constant MINI_BASE = 1;
+    uint256 constant MINI_BASE = 10000;
 
     IFAMaster public ifaMaster;
 
@@ -49,7 +49,7 @@ contract BasicCalculator is Ownable, ICalculator {
     // _rate = 500, which means 0.05% daily interest
     // _minimumLTV = 70, which means minimum Loan-to-value ratio = 70%
     // _maximumLTV = 90, which means maximum Loan-to-value ratio = 90%
-    // _minimumSize = 20, which means locked amount at least 1/20
+    // _minimumSize = 200000, which means locked amount at least 1/20. MINI_BASE/_minimumSize = 10000/200000 = 1/20
     constructor(IFAMaster _ifaMaster, uint256 _rate, uint256 _minimumLTV, uint256 _maximumLTV, uint256 _minimumSize) public {
         ifaMaster = _ifaMaster;
         rate = _rate;

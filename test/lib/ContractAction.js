@@ -1,6 +1,7 @@
 const UniswapV2Router02 = require("../contractsJson/UniswapV2Router02.json");
 const UniswapV2Factory = require("../contractsJson/UniswapV2Factory.json");
 const iTokenDelegator = require("../contractsJson/iTokenDelegator.json");
+const Rebaser = require("../contractsJson/iTokenRebaser.json")
 const wETH = require("../contractsJson/wETH.json");
 const IFA = require("../../build/contracts/IFAToken.json");
 
@@ -24,6 +25,9 @@ class ContractAt {
     }
     IFA(_contractAddress) {
         return this.at(IFA.abi, _contractAddress);
+    }
+    Rebaser(_contractAddress){
+        return this.at(Rebaser.abi, _contractAddress);
     }
 }
 

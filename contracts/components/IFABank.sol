@@ -66,9 +66,7 @@ contract IFABank is Parities, Ownable {
         pool.vault.lockByBank(msg.sender, lockedAmount);
 
         // Give user iETH/{iUSD}/{iBTC} or other iTokens.
-        uint256 itokenscalingFactor = pool.itoken.itokensScalingFactor();
-        uint256 trueAmount = _amount.mul(itokenscalingFactor).div(10 ** 18);
-        pool.itoken.mint(msg.sender, trueAmount);
+        pool.itoken.mint(msg.sender, _amount);
 
         // Records the loan.
         LoanInfo memory loanInfo;
@@ -90,9 +88,7 @@ contract IFABank is Parities, Ownable {
         uint256 principal = pool.calculator.getLoanPrincipal(loanId);
         uint256 interest = pool.calculator.getLoanInterest(loanId);
         // Burn principal.
-        uint256 itokenscalingFactor = pool.itoken.itokensScalingFactor();
-        uint256 truePrincipal = principal.mul(itokenscalingFactor).div(10 ** 18);
-        pool.itoken.burnFrom(msg.sender, truePrincipal);
+        pool.itoken.burnFrom(msg.sender, principal);
 
         // Transfer interest to ifaRevenue, which settled with IFA
         uint256 payIFAAmount = interest.mul(getIFAToiTokenRate(address(pool.itoken))).div(100);
@@ -122,10 +118,7 @@ contract IFABank is Parities, Ownable {
         uint256 paidInterest = _amount.sub(paidPrincipal);
 
         // Burn principal.
-        uint256 itokenscalingFactor = pool.itoken.itokensScalingFactor();
-        uint256 truePaidPrincipal = paidPrincipal.mul(itokenscalingFactor).div(10 ** 18);
-
-        pool.itoken.burnFrom(msg.sender, truePaidPrincipal);
+        pool.itoken.burnFrom(msg.sender, paidPrincipal);
 
         // Transfer interest to ifaRevenue, which settled with IFA
         uint256 paidIFAAmount = paidInterest.mul(getIFAToiTokenRate(address(pool.itoken))).div(100);
@@ -138,7 +131,6 @@ contract IFABank is Parities, Ownable {
 
         emit PayBackPartially(msg.sender, _index, _amount);
     }
-
 
 
     // Collect debt if someone defaults. Collector keeps half of the profit.
@@ -154,9 +146,7 @@ contract IFABank is Parities, Ownable {
 
         // Pay principal + interest + extra.
         // Burn principal.
-        uint256 itokenscalingFactor = pool.itoken.itokensScalingFactor();
-        uint256 truePrincipal = principal.mul(itokenscalingFactor).div(10 ** 18);
-        pool.itoken.burnFrom(msg.sender, truePrincipal);
+        pool.itoken.burnFrom(msg.sender, principal);
 
         // Transfer interest and extra to ifaRevenue, which settled with IFA
         uint256 payIFAAmount = (interest + extra).mul(getIFAToiTokenRate(address(pool.itoken))).div(100);

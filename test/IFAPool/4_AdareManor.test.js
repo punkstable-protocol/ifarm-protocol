@@ -54,28 +54,17 @@ const lpTokenAddress = {
     "IFA_ETH": "0xbB0316F0eD3d9f332A929648a035Db899C787384"
 }
 
-contract('lp token Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
-    const POOL_ID = 3;
+contract('AdareManor pool[number:4], lp token', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
+    const poolId = 3;
 
     before(async () => {
         this.decimals = new BN((10 ** 18).toString());
         // Fake Wrapped amount 200000 ether, decimals 18
         let totalSupply = toWei('200000');
         this.iUSD_DAI = await MockERC20.at(lpTokenAddress.iUSD_DAI);
-        this.IFA_DAI = await MockERC20.at(lpTokenAddress.IFA_DAI);
         //from alice transfer sCRV 100 ether to bob and carol
         await this.iUSD_DAI.transfer(bob, toWei('100'), { from: alice });
         await this.iUSD_DAI.transfer(carol, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(breeze, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(joy, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(weifong, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(mickjoy, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(vk, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(atom, toWei('100'), { from: alice });
-        await this.iUSD_DAI.transfer(jk, toWei('100'), { from: alice });
-
-        await this.IFA_DAI.transfer(bob, toWei('100'), { from: alice });
-
 
         this.ifaMaster = await IFAMaster.at(publicAddress.ifaMaster);
         this.pool = await IFAPool.at(publicAddress.ifaPool);
@@ -89,31 +78,17 @@ contract('lp token Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk
     });
 
     context('seed of token or lp token harvest IFA', async () => {
-        it('Single user pool 4', async () => {
-            let amount = toWei('10')
+        it('Single user deposit', async () => {
+            let amount = toWei('100')
             let balanceOf = await this.ifa.balanceOf(bob)
             console.log(`balanceOf:${balanceOf.toString()}`)
             await this.iUSD_DAI.approve(this.pool.address, amount, { from: bob });
-            await this.pool.deposit(3, amount, { from: bob });
+            await this.pool.deposit(poolId, amount, { from: bob });
             await time.advanceBlock(); // block + 1
-
-            await this.pool.claim(3, { from: bob });
+            await this.pool.claim(poolId, { from: bob });
             balanceOf = await this.ifa.balanceOf(bob)
             console.log(`balanceOf:${balanceOf.toString()}`)
         });
-
-        it('Single user pool 7', async () => {
-            let amount = toWei('10')
-            let balanceOf = await this.ifa.balanceOf(bob)
-            console.log(`balanceOf:${balanceOf.toString()}`)
-            await this.IFA_DAI.approve(this.pool.address, amount, { from: bob });
-            await this.pool.deposit(6, amount, { from: bob });
-            await time.advanceBlock(); // block + 1
-
-            await this.pool.claim(6, { from: bob });
-            balanceOf = await this.ifa.balanceOf(bob)
-            console.log(`balanceOf:${balanceOf.toString()}`)
-        })
 
     });
 

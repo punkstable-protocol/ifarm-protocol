@@ -11,8 +11,8 @@ module.exports = {
   // migrations_directory: "./migrations/",
   networks: {
     development: {
-      host: "127.0.0.1",
-      port: 8545,
+      host: "8.129.187.233",
+      port: 28545,
       network_id: "*"
     },
     test: {
@@ -20,9 +20,9 @@ module.exports = {
       port: 28545,
       network_id: "*"
     },
-    demo: {
-      host: '8.129.187.233',
-      port: 28545,
+    local: {
+      host: '127.0.0.1',
+      port: 8545,
       // gasPrice: 100000000000, // 100 gwei
       gas: 6721975,
       network_id: '*',

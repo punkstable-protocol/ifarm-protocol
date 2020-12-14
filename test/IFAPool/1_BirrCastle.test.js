@@ -7,215 +7,85 @@ const IFAMaster = artifacts.require('IFAMaster');
 const IFADataBoard = artifacts.require('IFADataBoard');
 const MockERC20 = artifacts.require('MockERC20');
 const BirrCastle = artifacts.require('BirrCastle');
+const AdareManor = artifacts.require('AdareManor');
+const VillaFarnese = artifacts.require('VillaFarnese');
 const BN = web3.utils.BN;
 
 function toWei(bigNumber) {
     return web3.utils.toWei(bigNumber);
 }
 
-contract('Birr Castle Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
-    const POOL_ID = 0;
+const publicAddress = {
+    "IFAMaster": "0xC026929704A4a389a200b09580ebd8807F7b46bC",
+    "IFAPool": "0x74818a2f6501aEbA1B1243a4d55426Afd72d939C",
+    "IFABank": "0x03E48785b2888BBf8553EfAAFceAd27D49a5D732",
+    "IFARevenue": "0xdec7e0c07DAF10f01A53529940d27a939113877d",
+    "Costco": "0xA94bcF5f96Fc1C9986d1230271E19222a21E012e",
+    "IFADataBoard": "0xd70Ed31d60EaB68e06264Cf7A74e34d15D0dfCe8",
+    "CreateIFA": "0x71A9fab2434c0Aa37173699514a161c9cdeecA54",
+    "ShareRevenue": "0x9f35fA0702C0AcF5995f64698d29214b34bbD04d"
+}
+const poolVaults = {
+    "BirrCastle": "0x1551C4689aF2cA0FD044ccCfede20aAf91560c0F",
+    "Sunnylands": "0x981237DB582f8df25808D78ae0A1BBbf04BC159a",
+    "ChateauLafitte": "0x619fbB13579dbFF77B154d7c06036D9fc5291071",
+    "AdareManor": "0x614c4316DEeCFE645180bb8d7f2d1664cF7bF423",
+    "VillaDEste": "0xeBA68bcD7CbA2ACC34E30458e4eaD9655Ef8e11D",
+    "VillaLant": "0x423653202fCAbCd155Bc3745eE267543b92BfDa4",
+    "VillaFarnese": "0x553a8b5BFc030303B3E631Cd22733D7f2EE4e64F",
+    "ChatsworthHouse": "0x73E0E4DDAe1ad09D738B6DB4b30C3b6f22cE66DD",
+    "ChateauMargaux": "0xF64C16533cDd4b70F6BB7C586785237E33Ce57A2"
+}
+
+const tokensAddress = {
+    "DAI": "0xe5737F0f694897331FE28640D2164B1404F23Dc0",
+    "wBTC": "0xe65b25FE4bec1F5aC9364304a175d68b582f5d0a",
+    "wETH": "0x9004529746a3d2496E46248929a3a57Cd30B0d0f",
+    "IFA": "0x567E6A969170217862632cFE93b6e36B9565e262",
+    "USD": "0x7F4939cFE161A7159B5e156b99B6fbE0694c239c"
+}
+
+const lpTokenAddress = {
+    "iUSD_DAI": "0xF8C8106FCcb36a2158b03D5F3608FDc46914E984",
+    "iBTC_wBTC": "0x5F7Cf94076517478e5103aC59dB14CfaFD52D811",
+    "iETH_ETH": "0x6570b812649a422C1ab09CdE590328d0E40d4D20",
+    "IFA_DAI": "0xaAC6eC6F6d363F179f29b00c050Cc956E1f87eaa",
+    "IFA_wBTC": "0x6499F9C7893906B219A731abB03c0f6D93aCf6c8",
+    "IFA_ETH": "0xbB0316F0eD3d9f332A929648a035Db899C787384"
+}
+
+contract('BirrCastle pool[number:1], DAI token', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
+    const poolId = 0;
 
     before(async () => {
-        this.decimals = new BN((10 ** 18).toString());
-        // Fake Wrapped amount 200000 ether, decimals 18
-        let totalSupply = toWei('200000');
-        this.sCRV = await MockERC20.new('Fake Wrapped sCRV', 'sCRV', totalSupply, { from: alice });
+        let approveAmount = toWei('99990000');
+        this.DAI = await MockERC20.at(tokensAddress.DAI);
         //from alice transfer sCRV 100 ether to bob and carol
-        await this.sCRV.transfer(bob, toWei('100'), { from: alice });
-        await this.sCRV.transfer(carol, toWei('100'), { from: alice });
-        await this.sCRV.transfer(breeze, toWei('100'), { from: alice });
-        await this.sCRV.transfer(joy, toWei('100'), { from: alice });
-        await this.sCRV.transfer(weifong, toWei('100'), { from: alice });
-        await this.sCRV.transfer(mickjoy, toWei('100'), { from: alice });
-        await this.sCRV.transfer(vk, toWei('100'), { from: alice });
-        await this.sCRV.transfer(atom, toWei('100'), { from: alice });
-        await this.sCRV.transfer(jk, toWei('100'), { from: alice });
+        await this.DAI.transfer(bob, toWei('100'), { from: alice });
+        await this.DAI.transfer(carol, toWei('100'), { from: alice });
 
-        this.pool = await IFAPool.new({ from: alice });
+        this.pool = await IFAPool.at(publicAddress.IFAPool);
+        this.ifa = await IFAToken.at(tokensAddress.IFA);
 
-        this.ifaMaster = await IFAMaster.new({ from: alice });
-        await this.ifaMaster.setsCRV(this.sCRV.address);
-        await this.ifaMaster.setPool(this.pool.address);
-
-        this.ifa = await IFAToken.new({ from: alice });
-        await this.ifaMaster.setIFA(this.ifa.address);
-
-        this.createIFA = await CreateIFA.new(this.ifaMaster.address, { from: alice });
-        await this.ifa.addMinter(this.createIFA.address);
-
-        this.costco = await Costco.new(this.ifaMaster.address, { from: alice });
-        await this.ifaMaster.setCostco(this.costco.address);
-
-        this.ifaDataBoard = await IFADataBoard.new(this.ifaMaster.address, { from: alice });
-
-        this.birrCastlePool = await BirrCastle.new(this.ifaMaster.address, this.ifa.address);
-        const VAULT_BY_KEY = 0;
-        this.allocPoint = 100;
-        await this.birrCastlePool.setStrategies([this.createIFA.address,]);
-        await this.ifaMaster.addVault(VAULT_BY_KEY, this.birrCastlePool.address);
-        await this.pool.setPoolInfo(POOL_ID, this.sCRV.address, this.birrCastlePool.address, 1602759206);
-        await this.createIFA.setPoolInfo(POOL_ID, this.birrCastlePool.address, this.ifa.address, this.allocPoint, true);
-        await this.createIFA.approve(this.sCRV.address, { from: alice });
+        // approve 
+        await this.DAI.approve(this.pool.address, approveAmount, { from: alice });
+        // await this.ifa.approve(this.pool.address, approveAmount, { from: bob });
+        let allowance = await this.DAI.allowance(alice, this.pool.address);
+        console.log(`DAI allowance:${allowance.toString()}`)
     });
 
-    context('seed of token or lp token harvest IFA', async () => {
-        this.IFA_PER_BLOCK = toWei('10');
-        this.PER_SHARE_SIZE = new BN((10 ** 12).toString());
-        this.createIFABalanceOfTotal = new BN(0);
-
-        // Do not exit the pledge user
-        // let accounts = [bob, carol, breeze, joy, weifong];
-        let accounts = [bob, carol, breeze];
-
-        // Exit staking users
-        let accounts_exit = [weifong, mickjoy, vk, atom, jk];
-        // let depositAmounts = ['10', '15', '23', '32', '11'];
-        // let exitDepositAmounts = ['10', '15', '23', '32', '11'];
-
-        let depositAmounts = ['10', '10', '10'];
-        let exitDepositAmounts = ['10', '9', '10'];
-        this.valuePerShare = 0;
-
-        for (let i = 0; i < accounts.length; i++) {
-            blockNum = i + 1;
-            // it(`from ${accounts[i]} deposit ${depositAmounts[i]} sCRV advanceBlock ${blockNum}`, async () => {
-            //     let depositBefore = await this.sCRV.balanceOf(accounts[i]);
-            //     // deposit amount
-            //     this.depositAmount = toWei(depositAmounts[i]);
-            //     await this.sCRV.approve(this.pool.address, this.depositAmount, { from: accounts[i] });
-            //     await this.pool.deposit(0, this.depositAmount, { from: accounts[i] });
-
-            //     this.createIFABalanceOfTotal = this.createIFABalanceOfTotal.add(new BN(this.depositAmount));
-
-            //     let depositBlock = await time.latestBlock();
-
-            //     // deposit after accounts[i] account balanceOf
-            //     let depositAfterBalanceOf = await this.sCRV.balanceOf(accounts[i]);
-            //     let amountInVault = await this.birrCastlePool.totalSupply();
-
-            //     // Whether the pledge successfully transfers user assets into the contract
-            //     assert.equal(depositBefore.sub(depositAfterBalanceOf), toWei(depositAmounts[i]), 'The amount of pledge is incorrect');
-            //     assert.equal(await this.birrCastlePool.balanceOf(accounts[i]), this.depositAmount, 'Wrong number of equity token');
-
-            //     this.advanceBlockNum = blockNum;
-            //     await time.advanceBlockTo(depositBlock.toNumber() + this.advanceBlockNum);
-
-            //     let pendingReward = await this.birrCastlePool.getPendingReward(accounts[i], 0);
-
-            //     // Manual checking calculation rules
-            //     let totalAllocPoint = this.allocPoint;
-            //     let ifaReward = Math.floor(this.advanceBlockNum * this.IFA_PER_BLOCK * this.allocPoint / totalAllocPoint);
-            //     ifaReward = Math.floor(ifaReward - ifaReward / 2);
-            //     let pending = Math.floor(ifaReward * this.PER_SHARE_SIZE / amountInVault);
-            //     manualPendingReward = Math.floor(this.depositAmount * pending / this.PER_SHARE_SIZE);
-
-            //     // pendingReward assert
-            //     assert.equal(pendingReward.toString(), manualPendingReward, 'pendingReward Calculation error');
-            // });
-
-            // it(`harvest IFA to ${accounts[i]}`, async () => {
-            //     await this.pool.claim(0, { from: accounts[i] });
-            //     let amountInVault = await this.birrCastlePool.totalSupply();
-            //     let claimReward = await this.ifa.balanceOf(accounts[i]);
-
-            //     // Manual checking calculation rules
-            //     let totalAllocPoint = this.allocPoint;
-            //     let ifaReward = Math.floor((this.advanceBlockNum + 1) * this.IFA_PER_BLOCK * this.allocPoint / totalAllocPoint);
-            //     ifaReward = Math.floor(ifaReward - ifaReward / 2);
-            //     let pending = Math.floor(ifaReward * this.PER_SHARE_SIZE / amountInVault);
-            //     manualPendingReward = Math.floor(this.depositAmount * pending / this.PER_SHARE_SIZE);
-
-            //     // 50% is for farmers, 50% goes to the costco.
-            //     assert.equal(claimReward.toString(), manualPendingReward, 'claimReward error');
-
-            //     let poolBalanceOf = await this.birrCastlePool.balanceOf(accounts[i]);
-            //     assert.equal(poolBalanceOf, this.depositAmount, 'Wrong number of user equity tokens')
-
-            //     let pendingReward = await this.birrCastlePool.getPendingReward(accounts[i], 0);
-            //     assert.equal(pendingReward, 0, 'The reward to be harvested should be 0');
-
-            //     let createIFABalanceOf = await this.sCRV.balanceOf(this.createIFA.address);
-            //     assert.equal(createIFABalanceOf.toString(), this.createIFABalanceOfTotal.toString(), 'The balance pledged by all users should be the same as the amount locked by createIFA');
-            // });
-
-            it(`deposit ${depositAmounts[i]} exit ${exitDepositAmounts[i]} and harvest IFA`, async () => {
-                let amount = toWei(depositAmounts[i]);
-                let exitAmount = toWei(exitDepositAmounts[i]);
-
-                const getManualValuePerShare = async (multiplier, amountInVault) => {
-                    let totalAllocPoint = this.allocPoint
-                    let allReward = Math.floor(multiplier * this.IFA_PER_BLOCK * this.allocPoint / totalAllocPoint);
-                    let farmerReward = Math.floor(allReward - allReward / 2);
-                    valuePerShare = Math.floor(this.valuePerShare + (farmerReward * this.PER_SHARE_SIZE / amountInVault));
-                    return valuePerShare;
-                };
-
-                let lastRewardBlock = await time.latestBlock();
-                console.log('lastRewardBlock:' + lastRewardBlock);
-                await this.sCRV.approve(this.pool.address, amount, { from: accounts_exit[i] });
-
-                let amountInVault = await this.birrCastlePool.totalSupply();
-                // if (amountInVault > 0) {
-                //     console.log('amountInVault > 0:' + amountInVault);
-                //     await getManualValuePerShare(2, amountInVault);
-                // }
-
-                await this.pool.deposit(POOL_ID, amount, { from: accounts_exit[i] });
-                let depositAfterReward = await this.birrCastlePool.rewards(accounts_exit[i],0);
-                console.log(depositAfterReward + ' - depositAfterReward');
-                let createIFAsCRVBalanceOf = await this.sCRV.balanceOf(this.createIFA.address)
-                let blockNum = await time.latestBlock();
-                let advanceBlockNum = 1;
-                await time.advanceBlockTo(blockNum.toNumber() + advanceBlockNum);
-                blockNum = await time.latestBlock();
-                console.log('blockNum:' + blockNum);
-
-                let multiplier = i == 0 ? blockNum - lastRewardBlock - 2 : blockNum - lastRewardBlock;
-                amountInVault = await this.birrCastlePool.totalSupply();
-                let balanceOf = await this.birrCastlePool.balanceOf(accounts_exit[i]);
-
-                //deposit or claim or withdraw after call, amountInVault Equal to 0, no trigger 
-
-
-                const getManualPendingReward = async (_multiplier, _depositAmount, _balanceOf, _laveValuePerShare = 0) => {
-                    console.log(`${_multiplier.toString()} - ${_depositAmount.toString()} - ${_balanceOf.toString()} - ${_laveValuePerShare.toString()}`);
-                    let allReward = Math.floor(_multiplier * this.IFA_PER_BLOCK);
-                    let farmerReward = Math.floor(allReward - allReward / 2);
-                    console.log(farmerReward);
-                    let valuePerShare = Math.floor(farmerReward * this.PER_SHARE_SIZE / _depositAmount);
-                    console.log(valuePerShare);
-                    let pendingReward = Math.floor(_balanceOf * (valuePerShare + _laveValuePerShare) / this.PER_SHARE_SIZE);
-                    return pendingReward;
-                };
-
-                let pendingReward = await this.birrCastlePool.getPendingReward(accounts_exit[i], 0);
-                let manualPendingReward = await getManualPendingReward(multiplier, amount, balanceOf, 0);
-                console.log(`${manualPendingReward.toString()} - ${pendingReward.toString()}`);
-
-                await this.pool.withdraw(POOL_ID, exitAmount, { from: accounts_exit[i] });
-                blockNum = await time.latestBlock();
-                multiplier = i == 0 ? blockNum - lastRewardBlock - 2 : blockNum - lastRewardBlock;
-
-                // console.log('after:'+blockNum.toString());
-
-                console.log(amountInVault.toString());
-                let withdrawReward = amount * await getManualValuePerShare(multiplier, amountInVault) / this.PER_SHARE_SIZE;
-                console.log(withdrawReward.toString());
-                let claimReward = await this.ifa.balanceOf(accounts_exit[i]);
-                // 50% is for farmers, 50% goes to the costco.
-                assert.equal(claimReward.toString(), withdrawReward.toString(), 'claimReward error');
-
-                let SNAILBalanceOf = await this.birrCastlePool.balanceOf(accounts_exit[i]);
-                assert.equal(SNAILBalanceOf, amount - exitAmount, 'Wrong number of user equity tokens')
-
-                let createIFAsCRVBalanceOfAfter = await this.sCRV.balanceOf(this.createIFA.address);
-                let balanceOfShould = new BN(createIFAsCRVBalanceOf).sub(new BN(exitAmount));
-                assert.equal(createIFAsCRVBalanceOfAfter.toString(), balanceOfShould.toString(), 'The sCRV balance of the createIFA contract should be the pledge amount');
-
-            });
-
-        }
+    context('seed of token or token harvest IFA', async () => {
+        it('Single user deposit', async () => {
+            let amount = toWei('10')
+            let balanceOf = await this.ifa.balanceOf(bob)
+            console.log(`balanceOf:${balanceOf.toString()}`)
+            await this.pool.deposit(poolId, amount, { from: bob });
+            await time.advanceBlock(); // block + 1
+            await time.advanceBlock(); // block + 1
+            await this.pool.claim(poolId, { from: bob });
+            balanceOf = await this.ifa.balanceOf(bob)
+            console.log(`balanceOf:${balanceOf.toString()}`)
+        });
 
     });
 

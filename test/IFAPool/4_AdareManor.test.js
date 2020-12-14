@@ -16,33 +16,33 @@ function toWei(bigNumber) {
 }
 
 const publicAddress = {
-    "ifaMaster": "0xF8790D405E1457B8391573f4667d514fEDF9e89b",
-    "ifaPool": "0xE8Da347219bdD7Cc24461Af210c0CD54E09A050F",
-    "ifaBank": "0xf5EfBB978e91F304B0e63DC978184172Edb0Eb6d",
-    "ifaRevenue": "0x257d3D33bCfC708CD7b2dc7746f15f2Bd576395C",
-    "costco": "0x131890421Ba24038b04E67A0671818bF84F2320C",
-    "ifaDataBoard": "0x718a3067409b9066C95173DE2fcAF33C30a9eBc7",
-    "createIFA": "0x03347758c558fBC62A27333277383aD7d21f013A",
-    "shareRevenue": "0x1E5134602d8b870884a7e9a89Be06c9cEFDE4c55"
+    "IFAMaster": "0xC026929704A4a389a200b09580ebd8807F7b46bC",
+    "IFAPool": "0x74818a2f6501aEbA1B1243a4d55426Afd72d939C",
+    "IFABank": "0x03E48785b2888BBf8553EfAAFceAd27D49a5D732",
+    "IFARevenue": "0xdec7e0c07DAF10f01A53529940d27a939113877d",
+    "Costco": "0xA94bcF5f96Fc1C9986d1230271E19222a21E012e",
+    "IFADataBoard": "0xd70Ed31d60EaB68e06264Cf7A74e34d15D0dfCe8",
+    "CreateIFA": "0x71A9fab2434c0Aa37173699514a161c9cdeecA54",
+    "ShareRevenue": "0x9f35fA0702C0AcF5995f64698d29214b34bbD04d"
 }
 const poolVaults = {
-    "Birr Castle": "0xE05a52A8DD5AA18fE9157fc19150Df548cFbbebb",
-    "Sunnylands": "0xc602b3C0d1C5Caac28f12d59c1DE9d3aae2545BC",
-    "Château Lafitte": "0xedfF9DCbFC41d71CB6c34C4EacbDfB8246052140",
-    "Adare Manor": "0x43a898A3e3Fc8CF04d13c15593D6a154f140eE12",
-    "Villa D'Este": "0x63714E48053733ae70E17be3dA93216d75f9e13a",
-    "Villa Lant": "0x7cF03FbE16269B733f4BC3752A85333a484596Ce",
-    "Villa Farnese": "0x65E7B773C55b0483C78872cd2f28413950e10072",
-    "Chatsworth House": "0x4E8b8955ACDfCf4A1DFBe232623C1519299A448C",
-    "Chateau Margaux": "0xb980E3496398656624d11529497dD81930Da90f6"
+    "BirrCastle": "0x1551C4689aF2cA0FD044ccCfede20aAf91560c0F",
+    "Sunnylands": "0x981237DB582f8df25808D78ae0A1BBbf04BC159a",
+    "ChateauLafitte": "0x619fbB13579dbFF77B154d7c06036D9fc5291071",
+    "AdareManor": "0x614c4316DEeCFE645180bb8d7f2d1664cF7bF423",
+    "VillaDEste": "0xeBA68bcD7CbA2ACC34E30458e4eaD9655Ef8e11D",
+    "VillaLant": "0x423653202fCAbCd155Bc3745eE267543b92BfDa4",
+    "VillaFarnese": "0x553a8b5BFc030303B3E631Cd22733D7f2EE4e64F",
+    "ChatsworthHouse": "0x73E0E4DDAe1ad09D738B6DB4b30C3b6f22cE66DD",
+    "ChateauMargaux": "0xF64C16533cDd4b70F6BB7C586785237E33Ce57A2"
 }
 
 const tokensAddress = {
-    'DAI': '0xe5737F0f694897331FE28640D2164B1404F23Dc0',
-    'wBTC': '0xe65b25FE4bec1F5aC9364304a175d68b582f5d0a',
-    'wETH': '0x9004529746a3d2496E46248929a3a57Cd30B0d0f',
-    'IFA': '0x567E6A969170217862632cFE93b6e36B9565e262',
-    'USD': '0x7F4939cFE161A7159B5e156b99B6fbE0694c239c'
+    "DAI": "0xe5737F0f694897331FE28640D2164B1404F23Dc0",
+    "wBTC": "0xe65b25FE4bec1F5aC9364304a175d68b582f5d0a",
+    "wETH": "0x9004529746a3d2496E46248929a3a57Cd30B0d0f",
+    "IFA": "0x567E6A969170217862632cFE93b6e36B9565e262",
+    "USD": "0x7F4939cFE161A7159B5e156b99B6fbE0694c239c"
 }
 
 const lpTokenAddress = {
@@ -58,35 +58,30 @@ contract('AdareManor pool[number:4], lp token', ([alice, bob, carol, breeze, joy
     const poolId = 3;
 
     before(async () => {
-        this.decimals = new BN((10 ** 18).toString());
-        // Fake Wrapped amount 200000 ether, decimals 18
-        let totalSupply = toWei('200000');
+        let approveAmount = toWei('99990000');
         this.iUSD_DAI = await MockERC20.at(lpTokenAddress.iUSD_DAI);
         //from alice transfer sCRV 100 ether to bob and carol
         await this.iUSD_DAI.transfer(bob, toWei('100'), { from: alice });
         await this.iUSD_DAI.transfer(carol, toWei('100'), { from: alice });
 
-        this.ifaMaster = await IFAMaster.at(publicAddress.ifaMaster);
-        this.pool = await IFAPool.at(publicAddress.ifaPool);
+        this.pool = await IFAPool.at(publicAddress.IFAPool);
         this.ifa = await IFAToken.at(tokensAddress.IFA);
-        this.createIFA = await CreateIFA.at(publicAddress.createIFA);
-        this.costco = await Costco.at(publicAddress.costco);
-        this.ifaDataBoard = await IFADataBoard.at(publicAddress.ifaDataBoard);
-        this.AdareManor = await AdareManor.at(poolVaults["Adare Manor"]);
-        this.villaFarnese = await VillaFarnese.at(poolVaults["Villa Farnese"])
-        await this.createIFA.approve(this.iUSD_DAI.address, { from: alice });
+
+        // approve 
+        await this.iUSD_DAI.approve(this.pool.address, approveAmount, { from: alice });
+        await this.ifa.approve(this.pool.address, approveAmount, { from: alice });
     });
 
     context('seed of token or lp token harvest IFA', async () => {
         it('Single user deposit', async () => {
-            let amount = toWei('100')
-            let balanceOf = await this.ifa.balanceOf(bob)
+            let amount = toWei('10')
+            let balanceOf = await this.ifa.balanceOf(alice)
             console.log(`balanceOf:${balanceOf.toString()}`)
-            await this.iUSD_DAI.approve(this.pool.address, amount, { from: bob });
-            await this.pool.deposit(poolId, amount, { from: bob });
+            await this.pool.deposit(poolId, amount, { from: alice });
             await time.advanceBlock(); // block + 1
-            await this.pool.claim(poolId, { from: bob });
-            balanceOf = await this.ifa.balanceOf(bob)
+            await time.advanceBlock(); // block + 1
+            await this.pool.claim(poolId, { from: alice });
+            balanceOf = await this.ifa.balanceOf(alice)
             console.log(`balanceOf:${balanceOf.toString()}`)
         });
 

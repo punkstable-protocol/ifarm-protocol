@@ -226,7 +226,7 @@ async function deployPublic(deployer, network, accounts) {
         new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.iETH),
     ]
     for (let i = 0; itokenContract.length < i; i++) {
-        itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
+        await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
     }
     publicContractAddress.IFAMaster = ifaMasterInstance.address;
     publicContractAddress.IFAPool = ifaPoolInstance.address;
@@ -250,6 +250,7 @@ async function deployBorrowPools(deployer, network, accounts) {
     let ifaBankInstance = await IFABank.at(publicContractAddress.IFABank);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
     let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
+    // let ifaInstance = await IFAToken.at(tokenAddress.IFA);
     for (let i = 0; i < vaults.length; i++) {
         let poolId = i;
         let K_CALCULATOR = K_CALCULATORS[i];

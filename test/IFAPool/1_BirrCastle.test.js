@@ -1,7 +1,9 @@
 const { expectRevert, time } = require('@openzeppelin/test-helpers');
+const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 const CreateIFA = artifacts.require('CreateIFA');
 const IFAToken = artifacts.require('IFAToken');
 const IFAPool = artifacts.require('IFAPool');
+const IFABank = artifacts.require('IFABank');
 const Costco = artifacts.require('Costco');
 const IFAMaster = artifacts.require('IFAMaster');
 const IFADataBoard = artifacts.require('IFADataBoard');
@@ -10,9 +12,19 @@ const BirrCastle = artifacts.require('BirrCastle');
 const AdareManor = artifacts.require('AdareManor');
 const VillaFarnese = artifacts.require('VillaFarnese');
 const BN = web3.utils.BN;
+const uniswapV2Factory = require('../contractsJson/UniswapV2Factory.json')
+const UniswapPairJson = require('../contractsJson/UniswapPairAbi.json')
+const iTokenJson = require('../contractsJson/iTokenDelegator.json')
+
+
 
 function toWei(bigNumber) {
     return web3.utils.toWei(bigNumber);
+}
+
+const uniswapsAddress = {
+    'uniswapV2Factory': "0xBBa9c67e95e3D997a8Af1D1AB0A0b5076A60BAB2",
+    'uniswapV2Router': "0xDbA9FC3A3f07a2b9d085C78CE488b9D145430ECc",
 }
 
 const publicAddress = {
@@ -37,6 +49,12 @@ const poolVaults = {
     "ChateauMargaux": "0xF64C16533cDd4b70F6BB7C586785237E33Ce57A2"
 }
 
+const itokensAddress = {
+    'iETH': "0xc257BCf9EEEbC727C14BA4451298ec70534540eC",
+    'iBTC': "0x3362599C498AaE2087ace38CEff19FcE08FfD0ae",
+    'iUSD': "0xB178B47afbc33BDd036D178E4F48d3086e3beFF5",
+}
+
 const tokensAddress = {
     "DAI": "0xe5737F0f694897331FE28640D2164B1404F23Dc0",
     "wBTC": "0xe65b25FE4bec1F5aC9364304a175d68b582f5d0a",
@@ -57,25 +75,55 @@ const lpTokenAddress = {
 contract('BirrCastle pool[number:1], DAI token', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
     const poolId = 0;
 
+    async function createPair(token0, token1) {
+        this.factory = new web3.eth.Contract(uniswapV2Factory.abi, uniswapsAddress.uniswapV2Factory)
+        let pairAddress = await this.factory.methods.getPair(token0, token1).call();
+        if (pairAddress.toString() == '0x0000000000000000000000000000000000000000') {
+            pairAddress = await factory.methods.createPair(token0, token1).send({ from: alice, gas: 6000000 })
+        }
+        return pairAddress.toString()
+    }
+
+    async function addLiquidity(token0, token0Amount, token1, token1Amount) {
+        await token0.transfer(pair.address, token0Amount)
+        await token1.transfer(pair.address, token1Amount)
+        await pair.mint(alice, { from: alice })
+    }
+
     before(async () => {
         let approveAmount = toWei('99990000');
         this.DAI = await MockERC20.at(tokensAddress.DAI);
+        this.iUSD = new web3.eth.Contract(iTokenJson.abi, itokensAddress.iUSD)
+        this.BirrCastle = await BirrCastle.at(poolVaults.BirrCastle);
         //from alice transfer sCRV 100 ether to bob and carol
         await this.DAI.transfer(bob, toWei('100'), { from: alice });
         await this.DAI.transfer(carol, toWei('100'), { from: alice });
 
         this.pool = await IFAPool.at(publicAddress.IFAPool);
+        this.bank = await IFABank.at(publicAddress.IFABank);
         this.ifa = await IFAToken.at(tokensAddress.IFA);
 
         // approve 
         await this.DAI.approve(this.pool.address, approveAmount, { from: alice });
-        // await this.ifa.approve(this.pool.address, approveAmount, { from: bob });
-        let allowance = await this.DAI.allowance(alice, this.pool.address);
-        console.log(`DAI allowance:${allowance.toString()}`)
+        await this.DAI.approve(this.bank.address, approveAmount, { from: alice });
+
+        //uniswap
+        // let amount = toWei('10')
+        // let daiIFAPairAddress = await createPair(this.DAI.address, tokensAddress.IFA)
+        // let daiIUSDPairAddress = await createPair(this.DAI.address, itokensAddress.iUSD)
+        // this.DAI.transfer(daiIFAPairAddress, amount)
+        // this.ifa.transfer(daiIFAPairAddress, amount)
+        // let daiIFAPair = new web3.eth.Contract(UniswapPairJson.abi, daiIFAPairAddress)
+        // await daiIFAPair.methods.mint(alice).send({ from: alice, gas: 6000000 })
+
+        // this.DAI.transfer(daiIUSDPairAddress, amount)
+        // this.iUSD.methods.transfer(daiIUSDPairAddress, amount).send({ from: alice, gas: 6000000 })
+        // let daiIUSDPair = new web3.eth.Contract(UniswapPairJson.abi, daiIUSDPairAddress)
+        // await daiIUSDPair.methods.mint(alice).send({ from: alice, gas: 6000000 })
     });
 
     context('seed of token or token harvest IFA', async () => {
-        it('Single user deposit', async () => {
+        it.skip('Single user deposit', async () => {
             let amount = toWei('10')
             let balanceOf = await this.ifa.balanceOf(bob)
             console.log(`balanceOf:${balanceOf.toString()}`)
@@ -85,6 +133,18 @@ contract('BirrCastle pool[number:1], DAI token', ([alice, bob, carol, breeze, jo
             await this.pool.claim(poolId, { from: bob });
             balanceOf = await this.ifa.balanceOf(bob)
             console.log(`balanceOf:${balanceOf.toString()}`)
+        });
+
+        it('borrow', async () => {
+            let amount = toWei('10')
+            await this.pool.deposit(poolId, amount, { from: alice });
+            await this.bank.borrow(0, amount, { from: alice });
+            let lockedAmount = await this.BirrCastle.lockedAmount(alice);
+            console.log(`lockedAmount:${lockedAmount.toString()}`);
+        });
+
+        it.only('payBackPartially', async () => {
+            await this.bank.payBackInFull(0, { from: alice });
         });
 
     });

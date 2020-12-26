@@ -4,4 +4,4 @@ coverage/
 coverage.json
 secret.json
 .DS_Store
-
+.env

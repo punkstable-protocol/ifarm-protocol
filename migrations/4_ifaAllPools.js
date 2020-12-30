@@ -2,6 +2,7 @@
 // tools
 const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
 const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
+const { getDeployedContract } = require("./config/contract_address")
 
 // public
 const MockERC20 = artifacts.require('MockERC20');
@@ -31,54 +32,36 @@ const VillaFarnese = artifacts.require('VillaFarnese');
 const ChatsworthHouse = artifacts.require('ChatsworthHouse');
 const ChateauMargaux = artifacts.require('ChateauMargaux');
 
+// load deployed contract address
+const DeployedContract = getDeployedContract()
+
 // Contract address
 const uniswapsAddress = {
-    // localhost test
-    // 'uniswapV2Factory': "0x676E9eA0f226948A9c52284e67e812e7D66AF7a3",
-    // 'uniswapV2Router': "0x6764568DbaDd6ED94FB21d5B5B102d50B805310a",
-    'uniswapV2Factory': "0xBBa9c67e95e3D997a8Af1D1AB0A0b5076A60BAB2",
-    'uniswapV2Router': "0xDbA9FC3A3f07a2b9d085C78CE488b9D145430ECc",
+    'uniswapV2Factory': DeployedContract.uniswapsAddress.uniswapV2Factory,
+    'uniswapV2Router': DeployedContract.uniswapsAddress.uniswapV2Router,
 }
 
 const itokensAddress = {
-    // localhost test
-    // 'iETH': "0x600B3132Bb97aA7D1D6bE574e8a4AF693A959dAF",
-    // 'iBTC': "0x638D8bc5cB98194c90DECF8aA6Faf10403b45C0A",
-    // 'iUSD': "0x4935773025eAC3dC8ce4258077E2257F1d70C206",
-    'iETH': "0xc257BCf9EEEbC727C14BA4451298ec70534540eC",
-    'iBTC': "0x3362599C498AaE2087ace38CEff19FcE08FfD0ae",
-    'iUSD': "0xB178B47afbc33BDd036D178E4F48d3086e3beFF5",
+    'iETH': DeployedContract.itokensAddress.iETH,
+    'iBTC': DeployedContract.itokensAddress.iBTC,
+    'iUSD': DeployedContract.itokensAddress.iUSD,
 }
 
 let tokensAddress = {
-    // localhost test
-    // 'DAI': '',
-    // 'wBTC': '',
-    // 'wETH': '',
-    // 'IFA': '',
-    // 'USD': '',
-
-    'DAI': '0xe5737F0f694897331FE28640D2164B1404F23Dc0',
-    'wBTC': '0xe65b25FE4bec1F5aC9364304a175d68b582f5d0a',
-    'wETH': '0x9004529746a3d2496E46248929a3a57Cd30B0d0f',
-    'IFA': '0x567E6A969170217862632cFE93b6e36B9565e262',
-    'USD': '0x7F4939cFE161A7159B5e156b99B6fbE0694c239c',
+    'DAI': DeployedContract.tokensAddress.DAI,
+    'wBTC': DeployedContract.tokensAddress.wBTC,
+    'wETH': DeployedContract.tokensAddress.wETH,
+    'IFA': DeployedContract.tokensAddress.IFA,
+    'USD': DeployedContract.tokensAddress.USD,
 }
 
 let lpTokenAddress = {
-    // localhost test
-    // "iUSD_DAI": "",
-    // "iBTC_wBTC": "",
-    // "iETH_ETH": "",
-    // "IFA_DAI": "",
-    // "IFA_wBTC": "",
-    // "IFA_ETH": "",
-    "iUSD_DAI": "0xF8C8106FCcb36a2158b03D5F3608FDc46914E984",
-    "iBTC_wBTC": "0x5F7Cf94076517478e5103aC59dB14CfaFD52D811",
-    "iETH_ETH": "0x6570b812649a422C1ab09CdE590328d0E40d4D20",
-    "IFA_DAI": "0xaAC6eC6F6d363F179f29b00c050Cc956E1f87eaa",
-    "IFA_wBTC": "0x6499F9C7893906B219A731abB03c0f6D93aCf6c8",
-    "IFA_ETH": "0xbB0316F0eD3d9f332A929648a035Db899C787384",
+    "iUSD_DAI": DeployedContract.lpTokenAddress.iUSD_DAI,
+    "iBTC_wBTC": DeployedContract.lpTokenAddress.iBTC_wBTC,
+    "iETH_ETH": DeployedContract.lpTokenAddress.iETH_ETH,
+    "IFA_DAI": DeployedContract.lpTokenAddress.IFA_DAI,
+    "IFA_wBTC": DeployedContract.lpTokenAddress.IFA_wBTC,
+    "IFA_ETH": DeployedContract.lpTokenAddress.IFA_ETH,
 }
 
 let publicContractAddress = {

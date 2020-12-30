@@ -1,3 +1,11 @@
+const dotenv = require('dotenv');
+let HDWalletProvider = require("truffle-hdwallet-provider");
+dotenv.config();
+
+const infuraProvider = (network) => {
+  return new HDWalletProvider(process.env.MNEMONIC || '', `https://${network}.infura.io/v3/${process.env.PROJECT_ID}`)
+};
+
 module.exports = {
   // Uncommenting the defaults below
   // provides for an easier quick-start with Ganache.
@@ -7,8 +15,8 @@ module.exports = {
   //
 
   // Modify to the correct migration directory when using
-  migrations_directory: "./migrations/ignore_migrations",
-  // migrations_directory: "./migrations/",
+  // migrations_directory: "./migrations/ignore_migrations",
+  migrations_directory: "./migrations/",
   networks: {
     development: {
       host: "8.129.187.233",
@@ -26,6 +34,12 @@ module.exports = {
       // gasPrice: 100000000000, // 100 gwei
       gas: 6721975,
       network_id: '*',
+    },
+    ropsten: {
+      provider: infuraProvider('ropsten'),
+      network_id: "*",  // match any network
+      gas: 6721975,
+      networkCheckTimeout: 60000,
     },
   },
   //

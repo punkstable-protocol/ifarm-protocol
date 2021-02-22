@@ -1,6 +1,8 @@
-const dotenv = require('dotenv');
-let HDWalletProvider = require("truffle-hdwallet-provider");
-dotenv.config();
+const HDWalletProvider = require("truffle-hdwallet-provider");
+const result = require('dotenv').config(); // read .env file saved in project root
+if (result.error) {
+  throw result.error;
+}
 
 const infuraProvider = (network) => {
   return new HDWalletProvider(process.env.MNEMONIC || '', `https://${network}.infura.io/v3/${process.env.PROJECT_ID}`)

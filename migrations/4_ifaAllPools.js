@@ -156,6 +156,7 @@ async function mockTokenTool(_tokenJson, _tokenName, _account) {
 // Used during demonstration, not used during official release
 
 async function mockTokens(accounts) {
+    console.log(`mockTokens deployering...`)
     let _dai = await mockTokenTool(tokensAddress, 'DAI', accounts[0]);
     let _wbtc = await mockTokenTool(tokensAddress, 'wBTC', accounts[0]);
     let _weth = await mockTokenTool(tokensAddress, 'wETH', accounts[0]);
@@ -176,9 +177,11 @@ async function mockTokens(accounts) {
     lpTokenAddress.IFA_DAI = _IFA_DAI.address;
     lpTokenAddress.IFA_wBTC = _IFA_wBTC.address;
     lpTokenAddress.IFA_ETH = _IFA_ETH.address;
+    console.log(`mockTokens end`)
 }
 
 async function deployPublic(deployer, network, accounts) {
+    console.log(`deployPublic deployering...`)
     let ifaMasterInstance = await IFAMaster.new();
     let ifaPoolInstance = await IFAPool.new();
     let ifaInstance = tokensAddress.IFA.length == 0 ? await IFAToken.new() : await IFAToken.at(tokensAddress.IFA);
@@ -208,7 +211,7 @@ async function deployPublic(deployer, network, accounts) {
         new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.iBTC),
         new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.iETH),
     ]
-    for (let i = 0; itokenContract.length < i; i++) {
+    for (let i = 0; i < itokenContract.length; i++) {
         await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
     }
     publicContractAddress.IFAMaster = ifaMasterInstance.address;
@@ -220,11 +223,13 @@ async function deployPublic(deployer, network, accounts) {
     publicContractAddress.IFABank = ifaBankInstance.address;
     publicContractAddress.ShareRevenue = shareRevenueInstance.address;
     tokensAddress.IFA = ifaInstance.address;
+    console.log(`deployPublic end`)
 }
 
 
 // depoly borrow pools total:3
 async function deployBorrowPools(deployer, network, accounts) {
+    console.log(`deployBorrowPools deployering...`)
     let vaults = [BirrCastle, Sunnylands, ChateauLafitte];
     let K_CALCULATORS = [K_CALCULATOR_DAI, K_CALCULATOR_wBTC, K_CALCULATOR_wETH];
     let itokenAddress = [itokensAddress.iUSD, itokensAddress.iBTC, itokensAddress.iETH];
@@ -252,10 +257,12 @@ async function deployBorrowPools(deployer, network, accounts) {
         await ifaPoolInstance.setPoolInfo(poolId, tokenAddress[i], vaultInstance.address, now);
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, tokenAddress[i], 100, false);
     }
+    console.log(`deployBorrowPools end`)
 }
 
 // depoly lp token pools total:6
 async function deployLpTokenPools(deployer, network, accounts) {
+    console.log(`deployLpTokenPools deployering...`)
     let vaults = [
         AdareManor,
         VillaDEste,
@@ -289,4 +296,5 @@ async function deployLpTokenPools(deployer, network, accounts) {
         allocPoint = i >= 3 ? allocPoint * 50 : allocPoint * 5
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }
+    console.log(`deployLpTokenPools end`)
 }

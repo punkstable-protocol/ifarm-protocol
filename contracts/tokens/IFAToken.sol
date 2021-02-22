@@ -5,11 +5,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract IFAToken is ERC20("ifarm.finance", "IFA"), Ownable {
-    uint256 public iTokenGovThreshold = 5; // 0.5%
-
-    function setiTokenGovThreshold(uint256 iTokenGovThreshold_) public onlyOwner {
-        iTokenGovThreshold = iTokenGovThreshold_;
-    }
 
     mapping(address => bool) public minters;
 

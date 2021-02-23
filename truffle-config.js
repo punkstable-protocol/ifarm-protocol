@@ -4,8 +4,8 @@ if (result.error) {
   throw result.error;
 }
 
-const infuraProvider = (network) => {
-  return new HDWalletProvider(process.env.MNEMONIC || '', `https://${network}.infura.io/v3/${process.env.PROJECT_ID}`)
+const hecoChainProvider = (network) => {
+  return new HDWalletProvider(process.env.MNEMONIC || '', `https://http-${network}.hecochain.com`)
 };
 
 module.exports = {
@@ -20,12 +20,13 @@ module.exports = {
   // migrations_directory: "./migrations/ignore_migrations",
   migrations_directory: "./migrations/",
   networks: {
-    development: {
-      host: "8.129.187.233",
-      port: 28545,
-      network_id: "*"
+    hecomainnet:{
+      provider: hecoChainProvider('mainnet'),
+      network_id: "*",  // match any network
+      gas: 6721975,
+      networkCheckTimeout: 60000,
     },
-    test: {
+    development: {
       host: "8.129.187.233",
       port: 28545,
       network_id: "*"
@@ -37,12 +38,12 @@ module.exports = {
       gas: 6721975,
       network_id: '*',
     },
-    ropsten: {
-      provider: infuraProvider('ropsten'),
-      network_id: "*",  // match any network
+    hecotestnet:{
+      provider: hecoChainProvider('testnet'),
+      network_id: "256",  // match any network
       gas: 6721975,
       networkCheckTimeout: 60000,
-    },
+    }
   },
   //
   compilers: {

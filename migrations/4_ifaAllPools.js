@@ -50,8 +50,9 @@ const itokensAddress = {
 let tokensAddress = {
     'HUSD': DeployedContract.tokens.HUSD,
     'HBTC': DeployedContract.tokens.HBTC,
+    'HETH': DeployedContract.tokens.HETH,
     'WHT': DeployedContract.tokens.WHT,
-    'IFA': DeployedContract.tokens.IFA,
+    'RICE': DeployedContract.tokens.RICE,
     'USDT': DeployedContract.tokens.USDT,
 }
 
@@ -59,9 +60,9 @@ let lpTokenAddress = {
     "rUSD_HUSD": DeployedContract.lpToken.rUSD_HUSD,
     "rBTC_HBTC": DeployedContract.lpToken.rBTC_HBTC,
     "rETH_HETH": DeployedContract.lpToken.rETH_HETH,
-    "IFA_HUSD": DeployedContract.lpToken.IFA_HUSD,
-    "IFA_HBTC": DeployedContract.lpToken.IFA_HBTC,
-    "IFA_ETH": DeployedContract.lpToken.IFA_ETH,
+    "RICE_rUSD": DeployedContract.lpToken.RICE_rUSD,
+    "RICE_rBTC": DeployedContract.lpToken.RICE_rBTC,
+    "RICE_rETH": DeployedContract.lpToken.RICE_rETH,
 }
 
 let publicContractAddress = {
@@ -163,10 +164,10 @@ async function mockTokens(accounts) {
     let _usdt = await mockTokenTool(tokensAddress, 'USDT', accounts[0]);
     let _rUSD_HUSD = await mockTokenTool(lpTokenAddress, 'rUSD_HUSD', accounts[0]);
     let _rBTC_HBTC = await mockTokenTool(lpTokenAddress, 'rBTC_HBTC', accounts[0]);
-    let _rETH_WHT = await mockTokenTool(lpTokenAddress, 'rETH_WHT', accounts[0]);
-    let _IFA_HUSD = await mockTokenTool(lpTokenAddress, 'IFA_HUSD', accounts[0]);
-    let _IFA_HBTC = await mockTokenTool(lpTokenAddress, 'IFA_HBTC', accounts[0]);
-    let _IFA_ETH = await mockTokenTool(lpTokenAddress, 'IFA_ETH', accounts[0]);
+    let _rETH_HETH = await mockTokenTool(lpTokenAddress, 'rETH_HETH', accounts[0]);
+    let _RICE_rUSD = await mockTokenTool(lpTokenAddress, 'RICE_rUSD', accounts[0]);
+    let _RICE_rBTC = await mockTokenTool(lpTokenAddress, 'RICE_rBTC', accounts[0]);
+    let _RICE_rETH = await mockTokenTool(lpTokenAddress, 'RICE_rETH', accounts[0]);
     tokensAddress.HUSD = _dai.address;
     tokensAddress.HBTC = _wbtc.address;
     tokensAddress.HETH = _weth.address;
@@ -174,9 +175,9 @@ async function mockTokens(accounts) {
     lpTokenAddress.rUSD_HUSD = _rUSD_HUSD.address;
     lpTokenAddress.rBTC_HBTC = _rBTC_HBTC.address;
     lpTokenAddress.rETH_HETH = _rETH_HETH.address;
-    lpTokenAddress.IFA_HUSD = _IFA_HUSD.address;
-    lpTokenAddress.IFA_HBTC = _IFA_HBTC.address;
-    lpTokenAddress.IFA_HETH = _IFA_HETH.address;
+    lpTokenAddress.RICE_rUSD = _RICE_rUSD.address;
+    lpTokenAddress.RICE_rBTC = _RICE_rBTC.address;
+    lpTokenAddress.RICE_rETH = _RICE_rETH.address;
     console.log(`mockTokens end`)
 }
 
@@ -184,7 +185,7 @@ async function deployPublic(deployer, network, accounts) {
     console.log(`deployPublic deployering...`)
     let ifaMasterInstance = await IFAMaster.new();
     let ifaPoolInstance = await IFAPool.new();
-    let ifaInstance = tokensAddress.IFA.length == 0 ? await IFAToken.new() : await IFAToken.at(tokensAddress.IFA);
+    let ifaInstance = tokensAddress.RICE.length == 0 ? await IFAToken.new() : await IFAToken.at(tokensAddress.RICE);
     await ifaMasterInstance.setIFA(ifaInstance.address);
     await ifaMasterInstance.setPool(ifaPoolInstance.address);
     let costcoInstance = await Costco.new(ifaMasterInstance.address);
@@ -198,7 +199,7 @@ async function deployPublic(deployer, network, accounts) {
     await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
     await ifaMasterInstance.setDAI(tokensAddress.HUSD);
     await ifaMasterInstance.setwBTC(tokensAddress.HBTC);
-    await ifaMasterInstance.setwETH(tokensAddress.WHT);
+    await ifaMasterInstance.setwETH(tokensAddress.HETH);
     await ifaMasterInstance.setUSD(tokensAddress.USDT);
     await ifaMasterInstance.setCostco(costcoInstance.address);
     await ifaMasterInstance.setRevenue(ifaRevenueInstance.address);
@@ -222,7 +223,7 @@ async function deployPublic(deployer, network, accounts) {
     publicContractAddress.CreateIFA = createIFAInstance.address;
     publicContractAddress.IFABank = ifaBankInstance.address;
     publicContractAddress.ShareRevenue = shareRevenueInstance.address;
-    tokensAddress.IFA = ifaInstance.address;
+    tokensAddress.RICE = ifaInstance.address;
     console.log(`deployPublic end`)
 }
 
@@ -274,10 +275,10 @@ async function deployLpTokenPools(deployer, network, accounts) {
     let lpToken = [
         lpTokenAddress.rUSD_HUSD,
         lpTokenAddress.rBTC_HBTC,
-        lpTokenAddress.rETH_WHT,
-        lpTokenAddress.IFA_HUSD,
-        lpTokenAddress.IFA_HBTC,
-        lpTokenAddress.IFA_ETH
+        lpTokenAddress.rETH_HETH,
+        lpTokenAddress.RICE_rUSD,
+        lpTokenAddress.RICE_rBTC,
+        lpTokenAddress.RICE_rETH
     ];
     let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
@@ -294,7 +295,12 @@ async function deployLpTokenPools(deployer, network, accounts) {
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
-        allocPoint = i >= 3 ? allocPoint * 50 : allocPoint * 5
+        if(i > 2){
+            allocPoint = allocPoint * 5
+        }
+        else if(i>5){
+            allocPoint = allocPoint * 50
+        }
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }
     console.log(`deployLpTokenPools end`)

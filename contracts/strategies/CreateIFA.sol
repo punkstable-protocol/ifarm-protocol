@@ -149,11 +149,11 @@ contract CreateIFA is IStrategy, Ownable {
 
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 allReward = multiplier.mul(IFA_PER_BLOCK).mul(pool.allocPoint).div(totalAllocPoint);
-        // 50% goes to costco.
-        IFAToken(ifaMaster.ifa()).mint(ifaMaster.costco(), allReward.div(2));
+        // 10% goes to costco.
+        IFAToken(ifaMaster.ifa()).mint(ifaMaster.costco(), allReward.div(10));
 
-        // 50% goes to farmers.
-        uint256 farmerReward = allReward.sub(allReward.div(2));
+        // 90% goes to farmers.
+        uint256 farmerReward = allReward.sub(allReward.div(10));
         IFAToken(ifaMaster.ifa()).mint(address(this), farmerReward);
 
 

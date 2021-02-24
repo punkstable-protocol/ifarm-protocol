@@ -1,7 +1,7 @@
 
 // Contract address
-current_net = 'test'
-// current_net = 'mainnet'
+// current_net = 'test'
+current_net = 'mainnet'
 
 // develop address
 const testNetContract = {
@@ -26,9 +26,9 @@ const testNetContract = {
         "rUSD_HUSD": '',
         "rBTC_HBTC": '',
         "rETH_HETH": '',
-        "RICE_HUSD": '',
-        "RICE_HBTC": '',
-        "RICE_HETH": ''
+        "RICE_rUSD": '',
+        "RICE_rBTC": '',
+        "RICE_rETH": ''
     }
 }
 
@@ -48,16 +48,19 @@ const mainNetContract = {
         'HBTC': '0x66a79D23E58475D2738179Ca52cd0b41d73f0BEa',
         'HETH': '0x64FF637fB478863B7468bc97D30a5bF3A428a1fD',
         'WHT': '0x5545153CCFcA01fbd7Dd11C0b23ba694D9509A6F',
-        'IFA': '',
+        'RICE': '0x311F91e8683d7030E26C42377CCA9C673E81c9B4',
         'USDT': '0xa71EdC38d189767582C38A3145b5873052c3e47a'
     },
     'lpToken': {
         "rUSD_HUSD": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
         "rBTC_HBTC": '0x78fab4c35b1c0d073a983a72d00c39f7182a69e1',
         "rETH_HETH": '0x13e4d5f5567a6d4e29fa9b72d554d37e116ca54a',
-        "RICE_HUSD": '',
-        "RICE_HBTC": '',
-        "RICE_HETH": ''
+        'RICE_rUSD':'0x1e06ac5725390e5f7ef4d005a51982d63a0d8b17',
+        'RICE_rBTC':'0x15c4e63bb78e824540aaab17a93d11053b28fd27',
+        'RICE_rETH':'0x7a41ca9c0c5258def8acf386e768c774008fcc92',
+        // "RICE_HUSD": '0x074594a38f3feaaa0e196f7b315e14c44de5bdd7',
+        // "RICE_HBTC": '0x8a6484b369cb01eacb42315fd0d3e676d608fef5',
+        // "RICE_HETH": '0x426d0e2bca0dbfefa21095530198f1533dcf3e52'
     }
 }
 

@@ -295,7 +295,12 @@ async function deployLpTokenPools(deployer, network, accounts) {
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
-        allocPoint = i >= 3 ? allocPoint * 50 : allocPoint * 5
+        if(i > 2){
+            allocPoint = allocPoint * 5
+        }
+        else if(i>5){
+            allocPoint = allocPoint * 50
+        }
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }
     console.log(`deployLpTokenPools end`)

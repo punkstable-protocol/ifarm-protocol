@@ -15,11 +15,11 @@ contract Costco is Parities, Ownable {
     constructor(IFAMaster _ifaMaster) Parities(_ifaMaster) public {
     }
 
-    // Anyone can buy IFA by iToken with 5% discount.
+    // Anyone can buy IFA by iToken with 2% discount.
     function buyIFAWithiToken(address _itoken,  uint256 _itokenAmount) public {
         require(_itoken != address(0), "error iToken address");
         IERC20(_itoken).transferFrom(msg.sender, address(this), _itokenAmount);
-        uint256 ifaAmount = _itokenAmount.mul(getIFAToiTokenRate(_itoken)) / 95;
+        uint256 ifaAmount = _itokenAmount.mul(getIFAToiTokenRate(_itoken)) / 98;
         IERC20(ifaMaster.ifa()).transfer(msg.sender, ifaAmount);
     }
 

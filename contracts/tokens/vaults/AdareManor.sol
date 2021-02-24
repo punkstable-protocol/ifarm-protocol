@@ -10,7 +10,7 @@ contract AdareManor is IFAVault {
         IFAMaster _ifaMaster,
         IStrategy _createIFA,
         IStrategy _shareRevenue
-    ) IFAVault(_ifaMaster, "Adare Manor", "Water") public  {
+    ) IFAVault(_ifaMaster, "Adare Manor", "Boil") public  {
         IStrategy[] memory strategies = new IStrategy[](2);
         strategies[0] = _createIFA;
         strategies[1] = _shareRevenue;

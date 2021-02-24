@@ -10,7 +10,7 @@ contract ChateauMargaux is IFAVault {
         IFAMaster _ifaMaster,
         IStrategy _createIFA,
         IStrategy _shareRevenue
-    ) IFAVault(_ifaMaster, "Chateau Margaux", "Water") public  {
+    ) IFAVault(_ifaMaster, "Chateau Margaux", "Boil") public  {
         IStrategy[] memory strategies = new IStrategy[](2);
         strategies[0] = _createIFA;
         strategies[1] = _shareRevenue;

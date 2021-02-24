@@ -50,15 +50,16 @@ contract IFADataBoard is Ownable {
 
         uint256 vaultSupply = vault.totalSupply();
 
-        // 10 IFA per block
-        uint256 factor = 10;
+        // 8 IFA per block
+        uint256 factor = 8;
 
         if (vaultSupply == 0) {
             // Assume $1 is put in.
-            return getIFAPrice() * factor * 5760 * 100 * allocPoint / totalAlloc / 1e6;
+            // 28800 is the estimated daily block number of heco
+            return getIFAPrice() * factor * 28800 * 100 * allocPoint / totalAlloc / 1e6;
         }
 
-        // 2250000 is the estimated yearly block number of ethereum.
+        // 10512000 is the estimated yearly block number of heco.
         // 1e18 comes from vaultSupply.
         if (_isLPToken) {
             uint256 lpPrice = getEthLpPrice(_token);
@@ -66,14 +67,14 @@ contract IFADataBoard is Ownable {
                 return 0;
             }
 
-            return getIFAPrice() * factor * 2250000 * 100 * allocPoint * 1e18 / totalAlloc / lpPrice / vaultSupply;
+            return getIFAPrice() * factor * 10512000 * 100 * allocPoint * 1e18 / totalAlloc / lpPrice / vaultSupply;
         } else {
             uint256 tokenPrice = getTokenPrice(_token);
             if (tokenPrice == 0) {
                 return 0;
             }
 
-            return getIFAPrice() * factor * 2250000 * 100 * allocPoint * 1e18 / totalAlloc / tokenPrice / vaultSupply;
+            return getIFAPrice() * factor * 10512000 * 100 * allocPoint * 1e18 / totalAlloc / tokenPrice / vaultSupply;
         }
     }
 

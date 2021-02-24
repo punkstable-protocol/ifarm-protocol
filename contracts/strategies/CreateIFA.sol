@@ -9,7 +9,7 @@ import "./IStrategy.sol";
 import "../IFAMaster.sol";
 
 // This contract has the power to change IFA allocation among
-// different pools, but can't mint more than 888,888 IFA tokens.
+// different pools, but can't mint more than 23,040,000 IFA tokens.
 // With ALL_BLOCKS_AMOUNT and IFA_PER_BLOCK,
 
 // Currently this contract is the only owner of IFAToken and is itself owned by Timelock
@@ -17,8 +17,8 @@ import "../IFAMaster.sol";
 contract CreateIFA is IStrategy, Ownable {
     using SafeMath for uint256;
 
-    uint256 public constant ALL_BLOCKS_AMOUNT = 2100000;
-    uint256 public constant IFA_PER_BLOCK = 42328 * 1e13; // 0.42328 IFA per block, 0.42328 * 1e18,
+    uint256 public constant ALL_BLOCKS_AMOUNT = 2880000; // 3 s/block in heco. 100 days
+    uint256 public constant IFA_PER_BLOCK = 8 * 1e18; // 8 IFA per block, 8 * 1e18,
 
 
     uint256 constant PER_SHARE_SIZE = 1e12;

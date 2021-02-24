@@ -4,7 +4,7 @@ pragma solidity 0.6.12;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract IFAToken is ERC20("ifarm.finance", "IFA"), Ownable {
+contract IFAToken is ERC20("RiceQuant Finance", "RICE"), Ownable {
 
     mapping(address => bool) public minters;
 

@@ -9,7 +9,7 @@ contract BirrCastle is IFAVault {
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA
-    ) IFAVault(_ifaMaster, "Birr Castle", "SNAIL") public  {
+    ) IFAVault(_ifaMaster, "Birr Castle", "Water") public  {
         IStrategy[] memory strategies = new IStrategy[](1);
         strategies[0] = _createIFA;
         setStrategies(strategies);

@@ -5,12 +5,12 @@ import "../IFAVault.sol";
 
 // Owned by Timelock
 contract ChatsworthHouse is IFAVault {
-    // IFA-wBTC UNI-V2 LP
+    // IFA-iBTC UNI-V2 LP
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA,
         IStrategy _shareRevenue
-    ) IFAVault(_ifaMaster, "Chatsworth House", "SNAIL") public  {
+    ) IFAVault(_ifaMaster, "Chatsworth House", "Water") public  {
         IStrategy[] memory strategies = new IStrategy[](2);
         strategies[0] = _createIFA;
         strategies[1] = _shareRevenue;

@@ -19,16 +19,16 @@ const testNetContract = {
         'HBTC': '0x1D8684e6CdD65383AfFd3D5CF8263fCdA5001F13',
         'HETH': '0xfeB76Ae65c11B363Bd452afb4A7eC59925848656',
         'WHT': '0x9C6eb346f2105673eefaF2E8d0d6AFBf23b27005',
-        'IFA': '0x58eABbc7438bd1e025868bD75d55aDEe1c1A1995',
+        'RICE': '0x58eABbc7438bd1e025868bD75d55aDEe1c1A1995',
         'USDT': '0x04F535663110A392A6504839BEeD34E019FdB4E0'
     },
     'lpToken': {
         "rUSD_HUSD": '',
         "rBTC_HBTC": '',
         "rETH_HETH": '',
-        "IFA_HUSD": '',
-        "IFA_HBTC": '',
-        "IFA_HETH": ''
+        "RICE_HUSD": '',
+        "RICE_HBTC": '',
+        "RICE_HETH": ''
     }
 }
 
@@ -55,9 +55,9 @@ const mainNetContract = {
         "rUSD_HUSD": '',
         "rBTC_HBTC": '',
         "rETH_HETH": '',
-        "IFA_HUSD": '',
-        "IFA_HBTC": '',
-        "IFA_HETH": ''
+        "RICE_HUSD": '',
+        "RICE_HBTC": '',
+        "RICE_HETH": ''
     }
 }
 

@@ -9,7 +9,7 @@ contract Sunnylands is IFAVault {
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA
-    ) IFAVault(_ifaMaster, "Sunnylands", "SNAIL") public  {
+    ) IFAVault(_ifaMaster, "Sunnylands", "Water") public  {
         IStrategy[] memory strategies = new IStrategy[](1);
         strategies[0] = _createIFA;
         setStrategies(strategies);

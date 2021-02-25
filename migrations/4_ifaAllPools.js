@@ -249,7 +249,7 @@ async function deployBorrowPools(deployer, network, accounts) {
         let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA);
         let name = await vaultInstance.name();
         poolVaultContractAddress[poolVaultName[i]] = vaultInstance.address;
-        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, 500, 70, 90, 200000)
+        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, 500, 70, 90, 10000)
         calculatorsAddress[`${poolVaultName[i]}Calculators`] = basicCalculator.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);

@@ -119,12 +119,22 @@ contract IFADataBoard is Ownable {
         IUniswapV2Pair ethUSDTPair = IUniswapV2Pair(factory.getPair(ifaMaster.wETH(), ifaMaster.usd()));
         require(address(ethUSDTPair) != address(0), "ethUSDTPair need set by owner");
         (uint reserve0, uint reserve1,) = ethUSDTPair.getReserves();
-        // USDT has 6 digits and WETH has 18 digits.
+        // USDT has 6 digits in Ethereum and WETH has 18 digits.
         // To get 6 digits after floating point, we need 1e18.
+
+        /**
         if (ethUSDTPair.token0() == ifaMaster.wETH()) {
             return reserve1 * 1e18 / reserve0;
         } else {
             return reserve0 * 1e18 / reserve1;
+        }
+        */
+
+        // USDT has 18 digits in heco. we also need return 6 digit price here
+        if (ethUSDTPair.token0() == ifaMaster.wETH()) {
+            return reserve1 * 1e6 / reserve0;
+        } else {
+            return reserve0 * 1e6 / reserve1;
         }
     }
 

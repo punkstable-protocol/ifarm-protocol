@@ -5,12 +5,12 @@ import "../IFAVault.sol";
 
 // Owned by Timelock
 contract VillaFarnese is IFAVault {
-    // IFA-DAI UNI-V2 LP
+    // IFA-iUSD UNI-V2 LP
     constructor (
         IFAMaster _ifaMaster,
         IStrategy _createIFA,
         IStrategy _shareRevenue
-    ) IFAVault(_ifaMaster, "Villa Farnese", "SNAIL") public  {
+    ) IFAVault(_ifaMaster, "Villa Farnese", "Boil") public  {
         IStrategy[] memory strategies = new IStrategy[](2);
         strategies[0] = _createIFA;
         strategies[1] = _shareRevenue;

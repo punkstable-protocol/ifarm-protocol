@@ -14,6 +14,7 @@ const IFABank = artifacts.require('IFABank');
 const IFARevenue = artifacts.require('IFARevenue');
 const CreateIFA = artifacts.require('CreateIFA');
 const ShareRevenue = artifacts.require('ShareRevenue')
+const Parities = artifacts.require('Parities')
 
 // IFA
 const IFAToken = artifacts.require('IFAToken');
@@ -185,6 +186,7 @@ async function deployPublic(deployer, network, accounts) {
     console.log(`deployPublic deployering...`)
     let ifaMasterInstance = await IFAMaster.new();
     let ifaPoolInstance = await IFAPool.new();
+    let ParitiesInstance = await Parities.new(ifaMasterInstance.address);
     let ifaInstance = tokensAddress.RICE.length == 0 ? await IFAToken.new() : await IFAToken.at(tokensAddress.RICE);
     await ifaMasterInstance.setIFA(ifaInstance.address);
     await ifaMasterInstance.setPool(ifaPoolInstance.address);
@@ -223,6 +225,7 @@ async function deployPublic(deployer, network, accounts) {
     publicContractAddress.CreateIFA = createIFAInstance.address;
     publicContractAddress.IFABank = ifaBankInstance.address;
     publicContractAddress.ShareRevenue = shareRevenueInstance.address;
+    publicContractAddress.Parities = ParitiesInstance.address;
     tokensAddress.RICE = ifaInstance.address;
     console.log(`deployPublic end`)
 }

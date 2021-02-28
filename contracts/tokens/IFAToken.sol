@@ -128,9 +128,9 @@ contract IFAToken is ERC20("RiceQuant Finance", "RICE"), Ownable {
         );
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "IFA::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "IFA::delegateBySig: invalid nonce");
-        require(now <= expiry, "IFA::delegateBySig: signature expired");
+        require(signatory != address(0), "RICE::delegateBySig: invalid signature");
+        require(nonce == nonces[signatory]++, "RICE::delegateBySig: invalid nonce");
+        require(now <= expiry, "RICE::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
 
@@ -160,7 +160,7 @@ contract IFAToken is ERC20("RiceQuant Finance", "RICE"), Ownable {
     view
     returns (uint256)
     {
-        require(blockNumber < block.number, "IFA::getPriorVotes: not yet determined");
+        require(blockNumber < block.number, "RICE::getPriorVotes: not yet determined");
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -233,7 +233,7 @@ contract IFAToken is ERC20("RiceQuant Finance", "RICE"), Ownable {
     )
     internal
     {
-        uint32 blockNumber = safe32(block.number, "IFA::_writeCheckpoint: block number exceeds 32 bits");
+        uint32 blockNumber = safe32(block.number, "RICE::_writeCheckpoint: block number exceeds 32 bits");
 
         if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;

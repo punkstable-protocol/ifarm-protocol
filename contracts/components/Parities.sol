@@ -23,9 +23,9 @@ contract Parities {
 
     // How many IFA tokens can be bought by 100 iToken.
     function getIFAToiTokenRate(address _itoken) public view returns (uint256) {
-        require(_itoken != address(0), "error iToken address");
+        require(_itoken != address(0), "error rToken address");
         uint256 key = ifaMaster.iTokenKey(_itoken);
-        require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported iToken");
+        require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported rToken");
         if (key == K_MADE_iUSD) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.dai(), _itoken);
             (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.dai(), ifaMaster.ifa());

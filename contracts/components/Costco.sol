@@ -17,7 +17,7 @@ contract Costco is Parities, Ownable {
 
     // Anyone can buy IFA by iToken with 2% discount.
     function buyIFAWithiToken(address _itoken,  uint256 _itokenAmount) public {
-        require(_itoken != address(0), "error iToken address");
+        require(_itoken != address(0), "error rToken address");
         IERC20(_itoken).transferFrom(msg.sender, address(this), _itokenAmount);
         uint256 ifaAmount = _itokenAmount.mul(getIFAToiTokenRate(_itoken)) / 98;
         IERC20(ifaMaster.ifa()).transfer(msg.sender, ifaAmount);
@@ -26,7 +26,7 @@ contract Costco is Parities, Ownable {
     // Dev can withdraw any token other than IFA and ETH.
     // Don't send ETH to this contract!
     function withdrawToken(address _token, uint256 _tokenAmount) public onlyOwner {
-        require(_token != ifaMaster.ifa(), "anything other than IFA");
+        require(_token != ifaMaster.ifa(), "anything other than RICE");
 
         IERC20(_token).transfer(msg.sender, _tokenAmount);
     }

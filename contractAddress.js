@@ -1,7 +1,7 @@
 
 // Contract address
-current_net = 'test'
-// current_net = 'mainnet'
+// current_net = 'test'
+current_net = 'mainnet'
 
 // develop address
 const testNetContract = {

@@ -58,7 +58,6 @@ let tokensAddress = {
 }
 
 let lpTokenAddress = {
-    "rUSD_HUSD": DeployedContract.lpToken.rUSD_HUSD,
     "rUSD_USDT": DeployedContract.lpToken.rUSD_USDT,
     "rBTC_HBTC": DeployedContract.lpToken.rBTC_HBTC,
     "rETH_HETH": DeployedContract.lpToken.rETH_HETH,
@@ -164,7 +163,6 @@ async function mockTokens(accounts) {
     let _wbtc = await mockTokenTool(tokensAddress, 'HBTC', accounts[0]);
     let _weth = await mockTokenTool(tokensAddress, 'HETH', accounts[0]);
     let _usdt = await mockTokenTool(tokensAddress, 'USDT', accounts[0]);
-    let _rUSD_HUSD = await mockTokenTool(lpTokenAddress, 'rUSD_HUSD', accounts[0]);
     let _rUSD_USDT = await mockTokenTool(lpTokenAddress, 'rUSD_USDT', accounts[0]);
     let _rBTC_HBTC = await mockTokenTool(lpTokenAddress, 'rBTC_HBTC', accounts[0]);
     let _rETH_HETH = await mockTokenTool(lpTokenAddress, 'rETH_HETH', accounts[0]);
@@ -175,7 +173,6 @@ async function mockTokens(accounts) {
     tokensAddress.HBTC = _wbtc.address;
     tokensAddress.HETH = _weth.address;
     tokensAddress.USDT = _usdt.address;
-    lpTokenAddress.rUSD_HUSD = _rUSD_HUSD.address;
     lpTokenAddress.rUSD_USDT = _rUSD_USDT.address;
     lpTokenAddress.rBTC_HBTC = _rBTC_HBTC.address;
     lpTokenAddress.rETH_HETH = _rETH_HETH.address;
@@ -279,7 +276,6 @@ async function deployLpTokenPools(deployer, network, accounts) {
         ChateauMargaux
     ];
     let lpToken = [
-        lpTokenAddress.rUSD_HUSD,
         lpTokenAddress.rUSD_USDT,
         lpTokenAddress.rBTC_HBTC,
         lpTokenAddress.rETH_HETH,

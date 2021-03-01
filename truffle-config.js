@@ -17,8 +17,8 @@ module.exports = {
   //
 
   // Modify to the correct migration directory when using
-  migrations_directory: "./migrations/ignore_migrations",
-  // migrations_directory: "./migrations/",
+  // migrations_directory: "./migrations/ignore_migrations",
+  migrations_directory: "./migrations/",
   networks: {
     hecomainnet:{
       provider: hecoChainProvider('mainnet'),

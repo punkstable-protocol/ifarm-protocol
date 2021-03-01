@@ -1,7 +1,7 @@
 
 // Contract address
-// current_net = 'test'
-current_net = 'mainnet'
+current_net = 'test'
+// current_net = 'mainnet'
 
 // develop address
 const testNetContract = {
@@ -23,12 +23,12 @@ const testNetContract = {
         'USDT': '0x04F535663110A392A6504839BEeD34E019FdB4E0'
     },
     'lpToken': {
-        "rUSD_HUSD": '',
-        "rBTC_HBTC": '',
-        "rETH_HETH": '',
-        "RICE_rUSD": '',
-        "RICE_rBTC": '',
-        "RICE_rETH": ''
+        "rUSD_HUSD": '0xEAB31C7dBd11c28E2D777075640a73e5E7d7FdD6',
+        "rBTC_HBTC": '0xb4dE9b60E6Aec01c4CfBBD8E2e7DfE6de2A7B504',
+        "rETH_HETH": '0x1f8E6639b3B77C6aaAe8169F80EAfe2146658F79',
+        "RICE_rUSD": '0xA96fA13F2d1DD264993682967c11e1698481BD77',
+        "RICE_rBTC": '0xbDF76FBdb106158Dc16B786d77684746C2666858',
+        "RICE_rETH": '0xCaC2EEDE0C4A31ABa9707daCBDc2fBff310e4348'
     }
 }
 
@@ -44,7 +44,8 @@ const mainNetContract = {
         'rUSD': "0x4d97D3bf4A0bD87F9DEBb16873BdfE24127C9307",
     },
     'tokens': {
-        'HUSD': '0x0298c2b32eaE4da002a15f36fdf7615BEa3DA047',
+        // HUSD address -> USDT address
+        'HUSD': '0xa71EdC38d189767582C38A3145b5873052c3e47a',
         'HBTC': '0x66a79D23E58475D2738179Ca52cd0b41d73f0BEa',
         'HETH': '0x64FF637fB478863B7468bc97D30a5bF3A428a1fD',
         'WHT': '0x5545153CCFcA01fbd7Dd11C0b23ba694D9509A6F',
@@ -52,15 +53,14 @@ const mainNetContract = {
         'USDT': '0xa71EdC38d189767582C38A3145b5873052c3e47a'
     },
     'lpToken': {
-        "rUSD_HUSD": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
+        // HUSD address -> USDT address
+        // "rUSD_HUSD": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
+        "rUSD_USDT": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
         "rBTC_HBTC": '0x78fab4c35b1c0d073a983a72d00c39f7182a69e1',
         "rETH_HETH": '0x13e4d5f5567a6d4e29fa9b72d554d37e116ca54a',
         'RICE_rUSD':'0x1e06ac5725390e5f7ef4d005a51982d63a0d8b17',
         'RICE_rBTC':'0x15c4e63bb78e824540aaab17a93d11053b28fd27',
         'RICE_rETH':'0x7a41ca9c0c5258def8acf386e768c774008fcc92',
-        // "RICE_HUSD": '0x074594a38f3feaaa0e196f7b315e14c44de5bdd7',
-        // "RICE_HBTC": '0x8a6484b369cb01eacb42315fd0d3e676d608fef5',
-        // "RICE_HETH": '0x426d0e2bca0dbfefa21095530198f1533dcf3e52'
     }
 }
 

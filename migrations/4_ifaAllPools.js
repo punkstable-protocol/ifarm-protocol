@@ -59,6 +59,7 @@ let tokensAddress = {
 
 let lpTokenAddress = {
     "rUSD_HUSD": DeployedContract.lpToken.rUSD_HUSD,
+    "rUSD_USDT": DeployedContract.lpToken.rUSD_USDT,
     "rBTC_HBTC": DeployedContract.lpToken.rBTC_HBTC,
     "rETH_HETH": DeployedContract.lpToken.rETH_HETH,
     "RICE_rUSD": DeployedContract.lpToken.RICE_rUSD,
@@ -164,6 +165,7 @@ async function mockTokens(accounts) {
     let _weth = await mockTokenTool(tokensAddress, 'HETH', accounts[0]);
     let _usdt = await mockTokenTool(tokensAddress, 'USDT', accounts[0]);
     let _rUSD_HUSD = await mockTokenTool(lpTokenAddress, 'rUSD_HUSD', accounts[0]);
+    let _rUSD_USDT = await mockTokenTool(lpTokenAddress, 'rUSD_USDT', accounts[0]);
     let _rBTC_HBTC = await mockTokenTool(lpTokenAddress, 'rBTC_HBTC', accounts[0]);
     let _rETH_HETH = await mockTokenTool(lpTokenAddress, 'rETH_HETH', accounts[0]);
     let _RICE_rUSD = await mockTokenTool(lpTokenAddress, 'RICE_rUSD', accounts[0]);
@@ -174,6 +176,7 @@ async function mockTokens(accounts) {
     tokensAddress.HETH = _weth.address;
     tokensAddress.USDT = _usdt.address;
     lpTokenAddress.rUSD_HUSD = _rUSD_HUSD.address;
+    lpTokenAddress.rUSD_USDT = _rUSD_USDT.address;
     lpTokenAddress.rBTC_HBTC = _rBTC_HBTC.address;
     lpTokenAddress.rETH_HETH = _rETH_HETH.address;
     lpTokenAddress.RICE_rUSD = _RICE_rUSD.address;
@@ -277,6 +280,7 @@ async function deployLpTokenPools(deployer, network, accounts) {
     ];
     let lpToken = [
         lpTokenAddress.rUSD_HUSD,
+        lpTokenAddress.rUSD_USDT,
         lpTokenAddress.rBTC_HBTC,
         lpTokenAddress.rETH_HETH,
         lpTokenAddress.RICE_rUSD,
@@ -288,7 +292,7 @@ async function deployLpTokenPools(deployer, network, accounts) {
     let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
     let allocPoint = 100;
     for (let i = 3; i < vaults.length + 3; i++) {
-        console.log(`lptoken: ${lpToken[i - 3]}`)
+        // console.log(`lptoken: ${lpToken[i - 3]}`)
         let poolId = i;
         let kVault = i
         let vault = vaults[kVault - 3];
@@ -298,11 +302,13 @@ async function deployLpTokenPools(deployer, network, accounts) {
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
-        if(i > 2){
+        if(i > 2 && i <= 5){
             allocPoint = allocPoint * 5
+            console.log(`${poolVaultName[i]} mining speed X 5`)
         }
         else if(i>5){
             allocPoint = allocPoint * 50
+            console.log(`${poolVaultName[i]} mining speed X 50`)
         }
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }

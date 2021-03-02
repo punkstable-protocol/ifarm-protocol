@@ -55,7 +55,7 @@ const mainNetContract = {
     'lpToken': {
         // HUSD address -> USDT address
         // "rUSD_HUSD": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
-        "rUSD_USDT": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
+        "rUSD_USDT": '0x52ea88EaF565EB7842754987291E2feaCeB61b94',
         "rBTC_HBTC": '0x78fab4c35b1c0d073a983a72d00c39f7182a69e1',
         "rETH_HETH": '0x13e4d5f5567a6d4e29fa9b72d554d37e116ca54a',
         'RICE_rUSD':'0x1e06ac5725390e5f7ef4d005a51982d63a0d8b17',

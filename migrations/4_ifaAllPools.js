@@ -2,7 +2,8 @@
 // tools
 const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
 const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
-const { getDeployedContract } = require("../contractAddress")
+const { getDeployedContract } = require("../contractAddress");
+const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 // public
 const MockERC20 = artifacts.require('MockERC20');
@@ -252,7 +253,32 @@ async function deployBorrowPools(deployer, network, accounts) {
         let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA);
         let name = await vaultInstance.name();
         poolVaultContractAddress[poolVaultName[i]] = vaultInstance.address;
-        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, 500, 70, 90, 10000)
+        let BCParams = { rate: 500, minimumLTV: 65, maxmumLTV: 90, minimumSize: web3.utils.toWei('500') };
+        switch (i) {
+            case 0:
+                BCParams.rate = 500;
+                BCParams.minimumLTV = 65;
+                BCParams.maxmumLTV = 90;
+                BCParams.minimumSize = web3.utils.toWei('500');
+                break;
+            case 1:
+                BCParams.rate = 600;
+                BCParams.minimumLTV = 75;
+                BCParams.maxmumLTV = 90;
+                BCParams.minimumSize = web3.utils.toWei('0.05');
+                break;
+            case 2:
+                BCParams.rate = 550;
+                BCParams.minimumLTV = 70;
+                BCParams.maxmumLTV = 90;
+                BCParams.minimumSize = web3.utils.toWei('1');
+                break;
+            default:
+                console.log(`Error: error borrow pool_id = ${i}`)
+                break;
+        }
+        console.log(`${name} pool BasicCalculator Params Object: ${JSON.stringify(BCParams)}`)
+        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, BCParams.rate, BCParams.minimumLTV, BCParams.maxmumLTV, BCParams.minimumSize);
         calculatorsAddress[`${poolVaultName[i]}Calculators`] = basicCalculator.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
@@ -298,11 +324,11 @@ async function deployLpTokenPools(deployer, network, accounts) {
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
-        if(i > 2 && i <= 5){
+        if (i > 2 && i <= 5) {
             allocPoint = allocPoint * 5
             console.log(`${poolVaultName[i]} mining speed X 5`)
         }
-        else if(i>5){
+        else if (i > 5) {
             allocPoint = allocPoint * 50
             console.log(`${poolVaultName[i]} mining speed X 50`)
         }

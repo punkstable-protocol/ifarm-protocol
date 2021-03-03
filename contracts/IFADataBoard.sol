@@ -164,10 +164,11 @@ contract IFADataBoard is Ownable {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
         IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.usd()));
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
+        uint usdDecimals = IERC20IFA(ifaMaster.usd()).decimals();
         if (pair.token0() == _token) {
-            return reserve1 * 2 / pair.totalSupply();
+            return reserve1 * (10 ** usdDecimals) * 2 / pair.totalSupply();
         } else {
-            return reserve0 * 2 / pair.totalSupply();
+            return reserve0 * (10 ** usdDecimals) * 2 / pair.totalSupply();
         }
     }
 

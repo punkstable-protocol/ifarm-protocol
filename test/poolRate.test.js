@@ -1,4 +1,10 @@
-const { expectRevert, time } = require('@openzeppelin/test-helpers');
+const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
+const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
+const IFAPool = artifacts.require("IFAPool")
+const IFAVault = artifacts.require("IFAVault")
+const IFAToken = artifacts.require("IFAToken")
+const MockERC20 = artifacts.require("MockERC20")
+const CreateIFA = artifacts.require("CreateIFA")
 
 const contractAddress = {
     "uniswap": {
@@ -11,56 +17,151 @@ const contractAddress = {
         "rUSD": "0xf88E0663C5E13ce74277d6881523E191B29bbaBA"
     },
     "tokensAddress": {
-        "HUSD": "0x04B62be75C7315aacFB693b06084d96f2B726c56",
-        "HBTC": "0xC19F91C5baF64ed45bc1d3954e091842423aca3E",
-        "HETH": "0x59D88d6F00D7ddc1833030C0B1C52Cc37CD74525",
+        "HUSD": "0xb74841282cA7d81D7Bfb1b129C5929F79f090CCD",
+        "HBTC": "0x1ef1f4989CeFD41d2997731029f7C5367EB0Ae68",
+        "HETH": "0x08356b1F5Fc8B41076f7f1f034799EDa0eE115e4",
         "WHT": "",
-        "RICE": "0x0d8dFA3ba977b54EdC5042316F81Db30B515e65f",
-        "USDT": "0x141B7A7e24f55C1CBAbd679E6212dBC4C51F3c79"
+        "RICE": "0x274AA9E2E9d81B6C871425Aa71251fb5a41e0a1C",
+        "USDT": "0xd036c737F631C82FAcA138b7bBd1e068A0Ae1F2F"
     },
     "lpTokenAddress": {
-        "rUSD_USDT": "0x3360f7363c165387114034e53F60f54f0d5144fa",
-        "rBTC_HBTC": "0x58B657521d1dDEfCEf5808F8679234FFb3294bE0",
-        "rETH_HETH": "0xD040E56F834bd6B05f70bABC13316c45ADE5cDA6",
-        "RICE_rUSD": "0xf45d290AE1017dbf6292A74A36Eb4E06969d77E7",
-        "RICE_rBTC": "0xf051dCD8b9f188cF210D670fa3239aD3489f7057",
-        "RICE_rETH": "0x0CA70eCba6452B1e2aD277df2d56DECaa3A968F1"
+        "rUSD_USDT": "0x51c54C361c66cEd2551695b46260e1a3EFF2F1f5",
+        "rBTC_HBTC": "0x7C9D92a4e1c52dC723A3FB2710405970D3d8a45D",
+        "rETH_HETH": "0xF080C292203D36B823a1633dfF8DC4922EcdE461",
+        "RICE_rUSD": "0x81e33cDEF482Ed0C6578354082f3C121d58F56a3",
+        "RICE_rBTC": "0x72ccFDFD274FCccF22c4Da07Dd3C161D80dFb174",
+        "RICE_rETH": "0x94B7468247b63Ad0d1c8602C89805EF7cEB820d0"
     },
     "public": {
-        "IFAMaster": "0x8b043171Fe28B9dF45cB404B34Ed062a4EA10D62",
-        "IFAPool": "0x00791b02392b57f0B3B1C66DA84A2f3261D0C1c3",
-        "IFABank": "0x7CCac84c8c83c43d89Ac33e42CDF25e0abF0d821",
-        "IFARevenue": "0x416Ea8C94AA1259f8A0B329b43267A13436cD468",
-        "Costco": "0xCbe335C21BD13306Ec8E6c80e44dc178C42Fb9f0",
-        "IFADataBoard": "0x355622db57B32e9e178596D935c8Ae75De45d38E",
-        "CreateIFA": "0x0A28a69CAaeF2C6fa6FbC00B670076b97186f4C1",
-        "ShareRevenue": "0xFa3E964260A888840F870DB38894671Ae0D1bDA1",
-        "Parities": "0xaf9B385945E41a7ec87ac7D1a0760354Ff1474D4"
+        "IFAMaster": "0x51363a457827B1BB758Bc904e4A6a1193E40705B",
+        "IFAPool": "0xDE9BC0928093986A46CdB0eFa423589b2fDe9C47",
+        "IFABank": "0x4f3D95d11309E7116d48667Dc483A6236CC94eF8",
+        "IFARevenue": "0x2Fa092f4e04cd7AD80A1CA3725c3c5b7d48fade1",
+        "Costco": "0x690D6ECB69E439813e29C1d390ad30688976f2c1",
+        "IFADataBoard": "0x49513156B82C2AA1eaC145Bf0012e49EB927B1e6",
+        "CreateIFA": "0x690C3439489d61D045F9798D0504ACE2cC5E2332",
+        "ShareRevenue": "0xB2bE1617F7E761d8Ea18a7a55c8fb1aD0462948F",
+        "Parities": "0xc63149c6086769a44fAd8af0EBB236042848A3dD"
     },
     "poolVaults": {
-        "BirrCastle": "0x18ac16050563a7525e8A76215B453A1AA853e379",
-        "Sunnylands": "0x9B774a6bb89E1bD634b3C4c289071C3fe1318Ebf",
-        "ChateauLafitte": "0xAF23C3FE1C66102Afe29Fe7969B4d9c22675A43E",
-        "AdareManor": "0xBfFBa95565E9AdF0917F5905B5269EbFe2A4B3d0",
-        "VillaDEste": "0x3F37D5A3cF2Aa490Aba8A9E031a40054d7BF71b3",
-        "VillaLant": "0x32F71c8291E72c58951e9eb2872CDB0D596621Fa",
-        "VillaFarnese": "0xfaDa174Bd58Ef5C8845a97F5C77778A04A9545b8",
-        "ChatsworthHouse": "0x191Eb54BFDb461773B6C346c84f557B7953b6b60",
-        "ChateauMargaux": "0xA491D30B02f79d6A6612Ac695784f4bBe6b94086"
+        "BirrCastle": "0x4746041A28a7823c836D4dA60727DC7a90402c26",
+        "Sunnylands": "0xeCd8473935E5Ab8F06858618a18EAEb88c4B47f4",
+        "ChateauLafitte": "0x038Ef7Be6b72e049Ac175f56248C6B7D73aeBF54",
+        "AdareManor": "0xc5CFd47F1Fa1cbfb83f2Cf557A0Fb41acd6518EA",
+        "VillaDEste": "0x8886075A9B4FBBA9eBD76a78566e57eF4148A792",
+        "VillaLant": "0xf495eE0c340C2b80132BA82AF8551077DbD7EEAa",
+        "VillaFarnese": "0x9278A328f8b62933EEC8E120c0c6A6803dd49ec7",
+        "ChatsworthHouse": "0x4C527E7138d417b7800E410375C51B19Ff6C6F63",
+        "ChateauMargaux": "0x66dCBF717cE4cC9ee446C328A546389fE6536c13"
     },
     "calculatorsAddress": {
-        "BirrCastleCalculators": "0xDe22bAA6489c59B29311083e005A9808Acaa7934",
-        "SunnylandsCalculators": "0xB65132DA4BEC5C993442bd4ea9056c5bb1F8a458",
-        "ChateauLafitteCalculators": "0x3086F51dbA5f37b1fcbf3c76b69a1291D997A56b"
+        "BirrCastleCalculators": "0xB856f32652BD848DE148BA1fDbFb0028D3E31Cf5",
+        "SunnylandsCalculators": "0x7bF043e64De8033CC5FD463f72dbE739bc1CB8e7",
+        "ChateauLafitteCalculators": "0xf156169cd3211E768F006f5F8086FB3F764F741e"
     }
+}
+
+function ContractAt(_abi, _address) {
+    return new web3.eth.Contract(_abi, _address)
 }
 
 contract('pool rate test cases', ([alice, bob]) => {
     before(async () => {
+        this.seedTokens = []
+        this.seedTokens.push(ContractAt(iTokenDelegator.abi, contractAddress.tokensAddress.HUSD))
+        this.seedTokens.push(ContractAt(iTokenDelegator.abi, contractAddress.tokensAddress.HBTC))
+        this.seedTokens.push(ContractAt(iTokenDelegator.abi, contractAddress.tokensAddress.HETH))
+        this.seedTokens.push(ContractAt(MockERC20.abi, contractAddress.lpTokenAddress.rUSD_USDT))
+        this.seedTokens.push(ContractAt(MockERC20.abi, contractAddress.lpTokenAddress.rBTC_HBTC))
+        this.seedTokens.push(ContractAt(MockERC20.abi, contractAddress.lpTokenAddress.rETH_HETH))
+        this.seedTokens.push(ContractAt(MockERC20.abi, contractAddress.lpTokenAddress.RICE_rUSD))
+        this.seedTokens.push(ContractAt(MockERC20.abi, contractAddress.lpTokenAddress.RICE_rBTC))
+        this.seedTokens.push(ContractAt(MockERC20.abi, contractAddress.lpTokenAddress.RICE_rETH))
+        for (let i = 0; i < this.seedTokens.length; i++) {
+            this.seedTokens[i].address = this.seedTokens[i].options.address
+        }
 
+        this.poolVaults = [
+            await IFAVault.at(contractAddress.poolVaults.BirrCastle),
+            await IFAVault.at(contractAddress.poolVaults.Sunnylands),
+            await IFAVault.at(contractAddress.poolVaults.ChateauLafitte),
+            await IFAVault.at(contractAddress.poolVaults.AdareManor),
+            await IFAVault.at(contractAddress.poolVaults.VillaDEste),
+            await IFAVault.at(contractAddress.poolVaults.VillaLant),
+            await IFAVault.at(contractAddress.poolVaults.VillaFarnese),
+            await IFAVault.at(contractAddress.poolVaults.ChatsworthHouse),
+            await IFAVault.at(contractAddress.poolVaults.ChateauMargaux),
+        ]
+
+        this.poolProxy = await IFAPool.at(contractAddress.public.IFAPool)
+        this.IFAToken = await IFAToken.at(contractAddress.tokensAddress.RICE)
+        this.CreateIFA = await CreateIFA.at(contractAddress.public.CreateIFA)
     });
 
-    it('', async () => {
+    it('logs', async () => {
+        // print tokens balance
+        for (let i = 0; i < this.seedTokens.length; i++) {
+            let tokenBalance = await this.seedTokens[i].methods.balanceOf(alice).call()
+            console.log(`id: ${i} balance-> ${tokenBalance.toString()}`)
+        }
 
+        // print pool allowance amount
+        for (let i = 0; i < this.seedTokens.length; i++) {
+            let allowance = await this.seedTokens[i].methods.allowance(alice, this.poolVaults[i].address).call()
+            console.log(`id: ${i} allowance-> ${allowance.toString()}`)
+        }
+
+        // print pool allocPoint
+        for (let i = 0; i < this.poolVaults.length; i++) {
+            let totalAllocPoint = await this.CreateIFA.totalAllocPoint()
+            let poolInfo = await this.CreateIFA.poolMap(this.poolVaults[i].address)
+            let allocPoint = poolInfo.allocPoint
+            console.log(`pool id: ${i}, allocPoint:${allocPoint}, totalAllocPoint: ${totalAllocPoint}`)
+        }
+    });
+
+    it.skip('single pool seed', async () => {
+        let poolid = 1
+        await this.seedTokens[poolid].methods.approve(this.poolProxy.address, ether('90000000')).send({ from: alice, gas: 3000000 })
+        await this.poolProxy.deposit(poolid, ether('1'), { from: alice })
+        await this.poolProxy.claim(poolid, { from: alice })
+        let seedAmount = await this.poolVaults[0].balanceOf(alice)
+        await this.poolProxy.withdraw(poolid, seedAmount, { from: alice })
+    });
+
+    it('seed ether', async () => {
+        // all tokens approve 
+        for (let i = 0; i < this.seedTokens.length; i++) {
+            await this.seedTokens[i].methods.approve(this.poolProxy.address, ether('90000000')).send({ from: alice, gas: 3000000 })
+        }
+
+        // await this.poolProxy.deposit(0, ether('1'), { from: alice })
+        for (let i = 0; i < this.poolVaults.length; i++) {
+            let reicReward = 0
+            let reicBalance = await this.IFAToken.balanceOf(alice)
+            await this.poolProxy.deposit(i, ether('1'), { from: alice })
+            await time.advanceBlock()       // block + 1
+            // await this.poolProxy.claim(i, { from: alice })
+            let seedAmount = await this.poolVaults[i].balanceOf(alice)
+            await this.poolProxy.withdraw(i, seedAmount, { from: alice })
+            reicReward = (await this.IFAToken.balanceOf(alice)) - reicBalance
+            console.log(`pool id:${i} reicReward:${reicReward.toString()}`)
+            // console.log(`pool id: ${i}, testing complete`)
+        }
+    });
+
+    it.skip('pendingValuePerShare', async () => {
+        // await this.poolProxy.deposit(0, ether('1'), { from: alice })
+        for (let i = 0; i < this.poolVaults.length; i++) {
+            let startBlock = await time.latestBlock()
+            await this.poolProxy.deposit(i, ether('1'), { from: alice })
+            let seedAmount = await this.poolVaults[i].balanceOf(alice)
+            await time.advanceBlock()       // block + 1
+            let getValuePerShare = await this.CreateIFA.getValuePerShare(this.poolVaults[i].address)
+            await this.poolProxy.withdraw(i, seedAmount, { from: alice })
+            let endBlock = await time.latestBlock()
+            console.log(`pool id:${i} reicReward:${getValuePerShare.toString()}, blockMultiplier:${endBlock - startBlock}`)
+            // console.log(`pool id: ${i}, testing complete`)
+        }
     });
 });

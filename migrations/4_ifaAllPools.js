@@ -131,6 +131,8 @@ const K_CALCULATOR_HUSD = 0;
 const K_CALCULATOR_HBTC = 1;
 const K_CALCULATOR_HETH = 2;
 
+const allocPointBase = 1;
+
 
 // ============ Main Migration ============
 const migration = async (deployer, network, accounts) => {
@@ -288,7 +290,7 @@ async function deployBorrowPools(deployer, network, accounts) {
         await ifaMasterInstance.addCalculator(K_CALCULATOR, basicCalculator.address);
         await ifaBankInstance.setPoolInfo(poolId, itokenAddress[i], vaultInstance.address, basicCalculator.address);
         await ifaPoolInstance.setPoolInfo(poolId, tokenAddress[i], vaultInstance.address, now);
-        await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, tokenAddress[i], 100, false);
+        await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, tokenAddress[i], allocPointBase, false);
     }
     console.log(`deployBorrowPools end`)
 }
@@ -315,7 +317,7 @@ async function deployLpTokenPools(deployer, network, accounts) {
     let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
     let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
-    let allocPoint = 1;
+    let allocPoint = allocPointBase;
     for (let i = 3; i < vaults.length + 3; i++) {
         // console.log(`lptoken: ${lpToken[i - 3]}`)
         let poolId = i;
@@ -328,13 +330,14 @@ async function deployLpTokenPools(deployer, network, accounts) {
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
         if (i > 2 && i <= 5) {
-            allocPoint = allocPoint * 5
+            allocPoint = allocPointBase * 5
             console.log(`${poolVaultName[i]} mining speed X 5`)
         }
         else if (i > 5) {
-            allocPoint = allocPoint * 50
+            allocPoint = allocPointBase * 50
             console.log(`${poolVaultName[i]} mining speed X 50`)
         }
+        console.log(`pool id:${i}, allocPoint:${allocPoint}`)
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }
     console.log(`deployLpTokenPools end`)

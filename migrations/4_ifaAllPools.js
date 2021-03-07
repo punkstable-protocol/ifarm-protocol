@@ -3,7 +3,7 @@
 const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
 const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
 const { getDeployedContract } = require("../contractAddress");
-const { web3 } = require('@openzeppelin/test-helpers/src/setup');
+// const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 // public
 const MockERC20 = artifacts.require('MockERC20');
@@ -180,6 +180,7 @@ async function mockTokens(accounts) {
     lpTokenAddress.RICE_rUSD = _RICE_rUSD.address;
     lpTokenAddress.RICE_rBTC = _RICE_rBTC.address;
     lpTokenAddress.RICE_rETH = _RICE_rETH.address;
+    console.log(`tokens:${JSON.stringify(tokensAddress)}\n`, `lp_tokens:${JSON.stringify(lpTokenAddress)}\n`)
     console.log(`mockTokens end`)
 }
 
@@ -213,9 +214,10 @@ async function deployPublic(deployer, network, accounts) {
     let itokenContract = [
         new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rUSD),
         new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rBTC),
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rETH),
+        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rETH)
     ]
     for (let i = 0; i < itokenContract.length; i++) {
+        console.log(`link itoken: ${i}`)
         await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
     }
     publicContractAddress.IFAMaster = ifaMasterInstance.address;
@@ -228,6 +230,7 @@ async function deployPublic(deployer, network, accounts) {
     publicContractAddress.ShareRevenue = shareRevenueInstance.address;
     publicContractAddress.Parities = ParitiesInstance.address;
     tokensAddress.RICE = ifaInstance.address;
+    console.log(`public Contract address: ${JSON.stringify(publicContractAddress)}\n`)
     console.log(`deployPublic end`)
 }
 
@@ -312,7 +315,7 @@ async function deployLpTokenPools(deployer, network, accounts) {
     let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
     let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
-    let allocPoint = 100;
+    let allocPoint = 1;
     for (let i = 3; i < vaults.length + 3; i++) {
         // console.log(`lptoken: ${lpToken[i - 3]}`)
         let poolId = i;

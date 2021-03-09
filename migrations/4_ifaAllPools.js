@@ -203,10 +203,10 @@ async function deployPublic(deployer, network, accounts) {
     await ifaMasterInstance.setiToken(K_MADE_rUSD, itokensAddress.rUSD);
     await ifaMasterInstance.setiToken(K_MADE_rBTC, itokensAddress.rBTC);
     await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
-    await ifaMasterInstance.setDAI(tokensAddress.HUSD);
-    await ifaMasterInstance.setwBTC(tokensAddress.HBTC);
-    await ifaMasterInstance.setwETH(tokensAddress.HETH);
-    await ifaMasterInstance.setUSD(tokensAddress.USDT);
+    await ifaMasterInstance.setDAI(itokensAddress.rUSD);
+    await ifaMasterInstance.setwBTC(itokensAddress.rBTC);
+    await ifaMasterInstance.setwETH(itokensAddress.rETH);
+    await ifaMasterInstance.setUSD(itokensAddress.rUSD);
     await ifaMasterInstance.setCostco(costcoInstance.address);
     await ifaMasterInstance.setRevenue(ifaRevenueInstance.address);
     await ifaMasterInstance.setBank(ifaBankInstance.address);

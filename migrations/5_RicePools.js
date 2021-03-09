@@ -3,7 +3,6 @@
 const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
 const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
 const { getDeployedContract } = require("../contractAddress");
-// const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 // public
 const MockERC20 = artifacts.require('MockERC20');
@@ -225,10 +224,10 @@ async function deployPublic(deployer, network, accounts) {
     await ifaMasterInstance.setiToken(K_MADE_rUSD, itokensAddress.rUSD);
     await ifaMasterInstance.setiToken(K_MADE_rBTC, itokensAddress.rBTC);
     await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
-    await ifaMasterInstance.setDAI(tokensAddress.HUSD);
-    await ifaMasterInstance.setwBTC(tokensAddress.HBTC);
-    await ifaMasterInstance.setwETH(tokensAddress.HETH);
-    await ifaMasterInstance.setUSD(tokensAddress.USDT);
+    await ifaMasterInstance.setDAI(itokensAddress.rUSD);
+    await ifaMasterInstance.setwBTC(itokensAddress.rBTC);
+    await ifaMasterInstance.setwETH(itokensAddress.rETH);
+    await ifaMasterInstance.setUSD(itokensAddress.rUSD);
     await ifaMasterInstance.setCostco(costcoInstance.address);
     await ifaMasterInstance.setRevenue(ifaRevenueInstance.address);
     await ifaMasterInstance.setBank(ifaBankInstance.address);

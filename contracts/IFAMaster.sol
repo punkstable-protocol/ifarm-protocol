@@ -61,6 +61,10 @@ contract IFAMaster is Ownable {
     address public wETH;
     address public usd;
 
+    address public iUSD;
+    address public iBTC;
+    address public iETH;
+
     address public uniswapV2Factory;
 
     mapping(address => bool) public isVault;
@@ -124,6 +128,24 @@ contract IFAMaster is Ownable {
     function setwETH(address _wETH) external onlyOwner {
         require(wETH == address(0));
         wETH = _wETH;
+    }
+
+    // Immutable once set.
+    function setiUSD(address _iUSD) external onlyOwner {
+        require(iUSD == address(0));
+        iUSD = _iUSD;
+    }
+
+    // Immutable once set.
+    function setiBTC(address _iBTC) external onlyOwner {
+        require(iBTC == address(0));
+        iBTC = _iBTC;
+    }
+
+    // Immutable once set.
+    function setiETH(address _iETH) external onlyOwner {
+        require(iETH == address(0));
+        iETH = _iETH;
     }
 
     // Mutable in case we want to update USD Coins. but we will set USDT firstly and hopefully Tether is reliable.

@@ -28,17 +28,17 @@ contract Parities {
         require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported rToken");
         if (key == K_MADE_iUSD) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.dai(), _itoken);
-            (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.dai(), ifaMaster.ifa());
+            (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.iUSD(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
         }
         if (key == K_MADE_iBTC) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.wBTC(), _itoken);
-            (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.wBTC(), ifaMaster.ifa());
+            (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.iBTC(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
         }
         if (key == K_MADE_iETH) {
             (uint256 r0, uint256 r1) = getReserveRatio(ifaMaster.wETH(), _itoken);
-            (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.wETH(), ifaMaster.ifa());
+            (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.iETH(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
         }
         return 0;

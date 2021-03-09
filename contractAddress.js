@@ -12,7 +12,7 @@ const ChainName = {
 }
 
 current_net = ChainNet.MainNet
-current_chain = ChainName.BNB
+current_chain = ChainName.LOCAL
 
 
 // local chain develop address

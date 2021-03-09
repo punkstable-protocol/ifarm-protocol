@@ -5,12 +5,12 @@ function toWei(bigNumber) {
 }
 
 contract('IFADataBoard', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
-    const Decimals = 10**18
-    const ifaDataBoardContract = '0x313273f448c94721ABaBcc533d67Cd187d98d7c4'
+    const Decimals = 10 ** 18
+    const ifaDataBoardContract = '0x7dAE450767E677E49Cfdab15224B933f15F7c9e0'
     const rUSDToken = '0x4d97D3bf4A0bD87F9DEBb16873BdfE24127C9307'
     const rBTCToken = '0x7d1E2717322a9155242A1853a28A0148a10Efb61'
     const HUSDToken = '0x0298c2b32eaE4da002a15f36fdf7615BEa3DA047'
-    const USDTToken = '0xa71EdC38d189767582C38A3145b5873052c3e47a'
+    const USDTToken = '0x55d398326f99059fF775485246999027B3197955'
 
     beforeEach(async () => {
         this.ifaDataBoard = new web3.eth.Contract(IFADataBoard.abi, ifaDataBoardContract)
@@ -34,7 +34,7 @@ contract('IFADataBoard', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk,
             ETHPrice = ETHPrice / Decimals
             console.log(ETHPrice.toString())
         });
-        it('get 1 husd price usdt', async ()=>{
+        it('get 1 husd price usdt', async () => {
             let HUSDPrice = await this.ifaDataBoard.methods.getTokenPrice(HUSDToken).call()
             HUSDPrice = HUSDPrice / Decimals
             console.log(HUSDPrice.toString())
@@ -42,9 +42,9 @@ contract('IFADataBoard', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk,
     });
 
     context('get APY', async () => {
-        it('0 pool APY',async ()=>{
-            let apy = await this.ifaDataBoard.methods.getAPY(0,HUSDToken,false).call()
-            console.log(`apy:${apy.toString()}`)
+        it.only('0 pool APY', async () => {
+            let apy = await this.ifaDataBoard.methods.getAPY(0, HUSDToken, 0, 0).call()
+            console.log(`seed token:${USDTToken}, apy:${apy.toString()}`)
         });
     });
 

@@ -1,4 +1,4 @@
-const { expectRevert, time } = require('@openzeppelin/test-helpers');
+const { expectRevert, time, constants, ether } = require('@openzeppelin/test-helpers');
 const { inTransaction } = require('@openzeppelin/test-helpers/src/expectEvent');
 const { assertion } = require('@openzeppelin/test-helpers/src/expectRevert');
 const CreateIFA = artifacts.require('CreateIFA');
@@ -9,6 +9,7 @@ const IFAMaster = artifacts.require('IFAMaster');
 const IFADataBoard = artifacts.require('IFADataBoard');
 const MockERC20 = artifacts.require('MockERC20');
 const BirrCastle = artifacts.require('BirrCastle');
+const IFAVault = artifacts.require("IFAVault");
 const BN = web3.utils.BN;
 
 function toWei(bigNumber) {
@@ -106,7 +107,7 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
         });
 
         it.skip('Single user mul seed', async () => {
-            
+
         });
 
         it('Multiple users', async () => {
@@ -274,3 +275,48 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
     });
 
 });
+
+contract('pool Over-limit mining', ([alice, bob, breeze]) => {
+    before(async () => {
+        this.usdt = await MockERC20.at("0x73DF1b8c7fdb09B1924e2e83945613d7AAd05f2C")
+        this.rice = await IFAToken.at("0x7EE0ad7205e14504737401AdD17B17D71719a2a1")
+        this.ifaPool = await IFAPool.at("0x062fDE77DA88B3469a9DC1b4BA82fe1b1BcAcf9D")
+        this.birrCastleVault = await IFAVault.at("0x414FC6bEb4d77D7B9E4819b396f5C0E6Af4b3692")
+        this.createIFA = await CreateIFA.at("0xd41Df588a967708C158F5084ef6E3004279eB708")
+    })
+
+    it.only('seed usdt chaim rusd', async () => {
+        let endBlock = await this.createIFA.endBlock()
+        let startBlock = await this.createIFA.startBlock()
+        console.log(startBlock.toString())
+        console.log(endBlock.toString())
+
+        await this.usdt.approve(this.ifaPool.address, constants.MAX_UINT256)
+        let riceBalance = await this.rice.balanceOf(alice)
+        let blockNum = await time.latestBlock().then((result) => { console.log(`1 deposit before block:${result}`); return result })
+        await this.ifaPool.deposit(0, ether('1'))
+        let seedAmount = await this.birrCastleVault.balanceOf(alice)
+        await this.ifaPool.withdraw(0, seedAmount)
+        console.log(`Reward:${(await this.rice.balanceOf(alice)) - riceBalance}`)
+        console.log(`====================================\n`)
+
+        await time.latestBlock().then((result) => { console.log(`2 deposit before block:${result}`) })
+        riceBalance = await this.rice.balanceOf(alice)
+        await this.ifaPool.deposit(0, ether('1'))
+        seedAmount = await this.birrCastleVault.balanceOf(alice)
+
+
+        await time.advanceBlockTo(`${blockNum.toNumber() + 200}`)
+
+        await this.ifaPool.withdraw(0, seedAmount)
+        console.log(`Reward:${(await this.rice.balanceOf(alice)) - riceBalance}`)
+        console.log(`====================================\n`)
+
+        riceBalance = await this.rice.balanceOf(alice)
+        await time.latestBlock().then((result) => { console.log(`3 deposit before block:${result}`) })
+        await this.ifaPool.deposit(0, ether('1'))
+        seedAmount = await this.birrCastleVault.balanceOf(alice)
+        await this.ifaPool.withdraw(0, seedAmount)
+        console.log(`Reward:${(await this.rice.balanceOf(alice)) - riceBalance}`)
+    })
+})

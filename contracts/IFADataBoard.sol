@@ -10,6 +10,7 @@ import "./components/IFAPool.sol";
 import "./components/IFABank.sol";
 import "./strategies/CreateIFA.sol";
 
+
 interface IERC20IFA {
     event Approval(address indexed owner, address indexed spender, uint value);
     event Transfer(address indexed from, address indexed to, uint value);
@@ -36,6 +37,9 @@ interface IERC20IFA {
 // Query data related to ifa.
 // This contract is owned by Timelock.
 contract IFADataBoard is Ownable {
+    uint256 constant K_MADE_iUSD = 0;
+    uint256 constant K_MADE_iBTC = 1;
+    uint256 constant K_MADE_iETH = 2;
 
     IFAMaster public ifaMaster;
 
@@ -224,34 +228,86 @@ contract IFADataBoard is Ownable {
         }
     }
 
-    // Return the 6 digit price of ifa on uniswap.
+    // Return the 6 digit price of eth on uniswap.
     function getIFAPrice() public view returns (uint256) {
-        return getTokenPrice(ifaMaster.ifa());
+        IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
+        IUniswapV2Pair ifaiUSDPair = IUniswapV2Pair(factory.getPair(ifaMaster.ifa(), ifaMaster.iUSD()));
+        require(address(ifaiUSDPair) != address(0), "RICE-rUSD Pair need set by a specified owner");
+        (uint reserve0, uint reserve1,) = ifaiUSDPair.getReserves();
+        uint iusdDecimals = IERC20IFA(ifaMaster.iUSD()).decimals();
+
+        if (ifaiUSDPair.token0() == ifaMaster.iUSD()) {
+            return reserve1 * (10 ** iusdDecimals) / reserve0;
+        } else {
+            return reserve0 * (10 ** iusdDecimals) / reserve1;
+        }
     }
 
-    // Return the 6 digit price of any token on uniswap.
-    function getTokenPrice(address _token) public view returns (uint256) {
-        if (_token == ifaMaster.wETH()) {
-            return getEthPrice();
-        }
-
+    // Return the 6 digit price of eth on uniswap.
+    function getiUsdPrice() public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair tokenETHPair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
-        require(address(tokenETHPair) != address(0), "tokenETHPair need set by owner");
-        (uint reserve0, uint reserve1,) = tokenETHPair.getReserves();
-        uint reserve0decimals = IERC20IFA(tokenETHPair.token0()).decimals();
-        uint reserve1decimals = IERC20IFA(tokenETHPair.token1()).decimals();
-        if (reserve0 == 0 || reserve1 == 0) {
-            return 0;
-        }
+        IUniswapV2Pair iusdDAIPair = IUniswapV2Pair(factory.getPair(ifaMaster.iUSD(), ifaMaster.dai()));
+        require(address(iusdDAIPair) != address(0), "rUSD-USDT Pair need set by a specified owner");
+        (uint reserve0, uint reserve1,) = iusdDAIPair.getReserves();
+        uint daiDecimals = IERC20IFA(ifaMaster.dai()).decimals();
 
-        // For 18 digits tokens, we will return 6 digits price.
-        if (tokenETHPair.token0() == _token) {
-            uint decimals = reserve1decimals - reserve0decimals;
-            return getEthPrice() * reserve1 / reserve0 / (10 ** decimals);
+        if (iusdDAIPair.token0() == ifaMaster.iUSD()) {
+            return reserve1 * (10 ** daiDecimals) / reserve0;
         } else {
-            uint decimals = reserve0decimals - reserve1decimals;
-            return getEthPrice() * reserve0 / reserve1 / (10 ** decimals);
+            return reserve0 * (10 ** daiDecimals) / reserve1;
         }
+    }
+
+    // Return the 6 digit price of eth on uniswap.
+    function getiBtcPrice() public view returns (uint256) {
+        IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
+        IUniswapV2Pair ibtcWBTCPair = IUniswapV2Pair(factory.getPair(ifaMaster.iBTC(), ifaMaster.wBTC()));
+        require(address(ibtcWBTCPair) != address(0), "rBTC-WBTC Pair need set by a specified owner");
+        (uint reserve0, uint reserve1,) = ibtcWBTCPair.getReserves();
+        uint wBTCDecimals = IERC20IFA(ifaMaster.wBTC()).decimals();
+
+        if (ibtcWBTCPair.token0() == ifaMaster.iBTC()) {
+            return reserve1 * (10 ** wBTCDecimals) / reserve0;
+        } else {
+            return reserve0 * (10 ** wBTCDecimals) / reserve1;
+        }
+    }
+
+    // Return the 6 digit price of eth on uniswap.
+    function getiEthPrice() public view returns (uint256) {
+        IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
+        IUniswapV2Pair iethWETHPair = IUniswapV2Pair(factory.getPair(ifaMaster.iETH(), ifaMaster.wETH()));
+        require(address(iethWETHPair) != address(0), "rETH-WETH Pair need set by a specified owner");
+        (uint reserve0, uint reserve1,) = iethWETHPair.getReserves();
+        uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
+
+        if (iethWETHPair.token0() == ifaMaster.iETH()) {
+            return reserve1 * (10 ** wETHDecimals) / reserve0;
+        } else {
+            return reserve0 * (10 ** wETHDecimals) / reserve1;
+        }
+    }
+
+
+    //
+    //K_MADE_iUSD = 0;
+    //K_MADE_iBTC = 1;
+    //K_MADE_iETH = 2;
+
+    // Return the 6 digit price of ifa on uniswap.
+    function getTokenPrice(address _itoken) public view returns (uint256) {
+        uint256 key = ifaMaster.iTokenKey(_itoken);
+        require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported rToken");
+        if (key == K_MADE_iUSD) {
+            return getiUsdPrice();
+        }
+        if (key == K_MADE_iBTC) {
+            return getiBtcPrice();
+        }
+        if (key == K_MADE_iETH) {
+            return getiEthPrice();
+        }
+        return 0;
     }
 }
+

@@ -5,7 +5,19 @@ if (result.error) {
 }
 
 const hecoChainProvider = (network) => {
-  return new HDWalletProvider(process.env.MNEMONIC || '', `https://http-${network}.hecochain.com`)
+  let rpcs = {
+    'mainnet': 'https://http-mainnet.hecochain.com',
+    'testnet': 'https://http-testnet.hecochain.com'
+  }
+  return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpcs[network])
+};
+
+const bnbChainProvider = (network) => {
+  let rpcs = {
+    'mainnet': 'https://bsc-dataseed.binance.org',
+    'testnet': 'https://data-seed-prebsc-1-s1.binance.org:8545'
+  }
+  return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpcs[network])
 };
 
 module.exports = {
@@ -17,8 +29,8 @@ module.exports = {
   //
 
   // Modify to the correct migration directory when using
-  migrations_directory: "./migrations/ignore_migrations",
-  // migrations_directory: "./migrations/",
+  // migrations_directory: "./migrations/ignore_migrations",
+  migrations_directory: "./migrations/",
   networks: {
     hecomainnet:{
       provider: hecoChainProvider('mainnet'),
@@ -41,6 +53,18 @@ module.exports = {
     hecotestnet:{
       provider: hecoChainProvider('testnet'),
       network_id: "256",  // match any network
+      gas: 6721975,
+      networkCheckTimeout: 60000,
+    },
+    bnbtestnet: {
+      provider: bnbChainProvider('testnet'),
+      network_id: "97",  // match any network
+      gas: 6721975,
+      networkCheckTimeout: 60000,
+    },
+    bnbmainnet: {
+      provider: bnbChainProvider('mainnet'),
+      network_id: "56",  // match any network
       gas: 6721975,
       networkCheckTimeout: 60000,
     }

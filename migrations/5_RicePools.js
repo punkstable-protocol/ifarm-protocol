@@ -3,7 +3,6 @@
 const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
 const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
 const { getDeployedContract } = require("../contractAddress");
-// const { web3 } = require('@openzeppelin/test-helpers/src/setup');
 
 // public
 const MockERC20 = artifacts.require('MockERC20');
@@ -151,9 +150,11 @@ module.exports = migration;
 async function mockTokenTool(_tokenJson, _tokenName, _account) {
     let totalSupply = ether('900000000');
     if (_tokenJson.hasOwnProperty(_tokenName) && _tokenJson[_tokenName].length == 0) {
-        return await MockERC20.new(`Fake Wrapped ${_tokenName}`, `${_tokenName}`, totalSupply, { from: _account });
+        return await MockERC20.new(`Fake Wrapped ${_tokenName}`, `${_tokenName}`, totalSupply, { from: _account })
+            .then((result) => { console.log(`${_tokenName}:`, result.address); return result; });
     }
-    return await MockERC20.at(_tokenJson[_tokenName]);
+    return await MockERC20.at(_tokenJson[_tokenName])
+        .then((result) => { console.log(`${_tokenName}:`, result.address); return result; });
 }
 
 
@@ -182,31 +183,54 @@ async function mockTokens(accounts) {
     lpTokenAddress.RICE_rUSD = _RICE_rUSD.address;
     lpTokenAddress.RICE_rBTC = _RICE_rBTC.address;
     lpTokenAddress.RICE_rETH = _RICE_rETH.address;
-    console.log(`tokens:${JSON.stringify(tokensAddress)}\n`, `lp_tokens:${JSON.stringify(lpTokenAddress)}\n`)
-    console.log(`mockTokens end`)
+    console.log(`mockTokens end\n`)
 }
 
 async function deployPublic(deployer, network, accounts) {
     console.log(`deployPublic deployering...`)
-    let ifaMasterInstance = await IFAMaster.new();
-    let ifaPoolInstance = await IFAPool.new();
-    let ParitiesInstance = await Parities.new(ifaMasterInstance.address);
-    let ifaInstance = tokensAddress.RICE.length == 0 ? await IFAToken.new() : await IFAToken.at(tokensAddress.RICE);
+
+    let ifaMasterInstance = await IFAMaster.new()
+        .then((result) => { console.log('IFAMaster:', result.address); return result; });
+    let ifaPoolInstance = await IFAPool.new()
+        .then((result) => { console.log('IFAPool:', result.address); return result; });
+    let ParitiesInstance = await Parities.new(ifaMasterInstance.address)
+        .then((result) => { console.log('Parities:', result.address); return result; });
+
+    let ifaInstance = null;
+    if (tokensAddress.RICE.length == 0) {
+        ifaInstance = await IFAToken.new()
+            .then((result) => { console.log('IFAToken:', result.address); return result; });
+    } else {
+        ifaInstance = await IFAToken.at(tokensAddress.RICE)
+            .then((result) => { console.log('IFAToken:', result.address); return result; });
+    }
+
     await ifaMasterInstance.setIFA(ifaInstance.address);
     await ifaMasterInstance.setPool(ifaPoolInstance.address);
-    let costcoInstance = await Costco.new(ifaMasterInstance.address);
-    let ifaDataBoardInstance = await IFADataBoard.new(ifaMasterInstance.address);
-    let ifaRevenueInstance = await IFARevenue.new(ifaMasterInstance.address);
-    let createIFAInstance = await CreateIFA.new(ifaMasterInstance.address);
-    let ifaBankInstance = await IFABank.new(ifaMasterInstance.address);
-    let shareRevenueInstance = await ShareRevenue.new(ifaMasterInstance.address);
+
+    let costcoInstance = await Costco.new(ifaMasterInstance.address)
+        .then((result) => { console.log('Costco:', result.address); return result; });
+    let ifaDataBoardInstance = await IFADataBoard.new(ifaMasterInstance.address)
+        .then((result) => { console.log('IFADataBoard:', result.address); return result; });
+    let ifaRevenueInstance = await IFARevenue.new(ifaMasterInstance.address)
+        .then((result) => { console.log('IFARevenue:', result.address); return result; });
+    let createIFAInstance = await CreateIFA.new(ifaMasterInstance.address)
+        .then((result) => { console.log('CreateIFA:', result.address); return result; });
+    let ifaBankInstance = await IFABank.new(ifaMasterInstance.address)
+        .then((result) => { console.log('IFABank:', result.address); return result; });
+    let shareRevenueInstance = await ShareRevenue.new(ifaMasterInstance.address)
+        .then((result) => { console.log('ShareReenue:', result.address); return result; });
+
     await ifaMasterInstance.setiToken(K_MADE_rUSD, itokensAddress.rUSD);
     await ifaMasterInstance.setiToken(K_MADE_rBTC, itokensAddress.rBTC);
     await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
-    await ifaMasterInstance.setDAI(itokensAddress.rUSD);
-    await ifaMasterInstance.setwBTC(itokensAddress.rBTC);
-    await ifaMasterInstance.setwETH(itokensAddress.rETH);
-    await ifaMasterInstance.setUSD(itokensAddress.rUSD);
+    await ifaMasterInstance.setDAI(tokensAddress.HUSD);
+    await ifaMasterInstance.setwBTC(tokensAddress.HBTC);
+    await ifaMasterInstance.setwETH(tokensAddress.HETH);
+    await ifaMasterInstance.setUSD(tokensAddress.USDT);
+    await ifaMasterInstance.setiUSD(itokensAddress.rUSD);
+    await ifaMasterInstance.setiBTC(itokensAddress.rBTC);
+    await ifaMasterInstance.setiETH(itokensAddress.rETH);
     await ifaMasterInstance.setCostco(costcoInstance.address);
     await ifaMasterInstance.setRevenue(ifaRevenueInstance.address);
     await ifaMasterInstance.setBank(ifaBankInstance.address);
@@ -219,7 +243,6 @@ async function deployPublic(deployer, network, accounts) {
         new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rETH)
     ]
     for (let i = 0; i < itokenContract.length; i++) {
-        console.log(`link itoken: ${i}`)
         await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
     }
     publicContractAddress.IFAMaster = ifaMasterInstance.address;
@@ -232,8 +255,7 @@ async function deployPublic(deployer, network, accounts) {
     publicContractAddress.ShareRevenue = shareRevenueInstance.address;
     publicContractAddress.Parities = ParitiesInstance.address;
     tokensAddress.RICE = ifaInstance.address;
-    console.log(`public Contract address: ${JSON.stringify(publicContractAddress)}\n`)
-    console.log(`deployPublic end`)
+    console.log(`deployPublic end\n`)
 }
 
 
@@ -255,8 +277,9 @@ async function deployBorrowPools(deployer, network, accounts) {
         let kVault = i
         let vault = vaults[kVault];
         let now = Math.floor((new Date()).getTime() / 1000 - 3600);
-        let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA);
-        let name = await vaultInstance.name();
+        let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA)
+            .then((result) => { console.log(`${poolVaultName[i]}:`, result.address); return result; });
+        let name = poolVaultName[i];
         poolVaultContractAddress[poolVaultName[i]] = vaultInstance.address;
         let BCParams = { rate: 500, minimumLTV: 65, maxmumLTV: 90, minimumSize: web3.utils.toWei('500') };
         switch (i) {
@@ -279,12 +302,12 @@ async function deployBorrowPools(deployer, network, accounts) {
                 BCParams.minimumSize = web3.utils.toWei('1');
                 break;
             default:
-                console.log(`Error: error borrow pool_id = ${i}`)
+                console.log(`Error: borrow pool_id = ${i}`)
                 break;
         }
-        console.log(`${name} pool BasicCalculator Params Object: ${JSON.stringify(BCParams)}`)
-        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, BCParams.rate, BCParams.minimumLTV, BCParams.maxmumLTV, BCParams.minimumSize);
-        calculatorsAddress[`${poolVaultName[i]}Calculators`] = basicCalculator.address;
+        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, BCParams.rate, BCParams.minimumLTV, BCParams.maxmumLTV, BCParams.minimumSize)
+            .then((result) => { console.log(`${name}Calculators:`, result.address); return result; });
+        calculatorsAddress[`${name}Calculators`] = basicCalculator.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaMasterInstance.addCalculator(K_CALCULATOR, basicCalculator.address);
@@ -292,7 +315,7 @@ async function deployBorrowPools(deployer, network, accounts) {
         await ifaPoolInstance.setPoolInfo(poolId, tokenAddress[i], vaultInstance.address, now);
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, tokenAddress[i], allocPointBase, false);
     }
-    console.log(`deployBorrowPools end`)
+    console.log(`deployBorrowPools end\n`)
 }
 
 // depoly lp token pools total:6
@@ -324,21 +347,19 @@ async function deployLpTokenPools(deployer, network, accounts) {
         let kVault = i
         let vault = vaults[kVault - 3];
         let now = Math.floor((new Date()).getTime() / 1000 - 3600);
-        let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA, publicContractAddress.ShareRevenue);
+        let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA, publicContractAddress.ShareRevenue)
+            .then((result) => { console.log(`${poolVaultName[i]}:`, result.address); return result; });
         poolVaultContractAddress[poolVaultName[i]] = vaultInstance.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
         if (i > 2 && i <= 5) {
             allocPoint = allocPointBase * 5
-            console.log(`${poolVaultName[i]} mining speed X 5`)
         }
         else if (i > 5) {
             allocPoint = allocPointBase * 50
-            console.log(`${poolVaultName[i]} mining speed X 50`)
         }
-        console.log(`pool id:${i}, allocPoint:${allocPoint}`)
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }
-    console.log(`deployLpTokenPools end`)
+    console.log(`deployLpTokenPools end\n`)
 }

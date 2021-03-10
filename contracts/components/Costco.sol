@@ -11,15 +11,21 @@ import "./Parities.sol";
 // dev can withdraw any token other than IFA from it.
 contract Costco is Parities, Ownable {
     using SafeMath for uint256;
+    uint256 public discount;
 
     constructor(IFAMaster _ifaMaster) Parities(_ifaMaster) public {
+        discount = 98;
     }
 
-    // Anyone can buy IFA by iToken with 2% discount.
-    function buyIFAWithiToken(address _itoken,  uint256 _itokenAmount) public {
+    function setDiscount(uint256 _discount) external onlyOwner {
+        require(_discount > 0 && _discount < 100, "error discount");
+        discount = _discount;
+    }
+    // Anyone can buy IFA by iToken with [discount]% discount.
+    function buyIFAWithiToken(address _itoken, uint256 _itokenAmount) public {
         require(_itoken != address(0), "error rToken address");
         IERC20(_itoken).transferFrom(msg.sender, address(this), _itokenAmount);
-        uint256 ifaAmount = _itokenAmount.mul(getIFAToiTokenRate(_itoken)) / 98;
+        uint256 ifaAmount = _itokenAmount.mul(getIFAToiTokenRate(_itoken)) / discount;
         IERC20(ifaMaster.ifa()).transfer(msg.sender, ifaAmount);
     }
 

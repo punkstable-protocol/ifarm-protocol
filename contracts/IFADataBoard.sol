@@ -296,13 +296,13 @@ contract IFADataBoard is Ownable {
 
     // Return the 6 digit price of ifa on uniswap.
     function getTokenPrice(address _token) public view returns (uint256) {
-        if (_token == ifaMaster.iUSD) {
+        if (_token == ifaMaster.iUSD()) {
             return getiUsdPrice();
         }
-        if (_token == ifaMaster.iBTC) {
+        if (_token == ifaMaster.iBTC()) {
             return getiBtcPrice();
         }
-        if (_token == ifaMaster.iETH) {
+        if (_token == ifaMaster.iETH()) {
             return getiEthPrice();
         }
         if(_token == ifaMaster.wETH()){

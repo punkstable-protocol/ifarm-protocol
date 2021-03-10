@@ -144,7 +144,7 @@ contract IFADataBoard is Ownable {
 
     function getEthLpPrice(address _token) public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
+        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.iETH()));
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
         if (pair.token0() == _token) {
             return reserve1 * getEthPrice() * 2 / pair.totalSupply();
@@ -155,7 +155,7 @@ contract IFADataBoard is Ownable {
 
     function getBtcLpPrice(address _token) public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wBTC()));
+        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.iBTC()));
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
         if (pair.token0() == _token) {
             return reserve1 * getBtcPrice() * 2 / pair.totalSupply();
@@ -166,7 +166,7 @@ contract IFADataBoard is Ownable {
 
     function getUsdtLpPrice(address _token) public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.usd()));
+        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.iUSD()));
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
         uint usdDecimals = IERC20IFA(ifaMaster.usd()).decimals();
         if (pair.token0() == _token) {
@@ -267,9 +267,9 @@ contract IFADataBoard is Ownable {
         uint wBTCDecimals = IERC20IFA(ifaMaster.wBTC()).decimals();
 
         if (ibtcWBTCPair.token0() == ifaMaster.iBTC()) {
-            return reserve1 * (10 ** wBTCDecimals) / reserve0;
+            return getBtcPrice() * reserve1 / reserve0;
         } else {
-            return reserve0 * (10 ** wBTCDecimals) / reserve1;
+            return getBtcPrice() * reserve0 / reserve1;
         }
     }
 
@@ -282,9 +282,9 @@ contract IFADataBoard is Ownable {
         uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
 
         if (iethWETHPair.token0() == ifaMaster.iETH()) {
-            return reserve1 * (10 ** wETHDecimals) / reserve0;
+            return getEthPrice() * reserve1 / reserve0;
         } else {
-            return reserve0 * (10 ** wETHDecimals) / reserve1;
+            return getEthPrice() * reserve0 / reserve1;
         }
     }
 
@@ -295,17 +295,29 @@ contract IFADataBoard is Ownable {
     //K_MADE_iETH = 2;
 
     // Return the 6 digit price of ifa on uniswap.
-    function getTokenPrice(address _itoken) public view returns (uint256) {
-        uint256 key = ifaMaster.iTokenKey(_itoken);
-        require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported rToken");
-        if (key == K_MADE_iUSD) {
+    function getTokenPrice(address _token) public view returns (uint256) {
+        if (_token == ifaMaster.iUSD) {
             return getiUsdPrice();
         }
-        if (key == K_MADE_iBTC) {
+        if (_token == ifaMaster.iBTC) {
             return getiBtcPrice();
         }
-        if (key == K_MADE_iETH) {
+        if (_token == ifaMaster.iETH) {
             return getiEthPrice();
+        }
+        if(_token == ifaMaster.wETH()){
+            return getEthPrice();
+        }
+        IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
+        IUniswapV2Pair tokenWETHPair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
+        require(address(tokenWETHPair) != address(0), "token-WETH Pair need set by a specified owner");
+        (uint reserve0, uint reserve1,) = tokenWETHPair.getReserves();
+        uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
+
+        if (tokenWETHPair.token0() == _token) {
+            return getEthPrice() * reserve1 / reserve0;
+        } else {
+            return getEthPrice() * reserve0 / reserve1;
         }
         return 0;
     }

@@ -3,6 +3,7 @@
 const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
 const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
 const { getDeployedContract } = require("../contractAddress");
+const { contracts } = require("../export/contractModel.json")
 
 // public
 const MockERC20 = artifacts.require('MockERC20');
@@ -142,6 +143,11 @@ const migration = async (deployer, network, accounts) => {
         await deployLpTokenPools(deployer, network, accounts),
     ]);
     console.log(JSON.stringify(addressItem));
+    console.log('\n')
+    let formatAddress = {
+        "contracts": contracts
+    }
+    console.log(JSON.stringify(formatAddress));
 };
 
 module.exports = migration;
@@ -362,4 +368,48 @@ async function deployLpTokenPools(deployer, network, accounts) {
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }
     console.log(`deployLpTokenPools end\n`)
+
+    // export address
+    contracts.uniswapV2Factory = uniswapsAddress.factory;
+    contracts.uniswapV2Router = uniswapsAddress.router;
+    contracts.rUSD = itokensAddress.rUSD
+    contracts.rBTC = itokensAddress.rBTC
+    contracts.rETH = itokensAddress.rETH
+
+    contracts.USDT = addressItem.tokensAddress.HUSD
+    contracts.HBTC = addressItem.tokensAddress.HBTC
+    contracts.ETH = addressItem.tokensAddress.HETH
+    contracts.RICE = addressItem.tokensAddress.RICE
+    contracts.USD = addressItem.tokensAddress.USDT
+
+    contracts.iUSD_DAI = addressItem.lpTokenAddress.rUSD_USDT
+    contracts.iBTC_wBTC = addressItem.lpTokenAddress.rBTC_HBTC
+    contracts.iETH_ETH = addressItem.lpTokenAddress.rETH_HETH
+    contracts.IFA_DAI = addressItem.lpTokenAddress.RICE_rUSD
+    contracts.IFA_wBTC = addressItem.lpTokenAddress.RICE_rBTC
+    contracts.IFA_ETH = addressItem.lpTokenAddress.RICE_rETH
+
+    contracts.IFAMaster = addressItem.public.IFAMaster
+    contracts.IFAPool = addressItem.public.IFAPool
+    contracts.IFABank = addressItem.public.IFABank
+    contracts.IFARevenue = addressItem.public.IFARevenue
+    contracts.Costco = addressItem.public.Costco
+    contracts.IFADataBoard = addressItem.public.IFADataBoard
+    contracts.CreateIFA = addressItem.public.CreateIFA
+    contracts.ShareRevenue = addressItem.public.ShareRevenue
+
+    contracts.BirrCastle = addressItem.poolVaults.BirrCastle
+    contracts.Sunnylands = addressItem.poolVaults.Sunnylands
+    contracts.ChateauLafitte = addressItem.poolVaults.ChateauLafitte
+    contracts.AdareManor = addressItem.poolVaults.AdareManor
+    contracts.VillaDEste = addressItem.poolVaults.VillaDEste
+    contracts.VillaLant = addressItem.poolVaults.VillaLant
+    contracts.VillaFarnese = addressItem.poolVaults.VillaFarnese
+    contracts.ChatsworthHouse = addressItem.poolVaults.ChatsworthHouse
+    contracts.ChateauMargaux = addressItem.poolVaults.ChateauMargaux
+
+    contracts.BirrCastleCalculators = addressItem.calculatorsAddress.BirrCastleCalculators
+    contracts.SunnylandsCalculators = addressItem.calculatorsAddress.SunnylandsCalculators
+    contracts.ChateauLafitteCalculators = addressItem.calculatorsAddress.ChateauLafitteCalculators
+
 }

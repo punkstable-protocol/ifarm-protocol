@@ -12,7 +12,7 @@ const ChainName = {
 }
 
 current_net = ChainNet.MainNet
-current_chain = ChainName.HECO
+current_chain = ChainName.LOCAL
 
 
 // local chain develop address
@@ -81,9 +81,9 @@ const hecoMainNetContract = {
         'router': "0xED7d5F38C79115ca12fe6C0041abb22F0A06C300",
     },
     'itokens': {
-        'rETH': "0x92cC6eedc75EF1041491943BE30a0D6503151628",
-        'rBTC': "0x06F9e1457904424A9561F7F570D5f727FCB44Ce0",
-        'rUSD': "0x607281f5a2173B63fAd64995Da4BC8718424a275",
+        'rETH': "0x34bc744cD1eF3f28d0c4AA5cF9D2B14E35Fe5F61",
+        'rBTC': "0x9f16A5Dbc5E9b317C89524B9eA7fFC34a267999A",
+        'rUSD': "0xe20a212bF2A17335F8Ab10AAdF2E8E8aa769AE27",
     },
     'tokens': {
         // HUSD address -> USDT address
@@ -91,18 +91,17 @@ const hecoMainNetContract = {
         'HBTC': '0x66a79D23E58475D2738179Ca52cd0b41d73f0BEa',
         'HETH': '0x64FF637fB478863B7468bc97D30a5bF3A428a1fD',
         'WHT': '0x5545153CCFcA01fbd7Dd11C0b23ba694D9509A6F',
-        'RICE': '0x6Fd5aDc57c76610315F59bE816eae39b1e3B0917',
+        'RICE': '0x59B110f314F33C4F48084cEdD422E40fa4a8c7ed',
         'USDT': '0xa71EdC38d189767582C38A3145b5873052c3e47a'
     },
     'lpToken': {
         // HUSD address -> USDT address
-        // "rUSD_HUSD": '0xa6a72e904B67dF314Dd08b17D94D9c36cF0F8eFA',
-        "rUSD_USDT": '0xb3bc21630e96a96acafefb63c4d55313c2a1f8d6',
-        "rBTC_HBTC": '0x439bcb8548ba4d17e1b095828d68b77d50f4e81a',
-        "rETH_HETH": '0xb86a12244b27883075d77b2a02cc3ee9cacce4c3',
-        'RICE_rUSD': '0xd0da8992bfaa58a0345e6e122f85c6867b069b3c',
-        'RICE_rBTC': '0xa24038abd64c5cf841052ec81e413fbf05e639d2',
-        'RICE_rETH': '0x4cd6848ecb27076ddaaba8b517c6a76135674921',
+        "rUSD_USDT": '0x2512377a534463cc064049ccfadf2fdf58b48dbf',
+        "rBTC_HBTC": '0x40b69fec1856e135a785c9f51ceab743f5e26c9f',
+        "rETH_HETH": '0xfb930ecf56a97648388ec87df2552cc2b1952319',
+        'RICE_rUSD': '0x8f0b9b4adc7f45110cf5552a18be37a2464c0ce8',
+        'RICE_rBTC': '0x79f873ad90e36b2abd51ecf5515c40e7a9b34a95',
+        'RICE_rETH': '0x62004760e3c846cef95f66d5db6eb185b62305c4',
     }
 }
 
@@ -143,25 +142,25 @@ const bnbMainNetContract = {
         'router': "0x05ff2b0db69458a0750badebc4f9e13add608c7f",
     },
     'itokens': {
-        'rETH': "0x8c5677b4FEaff533daB4638D7BEd7FFc972c4E84",
-        'rBTC': "0x7d1E2717322a9155242A1853a28A0148a10Efb61",
-        'rUSD': "0x4d97D3bf4A0bD87F9DEBb16873BdfE24127C9307",
+        'rETH': "0x34bc744cD1eF3f28d0c4AA5cF9D2B14E35Fe5F61",
+        'rBTC': "0x9f16A5Dbc5E9b317C89524B9eA7fFC34a267999A",
+        'rUSD': "0xe20a212bF2A17335F8Ab10AAdF2E8E8aa769AE27",
     },
     'tokens': {
         'HUSD': '0x55d398326f99059ff775485246999027b3197955',
         'HBTC': '0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c',
         'HETH': '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
         'WHT': '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
-        'RICE': '0xAe479E294C6De21842A4dbdf6785D1eACb0a23aE',
+        'RICE': '0x59B110f314F33C4F48084cEdD422E40fa4a8c7ed',
         'USDT': '0x55d398326f99059ff775485246999027b3197955'
     },
     'lpToken': {
-        "rUSD_USDT": '0x8194131062728c47786504121006e89683612f95',
-        "rBTC_HBTC": '0x3065e2bc37455f87c966bd5dd6ce36d741f4d260',
-        "rETH_HETH": '0xcb52873dd94220b60b7c3bb8c61dbea658185e6a',
-        "RICE_rUSD": '0x90929072a77fc2002e14aea58c1b84bb2146fafb',
-        "RICE_rBTC": '0xddbb73f596e0abae761df2b05051956388abb6ea',
-        "RICE_rETH": '0x1746297dbb24effb7485a248398b6f558a675771'
+        "rUSD_USDT": '0x409fb3f87aa375f64eb6404c782cee9e57023946',
+        "rBTC_HBTC": '0x4ef5d08b08a31d510194ddbc6c80a7e42beef10a',
+        "rETH_HETH": '0x64dbc3f5c22020f83543ce59980b45646e0d3d7c',
+        "RICE_rUSD": '0xf38fb5dbd4a737d77acac9c2cc85472cea573c0a',
+        "RICE_rBTC": '0xa526ca3961d3080aa41c20cbeeffa798add0ad02',
+        "RICE_rETH": '0x696ea4a705ec7be875c9c41bdd7ca82afd4443fb'
     }
 }
 

@@ -8,12 +8,41 @@ const ChainNet = {
 const ChainName = {
     LOCAL: 'local',
     HECO: "heco",
-    BNB: "bnb"
+    BNB: "bnb",
+    REMOTE: "remote"
 }
 
 current_net = ChainNet.MainNet
-current_chain = ChainName.LOCAL
+current_chain = ChainName.REMOTE
 
+// local chain develop address
+const remoteTestNetContract = {
+    'mdex': {
+        'factory': "0x2523f8ee80c46FD32Abf24ba6F7f131596A29055",
+        'router': "0xe62bE815EE506BAb62240e71798d9BA43E30E11E",
+    },
+    'itokens': {
+        'rETH': "0x8C54FCeEf79B1eC400C4f504B725369D4E61e38e",
+        'rBTC': "0xd129D9913EE0Df91E84c9FD4Dcf289F9b528d4C4",
+        'rUSD': "0x849Dcd1508893b6d28931ed870823f0783dae3EB",
+    },
+    'tokens': {
+        'HUSD': '0x48735ee8c0E5e4e565Ea66d08AC5Cd5f6754dEe7',
+        'HBTC': '0xab24d90768Cd5b841A4640498a3a632daDC47947',
+        'HETH': '0x72c06f80d0d19625e483c3b2F1fF76f1cde9C6c9',
+        'WHT': '',
+        'RICE': '0x12e8dE0144d24f9a8D8f2B82394A90c92d123935',
+        'USDT': '0x48735ee8c0E5e4e565Ea66d08AC5Cd5f6754dEe7'
+    },
+    'lpToken': {
+        "rUSD_USDT": '0xe5e49bf82446C9879a85e0572Fb44EfEEa6d742D',
+        "rBTC_HBTC": '0x547f0F278289729B45d4fEED08c23EE1a7038e0E',
+        "rETH_HETH": '0x7041BA14F404b34Af389b2d51265BD6e4263cE25',
+        "RICE_rUSD": '0x92262fE0D0257964836F4aC7420d53ac9eFD8F50',
+        "RICE_rBTC": '0x8C301595404Cc65BF745764D91eB48552e7451cc',
+        "RICE_rETH": '0x1dA66083AE34cdb21AEE906cA408165dD2Af37A7'
+    }
+}
 
 // local chain develop address
 const localNetContract = {
@@ -176,6 +205,10 @@ let net_items = {
     'bnb': {
         'testnet': bnbTestNetContract,
         'mainnet': bnbMainNetContract
+    },
+    'remote': {
+        'testnet': remoteTestNetContract,
+        'mainnet': remoteTestNetContract
     }
 }
 

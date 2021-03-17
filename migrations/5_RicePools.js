@@ -136,6 +136,9 @@ const allocPointBase = 1;
 
 // ============ Main Migration ============
 const migration = async (deployer, network, accounts) => {
+    if (network.indexOf('fork') != -1) {
+        return
+    }
     await Promise.all([
         await mockTokens(accounts),
         await deployPublic(deployer, network, accounts),

@@ -17,10 +17,8 @@ import "../IFAMaster.sol";
 contract CreateIFA is IStrategy, Ownable {
     using SafeMath for uint256;
 
-    uint256 public constant ALL_BLOCKS_AMOUNT = 787500; // 3 s/block in heco and bsc. about 27 days
-    uint256 public constant IFA_PER_BLOCK = 8 * 1e18; // 8 IFA per block, 8 * 1e18,
-
-
+    uint256 public constant ALL_BLOCKS_AMOUNT = 1050000; // 3 s/block in heco and bsc. about 36 days
+    uint256 public constant IFA_PER_BLOCK = 6 * 1e18; // 8 IFA per block, 8 * 1e18,
     uint256 constant PER_SHARE_SIZE = 1e12;
 
     // Info of each pool.

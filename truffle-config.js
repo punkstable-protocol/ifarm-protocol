@@ -20,6 +20,11 @@ const bnbChainProvider = (network) => {
   return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpcs[network])
 };
 
+const infuraProvider = (network) => {
+  let rpc = `https://${network}.infura.io/v3/${process.env.INFURA_ID}`
+  return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpc)
+};
+
 module.exports = {
   // Uncommenting the defaults below
   // provides for an easier quick-start with Ganache.
@@ -38,12 +43,12 @@ module.exports = {
       gas: 6721975,
       networkCheckTimeout: 60000,
     },
-    development: {
+    remote: {
       host: "8.129.187.233",
       port: 28545,
       network_id: "*"
     },
-    local: {
+    development: {
       host: '127.0.0.1',
       port: 8545,
       // gasPrice: 100000000000, // 100 gwei
@@ -67,7 +72,13 @@ module.exports = {
       network_id: "56",  // match any network
       gas: 6721975,
       networkCheckTimeout: 60000,
-    }
+    },
+    rinkeby: {
+      provider: infuraProvider('rinkeby'),
+      network_id: "4",  // match any network
+      gas: 6721975,
+      networkCheckTimeout: 60000,
+  }
   },
   //
   compilers: {

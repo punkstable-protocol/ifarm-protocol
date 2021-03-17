@@ -5,11 +5,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./uniswapv2/interfaces/IUniswapV2Pair.sol";
 import "./uniswapv2/interfaces/IUniswapV2Factory.sol";
 import "./tokens/IFAVault.sol";
-import "./calculators/ICalculator.sol";
 import "./components/IFAPool.sol";
-import "./components/IFABank.sol";
 import "./strategies/CreateIFA.sol";
-
 
 interface IERC20IFA {
     event Approval(address indexed owner, address indexed spender, uint value);
@@ -47,21 +44,6 @@ contract IFADataBoard is Ownable {
         ifaMaster = _ifaMaster;
     }
 
-    function getCalculatorStat(uint256 _poolId) public view returns (uint256, uint256, uint256) {
-        ICalculator calculator;
-        (,, calculator) = IFABank(ifaMaster.bank()).poolMap(_poolId);
-        uint256 rate = calculator.rate();
-        uint256 minimumLTV = calculator.minimumLTV();
-        uint256 maximumLTV = calculator.maximumLTV();
-        return (rate, minimumLTV, maximumLTV);
-    }
-
-    function getPendingReward(uint256 _poolId, uint256 _index) public view returns (uint256) {
-        IFAVault vault;
-        (, vault,) = IFAPool(ifaMaster.pool()).poolMap(_poolId);
-        return vault.getPendingReward(msg.sender, _index);
-    }
-
     // get APY * 100
     // _LPType: 0 = X-USDT-LP, 1 = X-BTC-LP, 2 = X-ETH-LP,
     function getAPY(uint256 _poolId, address _token, bool _isLPToken, uint256 _lpType) public view returns (uint256) {
@@ -84,7 +66,7 @@ contract IFADataBoard is Ownable {
         if (vaultSupply == 0) {
             // Assume $1 is put in.
             // 28800 is the estimated daily block number of heco and bsc
-            return getIFAPrice() * factor * 28800 * 100 * allocPoint / totalAlloc / 1e6;
+            return getIFAPrice() * factor * 28800 * 100 * allocPoint / totalAlloc / 1e18;
         }
 
         // 10512000 is the estimated yearly block number of heco and bsc.
@@ -118,33 +100,15 @@ contract IFADataBoard is Ownable {
         }
     }
 
-    // return user loan record size.
-    function getUserLoanLength(address _who) public view returns (uint256) {
-        return IFABank(ifaMaster.bank()).getLoanListLength(_who);
-    }
-
-    // return loan info (loanId,principal, interest, lockedAmount, time, rate, maximumLTV)
-    function getUserLoan(address _who, uint256 _index) public view returns (uint256, uint256, uint256, uint256, uint256, uint256, uint256) {
-        uint256 poolId;
-        uint256 loanId;
-        (poolId, loanId) = IFABank(ifaMaster.bank()).loanList(_who, _index);
-
-        ICalculator calculator;
-        (,, calculator) = IFABank(ifaMaster.bank()).poolMap(poolId);
-
-        uint256 lockedAmount = calculator.getLoanLockedAmount(loanId);
-        uint256 principal = calculator.getLoanPrincipal(loanId);
-        uint256 interest = calculator.getLoanInterest(loanId);
-        uint256 time = calculator.getLoanTime(loanId);
-        uint256 rate = calculator.getLoanRate(loanId);
-        uint256 maximumLTV = calculator.getLoanMaximumLTV(loanId);
-
-        return (loanId, principal, interest, lockedAmount, time, rate, maximumLTV);
-    }
-
     function getEthLpPrice(address _token) public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
+        address pairAddress = factory.getPair(_token, ifaMaster.iETH());
+        if (pairAddress == address(0)){
+            pairAddress = factory.getPair(_token, ifaMaster.wETH());
+        }
+        require(pairAddress != address(0), "LPToken - iETH or wETH Pair need set by a specified owner");
+
+        IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
         if (pair.token0() == _token) {
             return reserve1 * getEthPrice() * 2 / pair.totalSupply();
@@ -155,7 +119,13 @@ contract IFADataBoard is Ownable {
 
     function getBtcLpPrice(address _token) public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wBTC()));
+        address pairAddress = factory.getPair(_token, ifaMaster.iBTC());
+        if (pairAddress == address(0)){
+            pairAddress = factory.getPair(_token, ifaMaster.wBTC());
+        }
+        require(pairAddress != address(0), "LPToken - iBTC or wBTC Pair need set by a specified owner");
+
+        IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
         if (pair.token0() == _token) {
             return reserve1 * getBtcPrice() * 2 / pair.totalSupply();
@@ -166,7 +136,13 @@ contract IFADataBoard is Ownable {
 
     function getUsdtLpPrice(address _token) public view returns (uint256) {
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
-        IUniswapV2Pair pair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.usd()));
+        address pairAddress = factory.getPair(_token, ifaMaster.iUSD());
+        if (pairAddress == address(0)){
+            pairAddress = factory.getPair(_token, ifaMaster.usd());
+        }
+        require(pairAddress != address(0), "LPToken - iUSD or usd Pair need set by a specified owner");
+
+        IUniswapV2Pair pair = IUniswapV2Pair(pairAddress);
         (uint256 reserve0, uint256 reserve1,) = pair.getReserves();
         uint usdDecimals = IERC20IFA(ifaMaster.usd()).decimals();
         if (pair.token0() == _token) {
@@ -267,9 +243,9 @@ contract IFADataBoard is Ownable {
         uint wBTCDecimals = IERC20IFA(ifaMaster.wBTC()).decimals();
 
         if (ibtcWBTCPair.token0() == ifaMaster.iBTC()) {
-            return reserve1 * (10 ** wBTCDecimals) / reserve0;
+            return getBtcPrice() * reserve1 / reserve0;
         } else {
-            return reserve0 * (10 ** wBTCDecimals) / reserve1;
+            return getBtcPrice() * reserve0 / reserve1;
         }
     }
 
@@ -282,9 +258,9 @@ contract IFADataBoard is Ownable {
         uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
 
         if (iethWETHPair.token0() == ifaMaster.iETH()) {
-            return reserve1 * (10 ** wETHDecimals) / reserve0;
+            return getEthPrice() * reserve1 / reserve0;
         } else {
-            return reserve0 * (10 ** wETHDecimals) / reserve1;
+            return getEthPrice() * reserve0 / reserve1;
         }
     }
 
@@ -295,17 +271,29 @@ contract IFADataBoard is Ownable {
     //K_MADE_iETH = 2;
 
     // Return the 6 digit price of ifa on uniswap.
-    function getTokenPrice(address _itoken) public view returns (uint256) {
-        uint256 key = ifaMaster.iTokenKey(_itoken);
-        require(key == K_MADE_iUSD || key == K_MADE_iBTC || key == K_MADE_iETH, "Not supported rToken");
-        if (key == K_MADE_iUSD) {
+    function getTokenPrice(address _token) public view returns (uint256) {
+        if (_token == ifaMaster.iUSD()) {
             return getiUsdPrice();
         }
-        if (key == K_MADE_iBTC) {
+        if (_token == ifaMaster.iBTC()) {
             return getiBtcPrice();
         }
-        if (key == K_MADE_iETH) {
+        if (_token == ifaMaster.iETH()) {
             return getiEthPrice();
+        }
+        if(_token == ifaMaster.wETH()){
+            return getEthPrice();
+        }
+        IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
+        IUniswapV2Pair tokenWETHPair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
+        require(address(tokenWETHPair) != address(0), "token-WETH Pair need set by a specified owner");
+        (uint reserve0, uint reserve1,) = tokenWETHPair.getReserves();
+        uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
+
+        if (tokenWETHPair.token0() == _token) {
+            return getEthPrice() * reserve1 / reserve0;
+        } else {
+            return getEthPrice() * reserve0 / reserve1;
         }
         return 0;
     }

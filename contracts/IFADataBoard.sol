@@ -284,6 +284,9 @@ contract IFADataBoard is Ownable {
         if(_token == ifaMaster.wETH()){
             return getEthPrice();
         }
+        if(_token == ifaMaster.ifa()){
+            return getIFAPrice();
+        }
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
         IUniswapV2Pair tokenWETHPair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
         require(address(tokenWETHPair) != address(0), "token-WETH Pair need set by a specified owner");
@@ -291,9 +294,9 @@ contract IFADataBoard is Ownable {
         uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
 
         if (tokenWETHPair.token0() == ifaMaster.wETH()) {
-            return getEthPrice() * reserve1 / reserve0;
-        } else {
             return getEthPrice() * reserve0 / reserve1;
+        } else {
+            return getEthPrice() * reserve1 / reserve0;
         }
         // should not happen
         return uint256(-1);

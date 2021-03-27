@@ -133,6 +133,19 @@ const K_CALCULATOR_HETH = 2;
 
 const allocPointBase = 1;
 
+// Whether to enable the pool
+const POOL_ENABLE_STATUS = {
+    0: true,
+    1: false,
+    2: false,
+    3: true,
+    4: false,
+    5: false,
+    6: true,
+    7: false,
+    8: false
+}
+
 
 // ============ Main Migration ============
 const migration = async (deployer, network, accounts) => {
@@ -155,12 +168,17 @@ const migration = async (deployer, network, accounts) => {
 
 module.exports = migration;
 
+const debug = false
+
 // tools functions
 async function mockTokenTool(_tokenJson, _tokenName, _account) {
     let totalSupply = ether('900000000');
     if (_tokenJson.hasOwnProperty(_tokenName) && _tokenJson[_tokenName].length == 0) {
-        return await MockERC20.new(`Fake Wrapped ${_tokenName}`, `${_tokenName}`, totalSupply, { from: _account })
-            .then((result) => { console.log(`${_tokenName}:`, result.address); return result; });
+        if (debug) {
+            return await MockERC20.new(`Fake Wrapped ${_tokenName}`, `${_tokenName}`, totalSupply, { from: _account })
+                .then((result) => { console.log(`${_tokenName}:`, result.address); return result; });
+        }
+        return ""
     }
     return await MockERC20.at(_tokenJson[_tokenName])
         .then((result) => { console.log(`${_tokenName}:`, result.address); return result; });
@@ -197,7 +215,6 @@ async function mockTokens(accounts) {
 
 async function deployPublic(deployer, network, accounts) {
     console.log(`deployPublic deployering...`)
-
     let ifaMasterInstance = await IFAMaster.new()
         .then((result) => { console.log('IFAMaster:', result.address); return result; });
     let ifaPoolInstance = await IFAPool.new()
@@ -230,30 +247,19 @@ async function deployPublic(deployer, network, accounts) {
     let shareRevenueInstance = await ShareRevenue.new(ifaMasterInstance.address)
         .then((result) => { console.log('ShareReenue:', result.address); return result; });
 
-    await ifaMasterInstance.setiToken(K_MADE_rUSD, itokensAddress.rUSD);
-    await ifaMasterInstance.setiToken(K_MADE_rBTC, itokensAddress.rBTC);
-    await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
     await ifaMasterInstance.setDAI(tokensAddress.HUSD);
     await ifaMasterInstance.setwBTC(tokensAddress.HBTC);
     await ifaMasterInstance.setwETH(tokensAddress.HETH);
     await ifaMasterInstance.setUSD(tokensAddress.USDT);
-    await ifaMasterInstance.setiUSD(itokensAddress.rUSD);
-    await ifaMasterInstance.setiBTC(itokensAddress.rBTC);
-    await ifaMasterInstance.setiETH(itokensAddress.rETH);
+
     await ifaMasterInstance.setCostco(costcoInstance.address);
     await ifaMasterInstance.setRevenue(ifaRevenueInstance.address);
     await ifaMasterInstance.setBank(ifaBankInstance.address);
     await ifaMasterInstance.addStrategy(K_STRATEGY_CREATE_IFA, createIFAInstance.address);
     await ifaMasterInstance.addStrategy(K_STRATEGY_SHARE_REVENUE, shareRevenueInstance.address);
+    await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
     await ifaInstance.addMinter(createIFAInstance.address);
-    let itokenContract = [
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rUSD),
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rBTC),
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rETH)
-    ]
-    for (let i = 0; i < itokenContract.length; i++) {
-        await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
-    }
+
     publicContractAddress.IFAMaster = ifaMasterInstance.address;
     publicContractAddress.IFAPool = ifaPoolInstance.address;
     publicContractAddress.Costco = costcoInstance.address;
@@ -279,8 +285,17 @@ async function deployBorrowPools(deployer, network, accounts) {
     let ifaBankInstance = await IFABank.at(publicContractAddress.IFABank);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
     let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
-    // let ifaInstance = await IFAToken.at(tokenAddress.IFA);
+    let itokenContract = [
+        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rUSD),
+        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rBTC),
+        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rETH)
+    ]
+
     for (let i = 0; i < vaults.length; i++) {
+        // Whether to deploy the current pool , Do not deploy when POOL_ENABLE_STATUS is false
+        if (!POOL_ENABLE_STATUS[i]) {
+            continue;
+        }
         let poolId = i;
         let K_CALCULATOR = K_CALCULATORS[i];
         let kVault = i
@@ -290,6 +305,26 @@ async function deployBorrowPools(deployer, network, accounts) {
             .then((result) => { console.log(`${poolVaultName[i]}:`, result.address); return result; });
         let name = poolVaultName[i];
         poolVaultContractAddress[poolVaultName[i]] = vaultInstance.address;
+        // set rTokens
+        switch (i) {
+            case 0:
+                await ifaMasterInstance.setiUSD(itokensAddress.rUSD);
+                await ifaMasterInstance.setiToken(K_MADE_rUSD, itokensAddress.rUSD);
+                break;
+            case 1:
+                await ifaMasterInstance.setiBTC(itokensAddress.rBTC);
+                await ifaMasterInstance.setiToken(K_MADE_rBTC, itokensAddress.rBTC);
+                break;
+            case 2:
+                await ifaMasterInstance.setiETH(itokensAddress.rETH);
+                await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
+                break;
+            default:
+                console.log(`Error: set rToken fail pool_id = ${i}`)
+                break;
+        }
+        await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
+
         let BCParams = { rate: 500, minimumLTV: 65, maxmumLTV: 90, minimumSize: web3.utils.toWei('500') };
         switch (i) {
             case 0:
@@ -318,10 +353,10 @@ async function deployBorrowPools(deployer, network, accounts) {
             .then((result) => { console.log(`${name}Calculators:`, result.address); return result; });
         calculatorsAddress[`${name}Calculators`] = basicCalculator.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
-        await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
         await ifaMasterInstance.addCalculator(K_CALCULATOR, basicCalculator.address);
-        await ifaBankInstance.setPoolInfo(poolId, itokenAddress[i], vaultInstance.address, basicCalculator.address);
-        await ifaPoolInstance.setPoolInfo(poolId, tokenAddress[i], vaultInstance.address, now);
+        // close pool
+        // await ifaBankInstance.setPoolInfo(poolId, itokenAddress[i], vaultInstance.address, basicCalculator.address);
+        // await ifaPoolInstance.setPoolInfo(poolId, tokenAddress[i], vaultInstance.address, now);
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, tokenAddress[i], allocPointBase, false);
     }
     console.log(`deployBorrowPools end\n`)
@@ -351,7 +386,10 @@ async function deployLpTokenPools(deployer, network, accounts) {
     let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
     let allocPoint = allocPointBase;
     for (let i = 3; i < vaults.length + 3; i++) {
-        // console.log(`lptoken: ${lpToken[i - 3]}`)
+        // Whether to deploy the current pool , Do not deploy when POOL_ENABLE_STATUS is false
+        if (!POOL_ENABLE_STATUS[i]) {
+            continue;
+        }
         let poolId = i;
         let kVault = i
         let vault = vaults[kVault - 3];
@@ -360,8 +398,8 @@ async function deployLpTokenPools(deployer, network, accounts) {
             .then((result) => { console.log(`${poolVaultName[i]}:`, result.address); return result; });
         poolVaultContractAddress[poolVaultName[i]] = vaultInstance.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
-        await ifaMasterInstance.setUniswapV2Factory(uniswapsAddress.factory);
-        await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
+        // close pool
+        // await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
         if (i > 2 && i <= 5) {
             allocPoint = allocPointBase * 5
         }
@@ -414,5 +452,4 @@ async function deployLpTokenPools(deployer, network, accounts) {
     contracts.BirrCastleCalculators = addressItem.calculatorsAddress.BirrCastleCalculators
     contracts.SunnylandsCalculators = addressItem.calculatorsAddress.SunnylandsCalculators
     contracts.ChateauLafitteCalculators = addressItem.calculatorsAddress.ChateauLafitteCalculators
-
 }

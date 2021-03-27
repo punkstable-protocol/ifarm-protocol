@@ -48,7 +48,8 @@
 		"BirrCastleCalculators": "",
 		"SunnylandsCalculators": "",
 		"ChateauLafitteCalculators": "",
-		"MerkleDistributor": "",
-		"Ido": ""
+		"MerkleDistributor": [],
+		"Salt": "",
+		"MasterChef": ""
 	}
 }

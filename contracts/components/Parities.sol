@@ -41,7 +41,8 @@ contract Parities {
             (uint256 r2, uint256 r3) = getReserveRatio(ifaMaster.iETH(), ifaMaster.ifa());
             return r3.mul(r0).mul(100).div(r2).div(r1);
         }
-        return 0;
+        // should not happen
+        return uint256(-1);
     }
 
     function getReserveRatio(address token0, address token1) public view returns (uint256, uint256) {

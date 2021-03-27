@@ -212,7 +212,7 @@ contract IFADataBoard is Ownable {
         (uint reserve0, uint reserve1,) = ifaiUSDPair.getReserves();
         uint iusdDecimals = IERC20IFA(ifaMaster.iUSD()).decimals();
 
-        if (ifaiUSDPair.token0() == ifaMaster.iUSD()) {
+        if (ifaiUSDPair.token0() == ifaMaster.ifa()) {
             return reserve1 * (10 ** iusdDecimals) / reserve0;
         } else {
             return reserve0 * (10 ** iusdDecimals) / reserve1;
@@ -290,12 +290,13 @@ contract IFADataBoard is Ownable {
         (uint reserve0, uint reserve1,) = tokenWETHPair.getReserves();
         uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
 
-        if (tokenWETHPair.token0() == _token) {
+        if (tokenWETHPair.token0() == ifaMaster.wETH()) {
             return getEthPrice() * reserve1 / reserve0;
         } else {
             return getEthPrice() * reserve0 / reserve1;
         }
-        return 0;
+        // should not happen
+        return uint256(-1);
     }
 }
 

@@ -9,7 +9,11 @@ const hecoChainProvider = (network) => {
     'mainnet': 'https://http-mainnet.hecochain.com',
     'testnet': 'https://http-testnet.hecochain.com'
   }
-  return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpcs[network])
+  let private_key = {
+    'mainnet': process.env.DEPLOYER_PRIVATE_KEY || '',
+    'testnet': process.env.TEST_DEPLOYER_PRIVATE_KEY || ''
+  }
+  return new HDWalletProvider(private_key[network], rpcs[network])
 };
 
 const bnbChainProvider = (network) => {
@@ -17,12 +21,20 @@ const bnbChainProvider = (network) => {
     'mainnet': 'https://bsc-dataseed.binance.org',
     'testnet': 'https://data-seed-prebsc-1-s1.binance.org:8545'
   }
-  return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpcs[network])
+  let private_key = {
+    'mainnet': process.env.DEPLOYER_PRIVATE_KEY || '',
+    'testnet': process.env.TEST_DEPLOYER_PRIVATE_KEY || ''
+  }
+  return new HDWalletProvider(private_key[network], rpcs[network])
 };
 
 const infuraProvider = (network) => {
   let rpc = `https://${network}.infura.io/v3/${process.env.INFURA_ID}`
-  return new HDWalletProvider(process.env.DEPLOYER_PRIVATE_KEY || '', rpc)
+  let private_key = {
+    'mainnet': process.env.DEPLOYER_PRIVATE_KEY || '',
+    'rinkeby': process.env.TEST_DEPLOYER_PRIVATE_KEY || ''
+  }
+  return new HDWalletProvider(private_key[network], rpc)
 };
 
 module.exports = {
@@ -37,7 +49,7 @@ module.exports = {
   // migrations_directory: "./migrations/ignore_migrations",
   migrations_directory: "./migrations/",
   networks: {
-    hecomainnet:{
+    hecomainnet: {
       provider: hecoChainProvider('mainnet'),
       network_id: "*",  // match any network
       gas: 6721975,
@@ -55,7 +67,7 @@ module.exports = {
       gas: 6721975,
       network_id: '*',
     },
-    hecotestnet:{
+    hecotestnet: {
       provider: hecoChainProvider('testnet'),
       network_id: "256",  // match any network
       gas: 6721975,
@@ -78,7 +90,7 @@ module.exports = {
       network_id: "4",  // match any network
       gas: 6721975,
       networkCheckTimeout: 60000,
-  }
+    }
   },
   //
   compilers: {

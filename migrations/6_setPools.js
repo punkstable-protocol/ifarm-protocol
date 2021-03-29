@@ -9,6 +9,16 @@ const IFAPool = artifacts.require('IFAPool');
 const IFABank = artifacts.require('IFABank');
 const CreateIFA = artifacts.require('CreateIFA');
 
+const allContract = require("../deployedContract.json")
+
+// contract address env
+const net = {
+    "bnbmainnet": "bnbmainnet",
+    "rinkeby": "rinkeby"
+}
+const currentNet = net.bnbmainnet
+const contract = allContract[currentNet]
+
 const poolVaultId = {
     0: 'BirrCastle',
     1: 'Sunnylands',
@@ -33,43 +43,43 @@ const tokensId = {
     8: "RICE-rETH",
 }
 
-const ifaBankAddress = "0xA6eDBc1ab479E66b16d24D18403b1B349e062a8a"
-const ifaPoolAddress = "0x7A08453aA3a4EFA19D90c783702Ce93cE7998288"
+const ifaBankAddress = contract.public.IFABank
+const ifaPoolAddress = contract.public.IFAPool
 
 const CalculatorAddress = {
-    "BirrCastleCalculator": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
-    "SunnylandsCalculator": "",
-    "ChateauLafitteCalculator": ""
+    "BirrCastleCalculator": contract.calculatorsAddress.BirrCastleCalculators,
+    "SunnylandsCalculator": contract.calculatorsAddress.SunnylandsCalculators,
+    "ChateauLafitteCalculator": contract.calculatorsAddress.ChateauLafitteCalculators
 }
 
 const poolVaultAddress = {
-    'BirrCastle': "0x79469Ab5627B85066f6BccEf91adC98f4a88cD1B",
-    'Sunnylands': "",
-    'ChateauLafitte': "",
-    'AdareManor': "0x5a42961AcF062672D66f6bB550384f8442102709",
-    'VillaDEste': "",
-    'VillaLant': "",
-    'VillaFarnese': "0xc110A949B61fc47cFE4a40cB87925faeC18CAE34",
-    'ChatsworthHouse': "",
-    'ChateauMargaux': "",
+    'BirrCastle': contract.poolVaults.BirrCastle,
+    'Sunnylands': contract.poolVaults.Sunnylands,
+    'ChateauLafitte': contract.poolVaults.ChateauLafitte,
+    'AdareManor': contract.poolVaults.AdareManor,
+    'VillaDEste': contract.poolVaults.VillaDEste,
+    'VillaLant': contract.poolVaults.VillaLant,
+    'VillaFarnese': contract.poolVaults.VillaFarnese,
+    'ChatsworthHouse': contract.poolVaults.ChatsworthHouse,
+    'ChateauMargaux': contract.poolVaults.ChateauMargaux,
 }
 
 const iTokenAddress = {
-    "rUSD": "0x4779DAEa8E7259514aBAEa2918B767B0B576FBC1",
-    "rBTC": "0xA4b9BA0A8CD1A183fd9B0A235D719286AdDC2bcb",
-    "rETH": "0x5f7c33Ef5Bd357F73Ca8D090fd124dF7c2c8B372"
+    "rUSD": contract.itokensAddress.rUSD,
+    "rBTC": contract.itokensAddress.rBTC,
+    "rETH": contract.itokensAddress.rETH
 }
 
 const tokensAddress = {
-    "USDT": "0x55d398326f99059fF775485246999027B3197955",
-    "BTC": "",
-    "ETH": "",
-    "rUSD-USDT": "0x12c0e8B32f43DF781fbFD26d38b7Ee6CF4b6b62f",
-    "rBTC-BTC": "",
-    "rETH-ETH": "",
-    "RICE-rUSD": "0x08ac513dF9Ad4F1B40bd860d31Ff7a3d1b594B60",
-    "RICE-rBTC": "",
-    "RICE-rETH": ""
+    "USDT": contract.tokensAddress.HUSD,
+    "BTC": contract.tokensAddress.HBTC,
+    "ETH": contract.tokensAddress.HETH,
+    "rUSD-USDT": contract.lpTokenAddress.rUSD_USDT,
+    "rBTC-BTC": contract.lpTokenAddress.rBTC_HBTC,
+    "rETH-ETH": contract.lpTokenAddress.rETH_HETH,
+    "RICE-rUSD": contract.lpTokenAddress.RICE_rUSD,
+    "RICE-rBTC": contract.lpTokenAddress.RICE_rBTC,
+    "RICE-rETH": contract.lpTokenAddress.RICE_rETH
 }
 const Calculators = [
     CalculatorAddress.BirrCastleCalculator,
@@ -100,12 +110,27 @@ const migration = async (deployer, network, accounts) => {
     if (network.indexOf('fork') != -1) {
         return
     }
+    console.log(ifaBankAddress,ifaPoolAddress)
+    console.log(CalculatorAddress)
+    console.log(poolVaultAddress)
+    console.log(iTokenAddress)
+    console.log(tokensAddress)
+    console.log(Calculators)
+
     this.ifaBankInstance = await IFABank.at(ifaBankAddress);
     this.ifaPoolInstance = await IFAPool.at(ifaPoolAddress);
     await Promise.all([
-        await setPools(0, deployer, network, accounts),
-        await setPools(3, deployer, network, accounts),
-        await setPools(6, deployer, network, accounts)
+        // await setPools(0, deployer, network, accounts),
+        // await setPools(3, deployer, network, accounts),
+        // await setPools(6, deployer, network, accounts),
+
+        // await setPools(2, deployer, network, accounts),
+        // await setPools(5, deployer, network, accounts),
+        // await setPools(8, deployer, network, accounts),
+
+        await setPools(1, deployer, network, accounts),
+        await setPools(4, deployer, network, accounts),
+        await setPools(7, deployer, network, accounts)
     ]);
 };
 

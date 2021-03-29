@@ -6,11 +6,11 @@ function toWei(bigNumber) {
 
 contract('IFADataBoard', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, atom, jk]) => {
     const Decimals = 10 ** 18
-    const ifaDataBoardContract = '0x7dAE450767E677E49Cfdab15224B933f15F7c9e0'
+    const ifaDataBoardContract = '0xe27B10eB3977D7f4cC2AEcEFA97B940ea5d321C8'
     const rUSDToken = '0x4d97D3bf4A0bD87F9DEBb16873BdfE24127C9307'
     const rBTCToken = '0x7d1E2717322a9155242A1853a28A0148a10Efb61'
-    const HUSDToken = '0x0298c2b32eaE4da002a15f36fdf7615BEa3DA047'
-    const USDTToken = '0x55d398326f99059fF775485246999027B3197955'
+    const HUSDToken = '0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6'
+    const USDTToken = '0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6'
 
     beforeEach(async () => {
         this.ifaDataBoard = new web3.eth.Contract(IFADataBoard.abi, ifaDataBoardContract)
@@ -47,5 +47,4 @@ contract('IFADataBoard', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk,
             console.log(`seed token:${USDTToken}, apy:${apy.toString()}`)
         });
     });
-
 });

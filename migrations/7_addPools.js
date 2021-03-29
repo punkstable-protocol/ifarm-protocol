@@ -23,6 +23,16 @@ const VillaFarnese = artifacts.require('VillaFarnese');
 const ChatsworthHouse = artifacts.require('ChatsworthHouse');
 const ChateauMargaux = artifacts.require('ChateauMargaux');
 
+const allContract = require("../deployedContract.json")
+
+// contract address env
+const net = {
+    "bnbmainnet": "bnbmainnet",
+    "rinkeby": "rinkeby"
+}
+const currentNet = net.bnbmainnet
+const contract = allContract[currentNet]
+
 // Elastic token addresses are immutable once set, and the list may grow:
 const K_MADE_rUSD = 0;
 const K_MADE_rBTC = 1;
@@ -55,44 +65,45 @@ const allocPointBase = 1;
 
 // Whether to enable the pool
 const POOL_ENABLE_STATUS = {
-    0: true,
-    1: false,
-    2: false,
-    3: true,
-    4: false,
-    5: false,
-    6: true,
-    7: false,
-    8: false
+    0: false,       // pool 1
+    1: false,        // pool 2
+    2: true,       // pool 3
+    3: false,       // pool 4
+    4: false,        // pool 5
+    5: true,       // pool 6
+    6: false,       // pool 7
+    7: false,        // pool 8
+    8: true        // pool 9
 }
 
 // parmas
 const publicContractAddress = {
-    "IFAMaster": "",
-    "IFABank": "",
-    "IFAPool": "",
-    "CreateIFA": ""
+    "IFAMaster": contract.public.IFAMaster,
+    "IFAPool": contract.public.IFAPool,
+    "IFABank": contract.public.IFABank,
+    "CreateIFA": contract.public.CreateIFA,
+    "ShareRevenue": contract.public.ShareRevenue,
 }
 
 const itokensAddress = {
-    "rUSD": "",
-    "rBTC": "",
-    "rETH": ""
+    "rETH": contract.itokensAddress.rETH,
+    "rBTC": contract.itokensAddress.rBTC,
+    "rUSD": contract.itokensAddress.rUSD
 }
 
 const tokensAddress = {
-    "HUSD": "",
-    "HBTC": "",
-    "HETH": ""
+    "HUSD": contract.tokensAddress.HUSD,
+    "HBTC": contract.tokensAddress.HBTC,
+    "HETH": contract.tokensAddress.HETH
 }
 
 const lpTokenAddress = {
-    "rUSD_USDT": "",
-    "rBTC_HBTC": "",
-    "rETH_HETH": "",
-    "RICE_rUSD": "",
-    "RICE_rBTC": "",
-    "RICE_rETH": ""
+    "rUSD_USDT": contract.lpTokenAddress.rUSD_USDT,
+    "rBTC_HBTC": contract.lpTokenAddress.rBTC_HBTC,
+    "rETH_HETH": contract.lpTokenAddress.rETH_HETH,
+    "RICE_rUSD": contract.lpTokenAddress.RICE_rUSD,
+    "RICE_rBTC": contract.lpTokenAddress.RICE_rBTC,
+    "RICE_rETH": contract.lpTokenAddress.RICE_rETH
 }
 
 const contractAddress = {
@@ -106,16 +117,18 @@ const migration = async (deployer, network, accounts) => {
     if (network.indexOf('fork') != -1) {
         return
     }
+    console.log(publicContractAddress)
+    console.log(itokensAddress)
+    console.log(tokensAddress)
+    console.log(lpTokenAddress)
+    console.log(contractAddress)
+    return
     await Promise.all([
         await deployBorrowPools(deployer, network, accounts),
         await deployLpTokenPools(deployer, network, accounts),
     ]);
-    console.log(JSON.stringify(addressItem));
+    console.log(JSON.stringify(contractAddress));
     console.log('\n')
-    let formatAddress = {
-        "contracts": contracts
-    }
-    console.log(JSON.stringify(formatAddress));
 };
 
 module.exports = migration;
@@ -170,7 +183,6 @@ async function deployBorrowPools(deployer, network, accounts) {
                 break;
         }
         await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
-
         let BCParams = { rate: 500, minimumLTV: 65, maxmumLTV: 90, minimumSize: web3.utils.toWei('500') };
         switch (i) {
             case 0:
@@ -241,8 +253,8 @@ async function deployLpTokenPools(deployer, network, accounts) {
         let vault = vaults[kVault - 3];
         let now = Math.floor((new Date()).getTime() / 1000 - 3600);
         let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA, publicContractAddress.ShareRevenue)
-            .then((result) => { console.log(`${poolVaults[i]}:`, result.address); return result; });
-        contractAddress.poolVaults[poolVaults[i]] = vaultInstance.address;
+            .then((result) => { console.log(`${IFAVaultsId[i]}:`, result.address); return result; });
+        contractAddress.poolVaults[IFAVaultsId[i]] = vaultInstance.address;
         await ifaMasterInstance.addVault(kVault, vaultInstance.address);
         // close pool
         // await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);

@@ -186,10 +186,10 @@ const bnbMainNetContract = {
     'lpToken': {
         "rUSD_USDT": '0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f',
         "rBTC_HBTC": '',
-        "rETH_HETH": '',
+        "rETH_HETH": '0xdfef40c39e0064e137675dff535d1f3d00571eb7',
         "RICE_rUSD": '0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60',
         "RICE_rBTC": '',
-        "RICE_rETH": ''
+        "RICE_rETH": '0xa69878b4beff03de6860ad54960ac916e3b44f7b'
     }
 }
 

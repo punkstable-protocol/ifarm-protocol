@@ -204,18 +204,21 @@ contract IFADataBoard is Ownable {
         }
     }
 
-    // Return the 6 digit price of eth on uniswap.
+    // Return the 18 digit price of eth on uniswap.
     function getIFAPrice() public view returns (uint256) {
+        uint iusdPrice = getiUsdPrice();
+
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
         IUniswapV2Pair ifaiUSDPair = IUniswapV2Pair(factory.getPair(ifaMaster.ifa(), ifaMaster.iUSD()));
         require(address(ifaiUSDPair) != address(0), "RICE-rUSD Pair need set by a specified owner");
         (uint reserve0, uint reserve1,) = ifaiUSDPair.getReserves();
         uint iusdDecimals = IERC20IFA(ifaMaster.iUSD()).decimals();
+        iusdDecimals = 10 ** iusdDecimals;
 
         if (ifaiUSDPair.token0() == ifaMaster.ifa()) {
-            return reserve1 * (10 ** iusdDecimals) / reserve0;
+            return reserve1 * iusdDecimals / reserve0 * iusdPrice / iusdDecimals;
         } else {
-            return reserve0 * (10 ** iusdDecimals) / reserve1;
+            return reserve0 * iusdDecimals / reserve1 * iusdPrice / iusdDecimals;
         }
     }
 

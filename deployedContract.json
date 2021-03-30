@@ -19,10 +19,10 @@
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
-            "rBTC_HBTC": "",
+            "rBTC_HBTC": "0x15c365725d02d2749792660b05c667e73fb90e0c",
             "rETH_HETH": "0xdfef40c39e0064e137675dff535d1f3d00571eb7",
             "RICE_rUSD": "0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60",
-            "RICE_rBTC": "",
+            "RICE_rBTC": "0xbf9949920a16fae5b364dc0aee19fa3c08e30cd2",
             "RICE_rETH": "0xa69878b4beff03de6860ad54960ac916e3b44f7b"
         },
         "public": {
@@ -38,18 +38,18 @@
         },
         "poolVaults": {
             "BirrCastle": "0x79469Ab5627B85066f6BccEf91adC98f4a88cD1B",
-            "Sunnylands": "",
+            "Sunnylands": "0x773c5283d3757393e63e831DA893d38115E166fA",
             "ChateauLafitte": "0x6c04801aA7Be6dab54fE827aA3bec17ee5B174A8",
             "AdareManor": "0x5a42961AcF062672D66f6bB550384f8442102709",
-            "VillaDEste": "",
+            "VillaDEste": "0x0Ac3E8C4d1FaD528279e8A7aAe1f4103eca51732",
             "VillaLant": "0x60B13d36890D4C63BBd472b96Ccd0925e9Bb64a3",
             "VillaFarnese": "0xc110A949B61fc47cFE4a40cB87925faeC18CAE34",
-            "ChatsworthHouse": "",
+            "ChatsworthHouse": "0x36E74cBf30DE88FD1aAAb87E259A2BC5663a2249",
             "ChateauMargaux": "0x92C70177e94c49E5688ce69306C5173816e515E9"
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
-            "SunnylandsCalculators": "",
+            "SunnylandsCalculators": "0xf3288B2cf29596F136d3c21eFcdeC6a0f4C002F4",
             "ChateauLafitteCalculators": "0xB0e832619C40E8D59B26aC28d930D953fb66bA19"
         },
         "merkleDistributor": [
@@ -60,109 +60,114 @@
         "Salt": "0x4B7739c0965542E9822aE51908e1977fC6771fDE"
     },
     "rinkeby": {
-        "swap":{
-            "factory":"0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
-            "router":"0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+        "swap": {
+            "factory": "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
+            "router": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
         },
-        "itokensAddress":{
-            "rETH":"0x80F6979bc7Eb1FCD72967b78e4C783789aC4f108",
-            "rBTC":"0x5199Fc35A231490CFabDcD45F34d16fA8E879051",
-            "rUSD":"0x3DA9361E5AA1Df3748689a2Dec32A6A8cdb48fb0"
+        "itokensAddress": {
+            "rETH": "0x80F6979bc7Eb1FCD72967b78e4C783789aC4f108",
+            "rBTC": "0x5199Fc35A231490CFabDcD45F34d16fA8E879051",
+            "rUSD": "0x3DA9361E5AA1Df3748689a2Dec32A6A8cdb48fb0"
         },
-        "tokensAddress":{
-            "HUSD":"0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6",
-            "HBTC":"0xef6c4D1B51DDdA3e57A0d609BFD8056F594E08F0",
-            "HETH":"0x250504A933DA341F6d65Eb64E3a4a269370208A6",
-            "WHT":"",
-            "RICE":"0x60Bfa41Fa438c96efB0Df5904f6e23288cB86910",
-            "USDT":"0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6"
+        "tokensAddress": {
+            "HUSD": "0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6",
+            "HBTC": "0xef6c4D1B51DDdA3e57A0d609BFD8056F594E08F0",
+            "HETH": "0x250504A933DA341F6d65Eb64E3a4a269370208A6",
+            "WHT": "",
+            "RICE": "0x60Bfa41Fa438c96efB0Df5904f6e23288cB86910",
+            "USDT": "0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6",
+            "wBNB": ""
         },
-        "lpTokenAddress":{
-            "rUSD_USDT":"0x197ad94fe35dF4Ee20016EF0b549597e9629D95f",
-            "rBTC_HBTC":"0xd8Bd05cf719230EF13A4F397a734dEFbc86233fD",
-            "rETH_HETH":"0x9D8E70E53bbB545d1eD3B84D8BdD634f8b1c4f7b",
-            "RICE_rUSD":"0xbb29c6735F24CCfE17f3411c978B76C91438a14D",
-            "RICE_rBTC":"0x5F621bD9bA8B19882F52C06BDab55F48469d5a79",
-            "RICE_rETH":"0xdE919aC7d48cd47c0be28dEd0749e411F3a46aB0"
+        "lpTokenAddress": {
+            "rUSD_USDT": "0x197ad94fe35dF4Ee20016EF0b549597e9629D95f",
+            "rBTC_HBTC": "0xd8Bd05cf719230EF13A4F397a734dEFbc86233fD",
+            "rETH_HETH": "0x9D8E70E53bbB545d1eD3B84D8BdD634f8b1c4f7b",
+            "RICE_rUSD": "0xbb29c6735F24CCfE17f3411c978B76C91438a14D",
+            "RICE_rBTC": "0x5F621bD9bA8B19882F52C06BDab55F48469d5a79",
+            "RICE_rETH": "0xdE919aC7d48cd47c0be28dEd0749e411F3a46aB0",
+            "BNB_rUSD": "",
+            "BNB_rBTC": "",
+            "BNB_rETH": ""
         },
-        "public":{
-            "IFAMaster":"0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
-            "IFAPool":"0x7E31016Fff7E98652DDC6614D37f0d53046e74BD",
-            "IFABank":"0x89b9cD75DC59029A65702B4Ca447F7a915251b91",
-            "IFARevenue":"0x26c7F8B33fAd41A7e13ed65760c7Fdcc13096122",
-            "Costco":"0x81A30689A0C5E6AC5883915A6fF62dB5Dc107318",
-            "IFADataBoard":"0x171C7EC26F9EBFFc1D2eceAe1bB91B6B55C795f0",
-            "CreateIFA":"0x93BFfD123D5fCECD00D3A38a9d8B217DfDAe6326",
-            "ShareRevenue":"0x74dd602997B7a0A56e6c5b71bF8F7041A8521bA4",
-            "Parities":"0xb3a693f330CB282d4d8B2bc51FBFaF709c62ba76"
+        "public": {
+            "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
+            "IFAPool": "0x7E31016Fff7E98652DDC6614D37f0d53046e74BD",
+            "IFABank": "0x89b9cD75DC59029A65702B4Ca447F7a915251b91",
+            "IFARevenue": "0x26c7F8B33fAd41A7e13ed65760c7Fdcc13096122",
+            "Costco": "0x81A30689A0C5E6AC5883915A6fF62dB5Dc107318",
+            "IFADataBoard": "0x171C7EC26F9EBFFc1D2eceAe1bB91B6B55C795f0",
+            "CreateIFA": "0x93BFfD123D5fCECD00D3A38a9d8B217DfDAe6326",
+            "ShareRevenue": "0x74dd602997B7a0A56e6c5b71bF8F7041A8521bA4",
+            "Parities": "0xb3a693f330CB282d4d8B2bc51FBFaF709c62ba76"
         },
-        "poolVaults":{
-            "BirrCastle":"0x050AADd16A6b9D764bf04F523B7ABCD769799A3f",
-            "Sunnylands":"",
-            "ChateauLafitte":"0xFeDcF72FbdE6F69e3e11fE610Adf378cd945BAe1",
-            "AdareManor":"0xD00f084698BE213CD456Ed58c49936f1149027E4",
-            "VillaDEste":"",
-            "VillaLant":"0xAf0D30dEA29db2c772b2b1C53817B8723A2BAD31",
-            "VillaFarnese":"0x30F8bCD442E2De4c3585b49A74CC20A7ff78BaA3",
-            "ChatsworthHouse":"",
-            "ChateauMargaux":"0xD831b299b3ecc129F82111256f19D23eE5Ebc4B6"
+        "poolVaults": {
+            "BirrCastle": "0x050AADd16A6b9D764bf04F523B7ABCD769799A3f",
+            "Sunnylands": "0x139084CbFBee1b0EADd35bd24487840F8C0dc877",
+            "ChateauLafitte": "0xFeDcF72FbdE6F69e3e11fE610Adf378cd945BAe1",
+            "AdareManor": "0xD00f084698BE213CD456Ed58c49936f1149027E4",
+            "VillaDEste": "0xD5c41dEdee35b4dD18eE56E9D68fCCa6F9576a63",
+            "VillaLant": "0xAf0D30dEA29db2c772b2b1C53817B8723A2BAD31",
+            "VillaFarnese": "0x30F8bCD442E2De4c3585b49A74CC20A7ff78BaA3",
+            "ChatsworthHouse": "0x45fE765823D421Ef1bbDBC20cc67C50C971e2F73",
+            "ChateauMargaux": "0xD831b299b3ecc129F82111256f19D23eE5Ebc4B6"
         },
-        "calculatorsAddress":{
-            "BirrCastleCalculators":"0x30ddD575E578C9340F7C382ac70756f47e537C92",
-            "ChateauLafitteCalculators":"0x0c5Af1508B9016fC4cA0Ef9bfFE45738e64F2Def"
+        "calculatorsAddress": {
+            "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",
+            "ChateauLafitteCalculators": "0x0c5Af1508B9016fC4cA0Ef9bfFE45738e64F2Def",
+            "SunnylandsCalculators": "0x53857B898F6aA055B19c3E19515c04F52C131066"
         }
     },
     "remote": {
-        "swap":{
-            "factory":"",
-            "router":""
+        "swap": {
+            "factory": "",
+            "router": ""
         },
-        "itokensAddress":{
-            "rETH":"",
-            "rBTC":"",
-            "rUSD":""
+        "itokensAddress": {
+            "rETH": "",
+            "rBTC": "",
+            "rUSD": ""
         },
-        "tokensAddress":{
-            "HUSD":"",
-            "HBTC":"",
-            "HETH":"",
-            "WHT":"",
-            "RICE":"",
-            "USDT":""
+        "tokensAddress": {
+            "HUSD": "",
+            "HBTC": "",
+            "HETH": "",
+            "WHT": "",
+            "RICE": "",
+            "USDT": ""
         },
-        "lpTokenAddress":{
-            "rUSD_USDT":"",
-            "rBTC_HBTC":"",
-            "rETH_HETH":"",
-            "RICE_rUSD":"",
-            "RICE_rBTC":"",
-            "RICE_rETH":""
+        "lpTokenAddress": {
+            "rUSD_USDT": "",
+            "rBTC_HBTC": "",
+            "rETH_HETH": "",
+            "RICE_rUSD": "",
+            "RICE_rBTC": "",
+            "RICE_rETH": ""
         },
-        "public":{
-            "IFAMaster":"",
-            "IFAPool":"",
-            "IFABank":"",
-            "IFARevenue":"",
-            "Costco":"",
-            "IFADataBoard":"",
-            "CreateIFA":"",
-            "ShareRevenue":"",
-            "Parities":""
+        "public": {
+            "IFAMaster": "",
+            "IFAPool": "",
+            "IFABank": "",
+            "IFARevenue": "",
+            "Costco": "",
+            "IFADataBoard": "",
+            "CreateIFA": "",
+            "ShareRevenue": "",
+            "Parities": ""
         },
-        "poolVaults":{
-            "BirrCastle":"",
-            "Sunnylands":"",
-            "ChateauLafitte":"",
-            "AdareManor":"",
-            "VillaDEste":"",
-            "VillaLant":"",
-            "VillaFarnese":"",
-            "ChatsworthHouse":"",
-            "ChateauMargaux":""
+        "poolVaults": {
+            "BirrCastle": "",
+            "Sunnylands": "",
+            "ChateauLafitte": "",
+            "AdareManor": "",
+            "VillaDEste": "",
+            "VillaLant": "",
+            "VillaFarnese": "",
+            "ChatsworthHouse": "",
+            "ChateauMargaux": ""
         },
-        "calculatorsAddress":{
-            "BirrCastleCalculators":"",
-            "ChateauLafitteCalculators":""
+        "calculatorsAddress": {
+            "BirrCastleCalculators": "",
+            "ChateauLafitteCalculators": ""
         }
     }
 }

@@ -32,53 +32,109 @@ const net = {
     "remote": "remote"
 }
 const currentNet = net.rinkeby
-const contract = allContract[currentNet]
 
-// Elastic token addresses are immutable once set, and the list may grow:
-const K_MADE_rUSD = 0;
-const K_MADE_rBTC = 1;
-const K_MADE_rETH = 2;
-
-// Strategy addresses are mutable:
-// seed token pool use
-const K_STRATEGY_CREATE_IFA = 0;
-// seed lp token pool use
-const K_STRATEGY_SHARE_REVENUE = 1;
-
-// Calculator addresses are mutable ( borrow use )
-const K_CALCULATOR_HUSD = 0;
-const K_CALCULATOR_HBTC = 1;
-const K_CALCULATOR_HETH = 2;
 
 const poolInfo = {
     0: {
-        "name":"BirrCastle",
-        "allocPoint":1,
-        "seedToken":"USDT",
-        "borrow":true,
-        "borrowParams":{
-            "rate" : 500,
-            "minimumLTV" : 65,
-            "maxmumLTV" : 90,
-            "minimumSize" : 500e18,
-            "borrowToken":"0x"
+        "name": "BirrCastle",
+        "allocPoint": 1,
+        "seedToken": "USDT",
+        "borrow": true,
+        "borrowParams": {
+            "calculatorId": 0,
+            "kMadeId": 0,
+            "rate": 500,
+            "minimumLTV": 65,
+            "maxmumLTV": 90,
+            "minimumSize": 500 * 1e18,
+            "borrowToken": "rUSD"
         }
+    },
+    1: {
+        "name": "Sunnylands",
+        "allocPoint": 1,
+        "seedToken": "BTC",
+        "borrow": true,
+        "borrowParams": {
+            "calculatorId": 1,
+            "kMadeId": 1,
+            "rate": 600,
+            "minimumLTV": 75,
+            "maxmumLTV": 90,
+            "minimumSize": 0.05 * 1e18,
+            "borrowToken": "rBTC"
+        }
+    },
+    2: {
+        "name": "ChateauLafitte",
+        "allocPoint": 1,
+        "seedToken": "ETH",
+        "borrow": true,
+        "borrowParams": {
+            "calculatorId": 2,
+            "kMadeId": 2,
+            "rate": 550,
+            "minimumLTV": 70,
+            "maxmumLTV": 90,
+            "minimumSize": 1e18,
+            "borrowToken": "rETH"
+        }
+    },
+    3: {
+        "name": "AdareManor",
+        "allocPoint": 5,
+        "seedToken": "rUSD_USDT",
+        "borrow": false,
+        "borrowParams": {}
+    },
+    4: {
+        "name": "VillaDEste",
+        "allocPoint": 5,
+        "seedToken": "rUSD_BTC",
+        "borrow": false,
+        "borrowParams": {}
+    },
+    5: {
+        "name": "VillaLant",
+        "allocPoint": 5,
+        "seedToken": "rUSD_ETH",
+        "borrow": false,
+        "borrowParams": {}
+    },
+    6: {
+        "name": "VillaFarnese",
+        "allocPoint": 50,
+        "seedToken": "RICE_rUSD",
+        "borrow": false,
+        "borrowParams": {}
+    },
+    7: {
+        "name": "ChatsworthHouse",
+        "allocPoint": 50,
+        "seedToken": "RICE_rBTC",
+        "borrow": false,
+        "borrowParams": {}
+    },
+    8: {
+        "name": "ChatsworthHouse",
+        "allocPoint": 50,
+        "seedToken": "RICE_rETH",
+        "borrow": false,
+        "borrowParams": {}
     }
 }
 
-let IFAVaultsId = {
-    0: 'BirrCastle',
-    1: 'Sunnylands',
-    2: 'ChateauLafitte',
-    3: 'AdareManor',
-    4: 'VillaDEste',
-    5: 'VillaLant',
-    6: 'VillaFarnese',
-    7: 'ChatsworthHouse',
-    8: 'ChateauMargaux'
+let IFAVaultContract = {
+    'BirrCastle': BirrCastle,
+    'Sunnylands': Sunnylands,
+    'ChateauLafitte': ChateauLafitte,
+    'AdareManor': AdareManor,
+    'VillaDEste': VillaDEste,
+    'VillaLant': VillaLant,
+    'VillaFarnese': VillaFarnese,
+    'ChatsworthHouse': ChatsworthHouse,
+    'ChateauMargaux': ChateauMargaux
 }
-
-const allocPointBase = 1;
 
 // Whether to enable the pool
 const POOL_ENABLE_STATUS = {
@@ -93,198 +149,102 @@ const POOL_ENABLE_STATUS = {
     8: false        // pool 9
 }
 
-// parmas
-const publicContractAddress = {
-    "IFAMaster": contract.public.IFAMaster,
-    "IFAPool": contract.public.IFAPool,
-    "IFABank": contract.public.IFABank,
-    "CreateIFA": contract.public.CreateIFA,
-    "ShareRevenue": contract.public.ShareRevenue,
+
+
+let resultContract = {}
+function logContractAddress(_name, _address) {
+    resultContract[_name] = _address
+    console.log(`${_name}: ${_address}`)
 }
 
-const itokensAddress = {
-    "rETH": contract.itokensAddress.rETH,
-    "rBTC": contract.itokensAddress.rBTC,
-    "rUSD": contract.itokensAddress.rUSD
-}
-
-const tokensAddress = {
-    "HUSD": contract.tokensAddress.HUSD,
-    "HBTC": contract.tokensAddress.HBTC,
-    "HETH": contract.tokensAddress.HETH
-}
-
-const lpTokenAddress = {
-    "rUSD_USDT": contract.lpTokenAddress.rUSD_USDT,
-    "rBTC_HBTC": contract.lpTokenAddress.rBTC_HBTC,
-    "rETH_HETH": contract.lpTokenAddress.rETH_HETH,
-    "RICE_rUSD": contract.lpTokenAddress.RICE_rUSD,
-    "RICE_rBTC": contract.lpTokenAddress.RICE_rBTC,
-    "RICE_rETH": contract.lpTokenAddress.RICE_rETH
-}
-
-const contractAddress = {
-    "poolVaults": {},
-    "calculator": {},
-    "token": [itokensAddress, tokensAddress]
-}
 
 // ============ Main Migration ============
 const migration = async (deployer, network, accounts) => {
     if (network.indexOf('fork') != -1) {
         return
     }
-    if (currentNet != network) {
-        console.log(`env err, current: ${currentNet}, expect: ${network}`)
-        return
+    const contract = allContract[network]
+    this.tokens = {
+        "rETH": contract.itokensAddress.rETH,
+        "rBTC": contract.itokensAddress.rBTC,
+        "rUSD": contract.itokensAddress.rUSD,
+        "USDT": contract.tokensAddress.HUSD,
+        "BTC": contract.tokensAddress.HBTC,
+        "ETH": contract.tokensAddress.HETH,
+        "rUSD_USDT": contract.lpTokenAddress.rUSD_USDT,
+        "rBTC_BTC": contract.lpTokenAddress.rBTC_HBTC,
+        "rETH_ETH": contract.lpTokenAddress.rETH_HETH,
+        "RICE_rUSD": contract.lpTokenAddress.RICE_rUSD,
+        "RICE_rBTC": contract.lpTokenAddress.RICE_rBTC,
+        "RICE_rETH": contract.lpTokenAddress.RICE_rETH
     }
-    console.log(publicContractAddress)
-    console.log(itokensAddress)
-    console.log(tokensAddress)
-    console.log(lpTokenAddress)
+    this.ifaMasterInstance = await IFAMaster.at(contract.public.IFAMaster);
+    this.ifaBankInstance = await IFABank.at(contract.public.IFABank);
+    this.ifaPoolInstance = await IFAPool.at(contract.public.IFAPool);
+    this.createIFAInstance = await CreateIFA.at(contract.public.CreateIFA);
 
     await Promise.all([
-        await deployBorrowPools(deployer, network, accounts),
-        await deployLpTokenPools(deployer, network, accounts),
+        await addPoolContracts(deployer, network, accounts)
     ]);
-    console.log(JSON.stringify(contractAddress));
-    console.log('\n')
 };
 
 module.exports = migration;
 
-// depoly borrow pools total:3
-async function deployBorrowPools(deployer, network, accounts) {
-    console.log(`deployBorrowPools deployering...`)
-    let vaults = [BirrCastle, Sunnylands, ChateauLafitte];
-    let K_CALCULATORS = [K_CALCULATOR_HUSD, K_CALCULATOR_HBTC, K_CALCULATOR_HETH];
-    let itokenAddress = [itokensAddress.rUSD, itokensAddress.rBTC, itokensAddress.rETH];
-    let tokenAddress = [tokensAddress.HUSD, tokensAddress.HBTC, tokensAddress.HETH];
-    let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
-    let ifaBankInstance = await IFABank.at(publicContractAddress.IFABank);
-    let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
-    let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
-    let itokenContract = [
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rUSD),
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rBTC),
-        new web3.eth.Contract(iTokenDelegator.abi, itokensAddress.rETH)
-    ]
+async function addPoolContracts(deployer, network, accounts) {
+    for (let key in poolInfo) {
+        if (!POOL_ENABLE_STATUS[key]) {
+            continue
+        }
+        let poolId = key
+        let pool = poolInfo[poolId]
+        let vaultInstance = null
+        // borrow pool
+        if (pool.borrow) {
+            let K_CALCULATOR = pool.borrowParams.calculatorId
+            let K_MADE = pool.borrowParams.kMadeId
+            let borrowTokenAddress = this.tokens[pool.borrowParams.borrowToken]
+            let rToken = new web3.eth.Contract(iTokenDelegator.abi, borrowTokenAddress)
+            // set rTokens
+            switch (K_CALCULATOR) {
+                case 0:
+                    await this.ifaMasterInstance.setiUSD(borrowTokenAddress);
+                    await this.ifaMasterInstance.setiToken(K_MADE, borrowTokenAddress);
+                    break;
+                case 1:
+                    await this.ifaMasterInstance.setiBTC(borrowTokenAddress);
+                    await this.ifaMasterInstance.setiToken(K_MADE, borrowTokenAddress);
+                    break;
+                case 2:
+                    await this.ifaMasterInstance.setiETH(borrowTokenAddress);
+                    await this.ifaMasterInstance.setiToken(K_MADE, borrowTokenAddress);
+                    break;
+                default:
+                    console.log(`Error: set rToken fail pool_id = ${i}`)
+                    break;
+            }
+            await rToken.methods._setBanker(this.ifaBankInstance.address).send({ from: accounts[0] });
+            let basicCalculator = await BasicCalculator.new(
+                this.ifaMasterInstance.address,
+                poolInfo.borrowParams.rate,
+                poolInfo.borrowParams.minimumLTV,
+                poolInfo.borrowParams.maxmumLTV,
+                poolInfo.borrowParams.minimumSize
+            )
+            await this.ifaMasterInstance.addCalculator(K_CALCULATOR, basicCalculator.address);
+            vaultInstance = await IFAVaultContract[pool.name].new(this.ifaMasterInstance.address, this.createIFAInstance.address)
+            await this.ifaMasterInstance.addVault(poolId, vaultInstance.address);
+            logContractAddress(`${pool.name}Calculators`, basicCalculator.address)
+        }
 
-    for (let i = 0; i < vaults.length; i++) {
-        // Whether to deploy the current pool , Do not deploy when POOL_ENABLE_STATUS is false
-        if (!POOL_ENABLE_STATUS[i]) {
-            continue;
+        // seed pool
+        let seedTokenAddress = this.tokens[pool.seedToken]
+        let allocPoint = pool.allocPoint
+        if (!vaultInstance) {
+            vaultInstance = await vault.new(this.ifaMasterInstance.address, this.createIFAInstance.address, contract.public.ShareRevenue)
+            await this.ifaMasterInstance.addVault(poolId, vaultInstance.address);
         }
-        let poolId = i;
-        let K_CALCULATOR = K_CALCULATORS[i];
-        let kVault = i
-        let vault = vaults[kVault];
-        let now = Math.floor((new Date()).getTime() / 1000 - 3600);
-        let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA)
-            .then((result) => { console.log(`${IFAVaultsId[i]}:`, result.address); return result; });
-        let name = IFAVaultsId[i];
-        contractAddress.poolVaults[IFAVaultsId[i]] = vaultInstance.address;
-        // set rTokens
-        switch (i) {
-            case 0:
-                await ifaMasterInstance.setiUSD(itokensAddress.rUSD);
-                await ifaMasterInstance.setiToken(K_MADE_rUSD, itokensAddress.rUSD);
-                break;
-            case 1:
-                await ifaMasterInstance.setiBTC(itokensAddress.rBTC);
-                await ifaMasterInstance.setiToken(K_MADE_rBTC, itokensAddress.rBTC);
-                break;
-            case 2:
-                await ifaMasterInstance.setiETH(itokensAddress.rETH);
-                await ifaMasterInstance.setiToken(K_MADE_rETH, itokensAddress.rETH);
-                break;
-            default:
-                console.log(`Error: set rToken fail pool_id = ${i}`)
-                break;
-        }
-        await itokenContract[i].methods._setBanker(ifaBankInstance.address).send({ from: accounts[0] });
-        let BCParams = { rate: 500, minimumLTV: 65, maxmumLTV: 90, minimumSize: web3.utils.toWei('500') };
-        switch (i) {
-            case 0:
-                BCParams.rate = 500;
-                BCParams.minimumLTV = 65;
-                BCParams.maxmumLTV = 90;
-                BCParams.minimumSize = web3.utils.toWei('500');
-                break;
-            case 1:
-                BCParams.rate = 600;
-                BCParams.minimumLTV = 75;
-                BCParams.maxmumLTV = 90;
-                BCParams.minimumSize = web3.utils.toWei('0.05');
-                break;
-            case 2:
-                BCParams.rate = 550;
-                BCParams.minimumLTV = 70;
-                BCParams.maxmumLTV = 90;
-                BCParams.minimumSize = web3.utils.toWei('1');
-                break;
-            default:
-                console.log(`Error: borrow pool_id = ${i}`)
-                break;
-        }
-        let basicCalculator = await BasicCalculator.new(ifaMasterInstance.address, BCParams.rate, BCParams.minimumLTV, BCParams.maxmumLTV, BCParams.minimumSize)
-            .then((result) => { console.log(`${name}Calculators:`, result.address); return result; });
-        contractAddress.calculator[`${name}Calculators`] = basicCalculator.address;
-        await ifaMasterInstance.addVault(kVault, vaultInstance.address);
-        await ifaMasterInstance.addCalculator(K_CALCULATOR, basicCalculator.address);
-        // close pool
-        // await ifaBankInstance.setPoolInfo(poolId, itokenAddress[i], vaultInstance.address, basicCalculator.address);
-        // await ifaPoolInstance.setPoolInfo(poolId, tokenAddress[i], vaultInstance.address, now);
-        await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, tokenAddress[i], allocPointBase, false);
+        await this.createIFAInstance.setPoolInfo(poolId, vaultInstance.address, seedTokenAddress, allocPoint, false)
+        logContractAddress(`${pool.name}`, vaultInstance.address)
+        logContractAddress(`${pool.seedToken}`, seedTokenAddress)
     }
-    console.log(`deployBorrowPools end\n`)
-}
-
-// depoly lp token pools total:6
-async function deployLpTokenPools(deployer, network, accounts) {
-    console.log(`deployLpTokenPools deployering...`)
-    let vaults = [
-        AdareManor,
-        VillaDEste,
-        VillaLant,
-        VillaFarnese,
-        ChatsworthHouse,
-        ChateauMargaux
-    ];
-    let lpToken = [
-        lpTokenAddress.rUSD_USDT,
-        lpTokenAddress.rBTC_HBTC,
-        lpTokenAddress.rETH_HETH,
-        lpTokenAddress.RICE_rUSD,
-        lpTokenAddress.RICE_rBTC,
-        lpTokenAddress.RICE_rETH
-    ];
-    let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
-    let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
-    let createIFAInstance = await CreateIFA.at(publicContractAddress.CreateIFA);
-    let allocPoint = allocPointBase;
-    for (let i = 3; i < vaults.length + 3; i++) {
-        // Whether to deploy the current pool , Do not deploy when POOL_ENABLE_STATUS is false
-        if (!POOL_ENABLE_STATUS[i]) {
-            continue;
-        }
-        let poolId = i;
-        let kVault = i
-        let vault = vaults[kVault - 3];
-        let now = Math.floor((new Date()).getTime() / 1000 - 3600);
-        let vaultInstance = await vault.new(ifaMasterInstance.address, publicContractAddress.CreateIFA, publicContractAddress.ShareRevenue)
-            .then((result) => { console.log(`${IFAVaultsId[i]}:`, result.address); return result; });
-        contractAddress.poolVaults[IFAVaultsId[i]] = vaultInstance.address;
-        await ifaMasterInstance.addVault(kVault, vaultInstance.address);
-        // close pool
-        // await ifaPoolInstance.setPoolInfo(poolId, lpToken[i - 3], vaultInstance.address, now);
-        if (i > 2 && i <= 5) {
-            allocPoint = allocPointBase * 5
-        }
-        else if (i > 5) {
-            allocPoint = allocPointBase * 50
-        }
-        await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
-    }
-    console.log(`deployLpTokenPools end\n`)
 }

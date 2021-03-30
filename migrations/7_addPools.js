@@ -22,6 +22,10 @@ const VillaLant = artifacts.require('VillaLant');
 const VillaFarnese = artifacts.require('VillaFarnese');
 const ChatsworthHouse = artifacts.require('ChatsworthHouse');
 const ChateauMargaux = artifacts.require('ChateauMargaux');
+const Chillon = artifacts.require('Chillon');
+const Frederiksborg = artifacts.require('Frederiksborg');
+const Prague = artifacts.require('Prague');
+
 
 const allContract = require("../deployedContract.json")
 
@@ -31,7 +35,7 @@ const net = {
     "rinkeby": "rinkeby",
     "remote": "remote"
 }
-const currentNet = net.rinkeby
+const currentNet = net.bnbmainnet
 const contract = allContract[currentNet]
 
 // Elastic token addresses are immutable once set, and the list may grow:
@@ -59,7 +63,10 @@ let IFAVaultsId = {
     5: 'VillaLant',
     6: 'VillaFarnese',
     7: 'ChatsworthHouse',
-    8: 'ChateauMargaux'
+    8: 'ChateauMargaux',
+    9: 'Chillon',
+    10: 'Frederiksborg',
+    11: 'Prague'
 }
 
 const allocPointBase = 1;
@@ -67,14 +74,17 @@ const allocPointBase = 1;
 // Whether to enable the pool
 const POOL_ENABLE_STATUS = {
     0: false,       // pool 1
-    1: true,        // pool 2
+    1: false,        // pool 2
     2: false,       // pool 3
     3: false,       // pool 4
-    4: true,        // pool 5
+    4: false,        // pool 5
     5: false,       // pool 6
     6: false,       // pool 7
-    7: true,        // pool 8
-    8: false        // pool 9
+    7: false,        // pool 8
+    8: false,        // pool 9
+    9: false,
+    10: false,
+    11: false
 }
 
 // parmas
@@ -104,7 +114,10 @@ const lpTokenAddress = {
     "rETH_HETH": contract.lpTokenAddress.rETH_HETH,
     "RICE_rUSD": contract.lpTokenAddress.RICE_rUSD,
     "RICE_rBTC": contract.lpTokenAddress.RICE_rBTC,
-    "RICE_rETH": contract.lpTokenAddress.RICE_rETH
+    "RICE_rETH": contract.lpTokenAddress.RICE_rETH,
+    "BNB_rUSD": "",
+    "BNB_rBTC": "",
+    "BNB_rETH": ""
 }
 
 const contractAddress = {
@@ -233,7 +246,10 @@ async function deployLpTokenPools(deployer, network, accounts) {
         VillaLant,
         VillaFarnese,
         ChatsworthHouse,
-        ChateauMargaux
+        ChateauMargaux,
+        Chillon,
+        Frederiksborg,
+        Prague
     ];
     let lpToken = [
         lpTokenAddress.rUSD_USDT,
@@ -241,7 +257,10 @@ async function deployLpTokenPools(deployer, network, accounts) {
         lpTokenAddress.rETH_HETH,
         lpTokenAddress.RICE_rUSD,
         lpTokenAddress.RICE_rBTC,
-        lpTokenAddress.RICE_rETH
+        lpTokenAddress.RICE_rETH,
+        lpTokenAddress.BNB_rUSD,
+        lpTokenAddress.BNB_rBTC,
+        lpTokenAddress.BNB_rETH
     ];
     let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
@@ -265,8 +284,11 @@ async function deployLpTokenPools(deployer, network, accounts) {
         if (i > 2 && i <= 5) {
             allocPoint = allocPointBase * 5
         }
-        else if (i > 5) {
+        else if (i > 5 && i <= 8) {
             allocPoint = allocPointBase * 50
+        }
+        else if (i > 8 && i <= 11) {
+            allocPoint = allocPointBase * 10
         }
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);
     }

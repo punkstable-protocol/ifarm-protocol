@@ -117,13 +117,13 @@ const migration = async (deployer, network, accounts) => {
         // await setPools(3, deployer, network, accounts),
         // await setPools(6, deployer, network, accounts),
 
-        await setPools(2, deployer, network, accounts),
-        await setPools(5, deployer, network, accounts),
-        await setPools(8, deployer, network, accounts),
+        // await setPools(2, deployer, network, accounts),
+        // await setPools(5, deployer, network, accounts),
+        // await setPools(8, deployer, network, accounts),
 
-        // await setPools(1, deployer, network, accounts),
-        // await setPools(4, deployer, network, accounts),
-        // await setPools(7, deployer, network, accounts)
+        await setPools(1, deployer, network, accounts),
+        await setPools(4, deployer, network, accounts),
+        await setPools(7, deployer, network, accounts)
     ]);
 };
 

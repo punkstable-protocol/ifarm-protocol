@@ -32,7 +32,8 @@ const rinkebyNetContract = {
         'HETH': '0x250504A933DA341F6d65Eb64E3a4a269370208A6',
         'WHT': '',
         'RICE': '0x60Bfa41Fa438c96efB0Df5904f6e23288cB86910',
-        'USDT': '0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6'
+        'USDT': '0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6',
+        'BNB': '0x64ada49672f1e4a0Eea7681D12f40118Cc7B69Ce'
     },
     'lpToken': {
         "rUSD_USDT": '0x197ad94fe35df4ee20016ef0b549597e9629d95f',
@@ -40,7 +41,10 @@ const rinkebyNetContract = {
         "rETH_HETH": '0x9d8e70e53bbb545d1ed3b84d8bdd634f8b1c4f7b',
         "RICE_rUSD": '0xbb29c6735f24ccfe17f3411c978b76c91438a14d',
         "RICE_rBTC": '0x5f621bd9ba8b19882f52c06bdab55f48469d5a79',
-        "RICE_rETH": '0xde919ac7d48cd47c0be28ded0749e411f3a46ab0'
+        "RICE_rETH": '0xde919ac7d48cd47c0be28ded0749e411f3a46ab0',
+        "BNB_rUSD": "0x3d352d895b0ace63ef39fb4b1d5208d522504a51",
+        "BNB_rBTC": "0xeca405f59468087471d613f2c0d55e6bf332004f",
+        "BNB_rETH": "0x49bf73b57f35911e527141b29c5b6732e29bc5ba"
     }
 }
 
@@ -182,15 +186,19 @@ const bnbTestNetContract = {
         'HETH': '0xa0DAecE1546F245F5d651B8340Dda6ADa1e9971b',
         'WHT': '0x2b8ff854c5e16cf35b9a792390cc3a2a60ec9ba2',
         'RICE': '0x1cE2546357647B5c07477C7a9fe1C914826d0F01',
-        'USDT': '0xAB66426C977c16cC2F0C4Ef619783075016220C5'
+        'USDT': '0xAB66426C977c16cC2F0C4Ef619783075016220C5',
+        'BNB': ''
     },
     'lpToken': {
-        "rUSD_USDT": '',
-        "rBTC_HBTC": '',
-        "rETH_HETH": '',
-        "RICE_rUSD": '',
-        "RICE_rBTC": '',
-        "RICE_rETH": ''
+        "rUSD_USDT": "",
+        "rBTC_HBTC": "",
+        "rETH_HETH": "",
+        "RICE_rUSD": "",
+        "RICE_rBTC": "",
+        "RICE_rETH": "",
+        "BNB_rUSD": "",
+        "BNB_rBTC": "",
+        "BNB_rETH": ""
     }
 }
 
@@ -211,14 +219,15 @@ const bnbMainNetContract = {
         'HETH': '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
         'WHT': '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',
         'RICE': '0xa13283562827D0Dff6D6811464D927edE029Ff46',
-        'USDT': '0x55d398326f99059ff775485246999027b3197955'
+        'USDT': '0x55d398326f99059ff775485246999027b3197955',
+        'BNB': '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c'
     },
     'lpToken': {
         "rUSD_USDT": '0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f',
-        "rBTC_HBTC": '',
+        "rBTC_HBTC": '0xd8Bd05cf719230EF13A4F397a734dEFbc86233fD',
         "rETH_HETH": '0xdfef40c39e0064e137675dff535d1f3d00571eb7',
         "RICE_rUSD": '0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60',
-        "RICE_rBTC": '',
+        "RICE_rBTC": '0x5F621bD9bA8B19882F52C06BDab55F48469d5a79',
         "RICE_rETH": '0xa69878b4beff03de6860ad54960ac916e3b44f7b'
     }
 }

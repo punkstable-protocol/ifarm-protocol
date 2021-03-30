@@ -21,6 +21,9 @@ const poolVaultId = {
     6: 'VillaFarnese',
     7: 'ChatsworthHouse',
     8: 'ChateauMargaux',
+    9: 'Chillon',
+    10: 'Frederiksborg',
+    11: 'Prague'
 }
 
 const tokensId = {
@@ -33,6 +36,9 @@ const tokensId = {
     6: "RICE-rUSD",
     7: "RICE-rBTC",
     8: "RICE-rETH",
+    9: "BNB_rUSD",
+    10: "BNB_rBTC",
+    11: "BNB_rETH"
 }
 
 
@@ -61,6 +67,9 @@ const migration = async (deployer, network, accounts) => {
         'VillaFarnese': contract.poolVaults.VillaFarnese,
         'ChatsworthHouse': contract.poolVaults.ChatsworthHouse,
         'ChateauMargaux': contract.poolVaults.ChateauMargaux,
+        'Chillon': contract.poolVaults.Chillon,
+        'Frederiksborg': contract.poolVaults.Frederiksborg,
+        'Prague': contract.poolVaults.Prague
     }
 
     const iTokenAddress = {
@@ -78,7 +87,10 @@ const migration = async (deployer, network, accounts) => {
         "rETH-ETH": contract.lpTokenAddress.rETH_HETH,
         "RICE-rUSD": contract.lpTokenAddress.RICE_rUSD,
         "RICE-rBTC": contract.lpTokenAddress.RICE_rBTC,
-        "RICE-rETH": contract.lpTokenAddress.RICE_rETH
+        "RICE-rETH": contract.lpTokenAddress.RICE_rETH,
+        "BNB_rUSD": contract.lpTokenAddress.BNB_rUSD,
+        "BNB_rBTC": contract.lpTokenAddress.BNB_rBTC,
+        "BNB_rETH": contract.lpTokenAddress.BNB_rETH
     }
     this.Calculators = [
         CalculatorAddress.BirrCastleCalculator,

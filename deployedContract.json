@@ -15,7 +15,8 @@
             "HETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
             "WHT": "",
             "RICE": "0xa13283562827D0Dff6D6811464D927edE029Ff46",
-            "USDT": "0x55d398326f99059fF775485246999027B3197955"
+            "USDT": "0x55d398326f99059fF775485246999027B3197955",
+            "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
@@ -23,7 +24,10 @@
             "rETH_HETH": "0xdfef40c39e0064e137675dff535d1f3d00571eb7",
             "RICE_rUSD": "0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60",
             "RICE_rBTC": "0xbf9949920a16fae5b364dc0aee19fa3c08e30cd2",
-            "RICE_rETH": "0xa69878b4beff03de6860ad54960ac916e3b44f7b"
+            "RICE_rETH": "0xa69878b4beff03de6860ad54960ac916e3b44f7b",
+            "BNB_rUSD": "",
+            "BNB_rBTC": "",
+            "BNB_rETH": ""
         },
         "public": {
             "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
@@ -45,7 +49,10 @@
             "VillaLant": "0x60B13d36890D4C63BBd472b96Ccd0925e9Bb64a3",
             "VillaFarnese": "0xc110A949B61fc47cFE4a40cB87925faeC18CAE34",
             "ChatsworthHouse": "0x36E74cBf30DE88FD1aAAb87E259A2BC5663a2249",
-            "ChateauMargaux": "0x92C70177e94c49E5688ce69306C5173816e515E9"
+            "ChateauMargaux": "0x92C70177e94c49E5688ce69306C5173816e515E9",
+            "Chillon": "",
+            "Frederiksborg": "",
+            "Prague": ""
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
@@ -76,7 +83,7 @@
             "WHT": "",
             "RICE": "0x60Bfa41Fa438c96efB0Df5904f6e23288cB86910",
             "USDT": "0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6",
-            "wBNB": ""
+            "BNB": "0x64ada49672f1e4a0Eea7681D12f40118Cc7B69Ce"
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x197ad94fe35dF4Ee20016EF0b549597e9629D95f",
@@ -85,9 +92,9 @@
             "RICE_rUSD": "0xbb29c6735F24CCfE17f3411c978B76C91438a14D",
             "RICE_rBTC": "0x5F621bD9bA8B19882F52C06BDab55F48469d5a79",
             "RICE_rETH": "0xdE919aC7d48cd47c0be28dEd0749e411F3a46aB0",
-            "BNB_rUSD": "",
-            "BNB_rBTC": "",
-            "BNB_rETH": ""
+            "BNB_rUSD": "0x3d352d895b0ace63ef39fb4b1d5208d522504a51",
+            "BNB_rBTC": "0xeca405f59468087471d613f2c0d55e6bf332004f",
+            "BNB_rETH": "0x49bf73b57f35911e527141b29c5b6732e29bc5ba"
         },
         "public": {
             "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
@@ -109,7 +116,10 @@
             "VillaLant": "0xAf0D30dEA29db2c772b2b1C53817B8723A2BAD31",
             "VillaFarnese": "0x30F8bCD442E2De4c3585b49A74CC20A7ff78BaA3",
             "ChatsworthHouse": "0x45fE765823D421Ef1bbDBC20cc67C50C971e2F73",
-            "ChateauMargaux": "0xD831b299b3ecc129F82111256f19D23eE5Ebc4B6"
+            "ChateauMargaux": "0xD831b299b3ecc129F82111256f19D23eE5Ebc4B6",
+            "Chillon": "",
+            "Frederiksborg": "",
+            "Prague": ""
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",
@@ -133,7 +143,8 @@
             "HETH": "",
             "WHT": "",
             "RICE": "",
-            "USDT": ""
+            "USDT": "",
+            "BNB": ""
         },
         "lpTokenAddress": {
             "rUSD_USDT": "",
@@ -141,7 +152,10 @@
             "rETH_HETH": "",
             "RICE_rUSD": "",
             "RICE_rBTC": "",
-            "RICE_rETH": ""
+            "RICE_rETH": "",
+            "BNB_rUSD": "",
+            "BNB_rBTC": "",
+            "BNB_rETH": ""
         },
         "public": {
             "IFAMaster": "",
@@ -163,7 +177,10 @@
             "VillaLant": "",
             "VillaFarnese": "",
             "ChatsworthHouse": "",
-            "ChateauMargaux": ""
+            "ChateauMargaux": "",
+            "Chillon": "",
+            "Frederiksborg": "",
+            "Prague": ""
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "",

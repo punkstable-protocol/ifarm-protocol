@@ -35,7 +35,7 @@ const net = {
     "rinkeby": "rinkeby",
     "remote": "remote"
 }
-const currentNet = net.bnbmainnet
+const currentNet = net.rinkeby
 const contract = allContract[currentNet]
 
 // Elastic token addresses are immutable once set, and the list may grow:
@@ -82,9 +82,9 @@ const POOL_ENABLE_STATUS = {
     6: false,       // pool 7
     7: false,        // pool 8
     8: false,        // pool 9
-    9: false,
-    10: false,
-    11: false
+    9: true,
+    10: true,
+    11: true
 }
 
 // parmas
@@ -115,9 +115,9 @@ const lpTokenAddress = {
     "RICE_rUSD": contract.lpTokenAddress.RICE_rUSD,
     "RICE_rBTC": contract.lpTokenAddress.RICE_rBTC,
     "RICE_rETH": contract.lpTokenAddress.RICE_rETH,
-    "BNB_rUSD": "",
-    "BNB_rBTC": "",
-    "BNB_rETH": ""
+    "BNB_rUSD": contract.lpTokenAddress.BNB_rUSD,
+    "BNB_rBTC": contract.lpTokenAddress.BNB_rBTC,
+    "BNB_rETH": contract.lpTokenAddress.BNB_rETH
 }
 
 const contractAddress = {

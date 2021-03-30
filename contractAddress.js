@@ -9,14 +9,14 @@ const ChainName = {
     LOCAL: 'local',
     HECO: "heco",
     BNB: "bnb",
+    RINKEBY: "rinkeby",
     REMOTE: "remote"
 }
 
 current_net = ChainNet.MainNet
-current_chain = ChainName.BNB
+current_chain = ChainName.RINKEBY
 
-// local chain develop address
-const remoteTestNetContract = {
+const rinkebyNetContract = {
     'mdex': {
         'factory': "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
         'router': "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
@@ -43,6 +43,36 @@ const remoteTestNetContract = {
         "RICE_rETH": '0xde919ac7d48cd47c0be28ded0749e411f3a46ab0'
     }
 }
+
+// local chain develop address
+const remoteTestNetContract = {
+    'mdex': {
+        'factory': "0x223a74cab41a9AE8ca339c7F0c1a99E6AF7D8d6C",
+        'router': "0x61b305165D158bee6e78805530DaDcBf42B858B9",
+    },
+    'itokens': {
+        'rETH': "0xac1F7D00cC80359b62D8C86e01f30Af0a50827D3",
+        'rBTC': "0x582595CAFfB71866318482362e11622318e06825",
+        'rUSD': "0x635e883095F4819bDE6b26Ce080EcbD78b704319",
+    },
+    'tokens': {
+        'HUSD': '',
+        'HBTC': '',
+        'HETH': '',
+        'WHT': '',
+        'RICE': '',
+        'USDT': ''
+    },
+    'lpToken': {
+        "rUSD_USDT": '',
+        "rBTC_HBTC": '',
+        "rETH_HETH": '',
+        "RICE_rUSD": '',
+        "RICE_rBTC": '',
+        "RICE_rETH": ''
+    }
+}
+
 
 // local chain develop address
 const localNetContract = {
@@ -209,6 +239,10 @@ let net_items = {
     'remote': {
         'testnet': remoteTestNetContract,
         'mainnet': remoteTestNetContract
+    },
+    'rinkeby': {
+        'testnet': rinkebyNetContract,
+        'mainnet': rinkebyNetContract
     }
 }
 

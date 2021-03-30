@@ -50,6 +50,22 @@ const K_CALCULATOR_HUSD = 0;
 const K_CALCULATOR_HBTC = 1;
 const K_CALCULATOR_HETH = 2;
 
+const poolInfo = {
+    0: {
+        "name":"BirrCastle",
+        "allocPoint":1,
+        "seedToken":"USDT",
+        "borrow":true,
+        "borrowParams":{
+            "rate" : 500,
+            "minimumLTV" : 65,
+            "maxmumLTV" : 90,
+            "minimumSize" : 500e18,
+            "borrowToken":"0x"
+        }
+    }
+}
+
 let IFAVaultsId = {
     0: 'BirrCastle',
     1: 'Sunnylands',

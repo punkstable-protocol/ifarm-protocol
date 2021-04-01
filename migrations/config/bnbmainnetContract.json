@@ -1,0 +1,67 @@
+{
+    "swap": {
+        "factory": "0xBCfCcbde45cE874adCB698cC183deBcF17952812",
+        "router": "0x05ff2b0db69458a0750badebc4f9e13add608c7f"
+    },
+    "itokensAddress": {
+        "rETH": "0x5f7c33Ef5Bd357F73Ca8D090fd124dF7c2c8B372",
+        "rBTC": "0xA4b9BA0A8CD1A183fd9B0A235D719286AdDC2bcb",
+        "rUSD": "0x4779DAEa8E7259514aBAEa2918B767B0B576FBC1"
+    },
+    "tokensAddress": {
+        "HUSD": "0x55d398326f99059fF775485246999027B3197955",
+        "HBTC": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+        "HETH": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+        "WHT": "",
+        "RICE": "0xa13283562827D0Dff6D6811464D927edE029Ff46",
+        "USDT": "0x55d398326f99059fF775485246999027B3197955",
+        "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+    },
+    "lpTokenAddress": {
+        "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
+        "rBTC_HBTC": "0x15c365725d02d2749792660b05c667e73fb90e0c",
+        "rETH_HETH": "0xdfef40c39e0064e137675dff535d1f3d00571eb7",
+        "RICE_rUSD": "0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60",
+        "RICE_rBTC": "0xbf9949920a16fae5b364dc0aee19fa3c08e30cd2",
+        "RICE_rETH": "0xa69878b4beff03de6860ad54960ac916e3b44f7b",
+        "BNB_rUSD": "",
+        "BNB_rBTC": "",
+        "BNB_rETH": ""
+    },
+    "public": {
+        "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
+        "IFAPool": "0x7A08453aA3a4EFA19D90c783702Ce93cE7998288",
+        "IFABank": "0xA6eDBc1ab479E66b16d24D18403b1B349e062a8a",
+        "IFARevenue": "0xE50D8f6bB60cca861D60cF0688dBf7759D5E4014",
+        "Costco": "0x30217BF6aE1c58c6E010A262b2B488c76E885D46",
+        "IFADataBoard": "0x1e4DC2272C520D07eF77C2744FCd50300EE0c560",
+        "CreateIFA": "0xA7973c5f881B966Dd33A7C4EE8ecA8f277407859",
+        "ShareRevenue": "0x17b601067BFf509709f95C4f45a30fc989f66Bc5",
+        "Parities": "0x27F0bd6e863c5fbc6CF6B667704940ea483bCf4f"
+    },
+    "poolVaults": {
+        "BirrCastle": "0x79469Ab5627B85066f6BccEf91adC98f4a88cD1B",
+        "Sunnylands": "0x773c5283d3757393e63e831DA893d38115E166fA",
+        "ChateauLafitte": "0x6c04801aA7Be6dab54fE827aA3bec17ee5B174A8",
+        "AdareManor": "0x5a42961AcF062672D66f6bB550384f8442102709",
+        "VillaDEste": "0x0Ac3E8C4d1FaD528279e8A7aAe1f4103eca51732",
+        "VillaLant": "0x60B13d36890D4C63BBd472b96Ccd0925e9Bb64a3",
+        "VillaFarnese": "0xc110A949B61fc47cFE4a40cB87925faeC18CAE34",
+        "ChatsworthHouse": "0x36E74cBf30DE88FD1aAAb87E259A2BC5663a2249",
+        "ChateauMargaux": "0x92C70177e94c49E5688ce69306C5173816e515E9",
+        "Chillon": "",
+        "Frederiksborg": "",
+        "Prague": ""
+    },
+    "calculatorsAddress": {
+        "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
+        "SunnylandsCalculators": "0xf3288B2cf29596F136d3c21eFcdeC6a0f4C002F4",
+        "ChateauLafitteCalculators": "0xB0e832619C40E8D59B26aC28d930D953fb66bA19"
+    },
+    "merkleDistributor": [
+        "0xDaD5C85e6aAf02C7C67601946204ea6294A99656",
+        "0x7F0901010e524A16ee42b91A782D6474b8194749"
+    ],
+    "MasterChef": "0x604E27adcD21a79A76D12e502C715a1fB9F845b0",
+    "Salt": "0x4B7739c0965542E9822aE51908e1977fC6771fDE"
+}

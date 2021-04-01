@@ -23,7 +23,10 @@ const poolVaultId = {
     8: 'ChateauMargaux',
     9: 'Chillon',
     10: 'Frederiksborg',
-    11: 'Prague'
+    11: 'Prague',
+    12: 'RossCastle',
+    13: 'HunyadCastle',
+    14: 'WhittingtonCastle'
 }
 
 const tokensId = {
@@ -38,7 +41,10 @@ const tokensId = {
     8: "RICE-rETH",
     9: "BNB_rUSD",
     10: "BNB_rBTC",
-    11: "BNB_rETH"
+    11: "BNB_rETH",
+    12: "Cake_rUSD",
+    13: "Cake_rBTC",
+    14: "Cake_rETH"
 }
 
 
@@ -69,7 +75,10 @@ const migration = async (deployer, network, accounts) => {
         'ChateauMargaux': contract.poolVaults.ChateauMargaux,
         'Chillon': contract.poolVaults.Chillon,
         'Frederiksborg': contract.poolVaults.Frederiksborg,
-        'Prague': contract.poolVaults.Prague
+        'Prague': contract.poolVaults.Prague,
+        "RossCastle": contract.poolVaults.RossCastle,
+        "HunyadCastle": contract.poolVaults.HunyadCastle,
+        "WhittingtonCastle": contract.poolVaults.WhittingtonCastle
     }
 
     const iTokenAddress = {
@@ -90,7 +99,10 @@ const migration = async (deployer, network, accounts) => {
         "RICE-rETH": contract.lpTokenAddress.RICE_rETH,
         "BNB_rUSD": contract.lpTokenAddress.BNB_rUSD,
         "BNB_rBTC": contract.lpTokenAddress.BNB_rBTC,
-        "BNB_rETH": contract.lpTokenAddress.BNB_rETH
+        "BNB_rETH": contract.lpTokenAddress.BNB_rETH,
+        "Cake_rUSD": contract.lpTokenAddress.Cake_rUSD,
+        "Cake_rBTC": contract.lpTokenAddress.Cake_rBTC,
+        "Cake_rETH": contract.lpTokenAddress.Cake_rETH
     }
     this.Calculators = [
         CalculatorAddress.BirrCastleCalculator,
@@ -133,9 +145,17 @@ const migration = async (deployer, network, accounts) => {
         // await setPools(5, deployer, network, accounts),
         // await setPools(8, deployer, network, accounts),
 
-        await setPools(1, deployer, network, accounts),
-        await setPools(4, deployer, network, accounts),
-        await setPools(7, deployer, network, accounts)
+        // await setPools(1, deployer, network, accounts),
+        // await setPools(4, deployer, network, accounts),
+        // await setPools(7, deployer, network, accounts),
+
+        // await setPools(9, deployer, network, accounts),
+        // await setPools(10, deployer, network, accounts),
+        // await setPools(11, deployer, network, accounts),
+
+        await setPools(12, deployer, network, accounts),
+        await setPools(13, deployer, network, accounts),
+        await setPools(14, deployer, network, accounts)
     ]);
 };
 

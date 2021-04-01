@@ -16,7 +16,8 @@
             "WHT": "",
             "RICE": "0xa13283562827D0Dff6D6811464D927edE029Ff46",
             "USDT": "0x55d398326f99059fF775485246999027B3197955",
-            "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+            "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+            "Cake": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
@@ -25,9 +26,12 @@
             "RICE_rUSD": "0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60",
             "RICE_rBTC": "0xbf9949920a16fae5b364dc0aee19fa3c08e30cd2",
             "RICE_rETH": "0xa69878b4beff03de6860ad54960ac916e3b44f7b",
-            "BNB_rUSD": "",
-            "BNB_rBTC": "",
-            "BNB_rETH": ""
+            "BNB_rUSD": "0x8f7c7cdb6d4737be7f0bc902aaa671a35c7e5a14",
+            "BNB_rBTC": "0x983137e75b9679afdcf686418a4ba153afb20754",
+            "BNB_rETH": "0x682fdc08965f0acf4b651d90566532f051214723",
+            "Cake_rUSD": "0x35a79fb030b7cf6db330cb213166fcc316eb838b",
+            "Cake_rBTC": "0xaaf1420cc76a9bddebb9a6bb1bed27b960c753f5",
+            "Cake_rETH": "0x41fef0e9d9301c2f4a98fcb4108a2ae2e6232b8c"
         },
         "public": {
             "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
@@ -50,9 +54,12 @@
             "VillaFarnese": "0xc110A949B61fc47cFE4a40cB87925faeC18CAE34",
             "ChatsworthHouse": "0x36E74cBf30DE88FD1aAAb87E259A2BC5663a2249",
             "ChateauMargaux": "0x92C70177e94c49E5688ce69306C5173816e515E9",
-            "Chillon": "",
-            "Frederiksborg": "",
-            "Prague": ""
+            "Chillon": "0x6fe523879CDCC1c83263ca026b261698c408AAb9",
+            "Frederiksborg": "0xa2d11C7110D163592f26bc3D8e84d94E08bA251E",
+            "Prague": "0x08a7dC961CC8F8f254E0C780c000Bf92E715f040",
+            "RossCastle": "0xFE8a2664e10ddfeA13354C7fBeC1A25a485A0800",
+            "HunyadCastle": "0x50B5D38d764DC55dF15856CeB4bBc39a7888dE08",
+            "WhittingtonCastle": "0x13c4F8D7e4AEf9F9fE5861632d5143a0BfDdE4D5"
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
@@ -83,7 +90,8 @@
             "WHT": "",
             "RICE": "0x60Bfa41Fa438c96efB0Df5904f6e23288cB86910",
             "USDT": "0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6",
-            "BNB": "0x64ada49672f1e4a0Eea7681D12f40118Cc7B69Ce"
+            "BNB": "0x64ada49672f1e4a0Eea7681D12f40118Cc7B69Ce",
+            "Cake": "0xCc2a0afCFA5546159aF2f9274631be7de6578af7"
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x197ad94fe35dF4Ee20016EF0b549597e9629D95f",
@@ -94,7 +102,10 @@
             "RICE_rETH": "0xdE919aC7d48cd47c0be28dEd0749e411F3a46aB0",
             "BNB_rUSD": "0x3d352d895b0ace63ef39fb4b1d5208d522504a51",
             "BNB_rBTC": "0xeca405f59468087471d613f2c0d55e6bf332004f",
-            "BNB_rETH": "0x49bf73b57f35911e527141b29c5b6732e29bc5ba"
+            "BNB_rETH": "0x49bf73b57f35911e527141b29c5b6732e29bc5ba",
+            "Cake_rUSD": "0x9ce74d185de1419e9cbfa1d65dee2b79dfeaae2c",
+            "Cake_rBTC": "0xad3c970c3cb23cb0182d5b14f29f5c6d6de8b56e",
+            "Cake_rETH": "0x8c88cc600a2493475f785509f126121c6138dc8a"
         },
         "public": {
             "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
@@ -117,9 +128,12 @@
             "VillaFarnese": "0x30F8bCD442E2De4c3585b49A74CC20A7ff78BaA3",
             "ChatsworthHouse": "0x45fE765823D421Ef1bbDBC20cc67C50C971e2F73",
             "ChateauMargaux": "0xD831b299b3ecc129F82111256f19D23eE5Ebc4B6",
-            "Chillon": "",
-            "Frederiksborg": "",
-            "Prague": ""
+            "Chillon": "0xD3828f34B7D1264Bb3aE20A6dbA81DDE49e35FbC",
+            "Frederiksborg": "0x6298931FC55eaE87458e686849Cfaa6a819F56d5",
+            "Prague": "0x0502854019e86c68d51F29c199b5380c0061eb6D",
+            "RossCastle": "0x2B1b92f5a48323DBe8fF1fE1f04C38544eBC3e1c",
+            "HunyadCastle": "0x197c15a3AF6628C5782D444b8a3196678845FDAB",
+            "WhittingtonCastle": "0x871c7222D4F3403394524cc6D578DaBD5Bb7160a"
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",

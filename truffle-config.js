@@ -48,6 +48,12 @@ module.exports = {
   // Modify to the correct migration directory when using
   // migrations_directory: "./migrations/ignore_migrations",
   migrations_directory: "./migrations/",
+  plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    bscscan: process.env.BSC_SCAN_API_KEY
+  },
   networks: {
     hecomainnet: {
       provider: hecoChainProvider('mainnet'),

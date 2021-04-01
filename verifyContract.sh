@@ -1,0 +1,1 @@
+ truffle run verify iTokenDelegator@0x4779DAEa8E7259514aBAEa2918B767B0B576FBC1 --network bnbmainnet

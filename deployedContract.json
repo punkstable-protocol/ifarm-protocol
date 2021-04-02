@@ -17,7 +17,9 @@
             "RICE": "0xa13283562827D0Dff6D6811464D927edE029Ff46",
             "USDT": "0x55d398326f99059fF775485246999027B3197955",
             "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-            "Cake": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82"
+            "Cake": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
+            "XVS": "0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63",
+            "DEGO": "0x3fda9383a84c05ec8f7630fe10adf1fac13241cc"
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
@@ -31,7 +33,13 @@
             "BNB_rETH": "0x682fdc08965f0acf4b651d90566532f051214723",
             "Cake_rUSD": "0x35a79fb030b7cf6db330cb213166fcc316eb838b",
             "Cake_rBTC": "0xaaf1420cc76a9bddebb9a6bb1bed27b960c753f5",
-            "Cake_rETH": "0x41fef0e9d9301c2f4a98fcb4108a2ae2e6232b8c"
+            "Cake_rETH": "0x41fef0e9d9301c2f4a98fcb4108a2ae2e6232b8c",
+            "XVS_rUSD": "",
+            "XVS_rBTC": "",
+            "XVS_rETH": "",
+            "DEGO_rUSD": "",
+            "DEGO_rBTC": "",
+            "DEGO_rETH": ""
         },
         "public": {
             "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
@@ -59,7 +67,13 @@
             "Prague": "0x08a7dC961CC8F8f254E0C780c000Bf92E715f040",
             "RossCastle": "0xFE8a2664e10ddfeA13354C7fBeC1A25a485A0800",
             "HunyadCastle": "0x50B5D38d764DC55dF15856CeB4bBc39a7888dE08",
-            "WhittingtonCastle": "0x13c4F8D7e4AEf9F9fE5861632d5143a0BfDdE4D5"
+            "WhittingtonCastle": "0x13c4F8D7e4AEf9F9fE5861632d5143a0BfDdE4D5",
+            "Bojnickyzamok": "",
+            "MontStMichel": "",
+            "SchwerinCastle": "",
+            "Pierrefonds": "",
+            "Obidos": "",
+            "Mespelbrunn": ""
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
@@ -91,7 +105,9 @@
             "RICE": "0x60Bfa41Fa438c96efB0Df5904f6e23288cB86910",
             "USDT": "0x387d9d7901EDcAc1E431e5cDC8E860a9F22960b6",
             "BNB": "0x64ada49672f1e4a0Eea7681D12f40118Cc7B69Ce",
-            "Cake": "0xCc2a0afCFA5546159aF2f9274631be7de6578af7"
+            "Cake": "0xCc2a0afCFA5546159aF2f9274631be7de6578af7",
+            "XVS": "0x9a8C922c6ae32F23CbE56fC8dB2471A39BdFfFfa",
+            "DEGO": "0xA028447145d4A929bC2f23c491E9b3C44ED364d3"
         },
         "lpTokenAddress": {
             "rUSD_USDT": "0x197ad94fe35dF4Ee20016EF0b549597e9629D95f",
@@ -105,7 +121,13 @@
             "BNB_rETH": "0x49bf73b57f35911e527141b29c5b6732e29bc5ba",
             "Cake_rUSD": "0x9ce74d185de1419e9cbfa1d65dee2b79dfeaae2c",
             "Cake_rBTC": "0xad3c970c3cb23cb0182d5b14f29f5c6d6de8b56e",
-            "Cake_rETH": "0x8c88cc600a2493475f785509f126121c6138dc8a"
+            "Cake_rETH": "0x8c88cc600a2493475f785509f126121c6138dc8a",
+            "XVS_rUSD": "0xd662a6d89076a97fff107afcd4e7d4fd5824ab52",
+            "XVS_rBTC": "0x25dc3a9ccafb7df744b272d809b80b22774e7ad4",
+            "XVS_rETH": "0x0e1febb1c80ac9b0378784611b4df468e33ff517",
+            "DEGO_rUSD": "0x00d7c5ba1f623e044a684bf1a7f4afe3dd019f62",
+            "DEGO_rBTC": "0x6d76e4354e7046f811246209eee9c2cac80d89cc",
+            "DEGO_rETH": "0x411c841acd6a522457e38a64732e74c5b08ebcb7"
         },
         "public": {
             "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
@@ -133,7 +155,13 @@
             "Prague": "0x0502854019e86c68d51F29c199b5380c0061eb6D",
             "RossCastle": "0x2B1b92f5a48323DBe8fF1fE1f04C38544eBC3e1c",
             "HunyadCastle": "0x197c15a3AF6628C5782D444b8a3196678845FDAB",
-            "WhittingtonCastle": "0x871c7222D4F3403394524cc6D578DaBD5Bb7160a"
+            "WhittingtonCastle": "0x871c7222D4F3403394524cc6D578DaBD5Bb7160a",
+            "Bojnickyzamok": "",
+            "MontStMichel": "",
+            "SchwerinCastle": "",
+            "Pierrefonds": "",
+            "Obidos": "",
+            "Mespelbrunn": ""
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",

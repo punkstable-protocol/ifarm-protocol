@@ -29,6 +29,13 @@ const RossCastle = artifacts.require('RossCastle');
 const HunyadCastle = artifacts.require('HunyadCastle');
 const WhittingtonCastle = artifacts.require('WhittingtonCastle');
 
+const Bojnickyzamok = artifacts.require('Bojnickyzamok');
+const MontStMichel = artifacts.require('MontStMichel');
+const SchwerinCastle = artifacts.require('SchwerinCastle');
+const Pierrefonds = artifacts.require('Pierrefonds');
+const Obidos = artifacts.require('Obidos');
+const Mespelbrunn = artifacts.require('Mespelbrunn');
+
 
 const allContract = require("../deployedContract.json")
 
@@ -72,7 +79,13 @@ let IFAVaultsId = {
     11: 'Prague',
     12: 'RossCastle',
     13: 'HunyadCastle',
-    14: 'WhittingtonCastle'
+    14: 'WhittingtonCastle',
+    15: 'Bojnickyzamok',
+    16: 'MontStMichel',
+    17: 'SchwerinCastle',
+    18: 'Pierrefonds',
+    19: 'Obidos',
+    20: 'Mespelbrunn'
 }
 
 const allocPointBase = 1;
@@ -91,9 +104,15 @@ const POOL_ENABLE_STATUS = {
     9: false,        // pool 10
     10: false,        // pool 11
     11: false,        // pool 12
-    12: true,        // pool 13
-    13: true,        // pool 14
-    14: true        // pool 15
+    12: false,        // pool 13
+    13: false,        // pool 14
+    14: false,        // pool 15
+    15: true,
+    16: true,
+    17: true,
+    18: true,
+    19: true,
+    20: true
 }
 
 // parmas
@@ -129,7 +148,13 @@ const lpTokenAddress = {
     "BNB_rETH": contract.lpTokenAddress.BNB_rETH,
     "Cake_rUSD": contract.lpTokenAddress.Cake_rUSD,
     "Cake_rBTC": contract.lpTokenAddress.Cake_rBTC,
-    "Cake_rETH": contract.lpTokenAddress.Cake_rETH
+    "Cake_rETH": contract.lpTokenAddress.Cake_rETH,
+    "XVS_rUSD": contract.lpTokenAddress.XVS_rUSD,
+    "XVS_rBTC": contract.lpTokenAddress.XVS_rBTC,
+    "XVS_rETH": contract.lpTokenAddress.XVS_rETH,
+    "DEGO_rUSD": contract.lpTokenAddress.DEGO_rUSD,
+    "DEGO_rBTC": contract.lpTokenAddress.DEGO_rBTC,
+    "DEGO_rETH": contract.lpTokenAddress.DEGO_rETH
 }
 
 const contractAddress = {
@@ -264,7 +289,13 @@ async function deployLpTokenPools(deployer, network, accounts) {
         Prague,
         RossCastle,
         HunyadCastle,
-        WhittingtonCastle
+        WhittingtonCastle,
+        Bojnickyzamok,
+        MontStMichel,
+        SchwerinCastle,
+        Pierrefonds,
+        Obidos,
+        Mespelbrunn
     ];
     let lpToken = [
         lpTokenAddress.rUSD_USDT,
@@ -278,7 +309,13 @@ async function deployLpTokenPools(deployer, network, accounts) {
         lpTokenAddress.BNB_rETH,
         lpTokenAddress.Cake_rUSD,
         lpTokenAddress.Cake_rBTC,
-        lpTokenAddress.Cake_rETH
+        lpTokenAddress.Cake_rETH,
+        lpTokenAddress.XVS_rUSD,
+        lpTokenAddress.XVS_rBTC,
+        lpTokenAddress.XVS_rETH,
+        lpTokenAddress.DEGO_rUSD,
+        lpTokenAddress.DEGO_rBTC,
+        lpTokenAddress.DEGO_rETH
     ];
     let ifaMasterInstance = await IFAMaster.at(publicContractAddress.IFAMaster);
     let ifaPoolInstance = await IFAPool.at(publicContractAddress.IFAPool);
@@ -305,7 +342,7 @@ async function deployLpTokenPools(deployer, network, accounts) {
         else if (i > 5 && i <= 8) {
             allocPoint = allocPointBase * 50
         }
-        else if (i > 8 && i <= 14) {
+        else if (i > 8 && i <= 20) {
             allocPoint = allocPointBase * 10
         }
         await createIFAInstance.setPoolInfo(poolId, vaultInstance.address, lpToken[i - 3], allocPoint, false);

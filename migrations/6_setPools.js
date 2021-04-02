@@ -26,7 +26,13 @@ const poolVaultId = {
     11: 'Prague',
     12: 'RossCastle',
     13: 'HunyadCastle',
-    14: 'WhittingtonCastle'
+    14: 'WhittingtonCastle',
+    15: 'Bojnickyzamok',
+    16: 'MontStMichel',
+    17: 'SchwerinCastle',
+    18: 'Pierrefonds',
+    19: 'Obidos',
+    20: 'Mespelbrunn'
 }
 
 const tokensId = {
@@ -44,7 +50,13 @@ const tokensId = {
     11: "BNB_rETH",
     12: "Cake_rUSD",
     13: "Cake_rBTC",
-    14: "Cake_rETH"
+    14: "Cake_rETH",
+    15: "XVS_rUSD",
+    16: "XVS_rBTC",
+    17: "XVS_rETH",
+    18: "DEGO_rUSD",
+    19: "DEGO_rBTC",
+    20: "DEGO_rETH"
 }
 
 
@@ -78,7 +90,13 @@ const migration = async (deployer, network, accounts) => {
         'Prague': contract.poolVaults.Prague,
         "RossCastle": contract.poolVaults.RossCastle,
         "HunyadCastle": contract.poolVaults.HunyadCastle,
-        "WhittingtonCastle": contract.poolVaults.WhittingtonCastle
+        "WhittingtonCastle": contract.poolVaults.WhittingtonCastle,
+        "Bojnickyzamok": contract.poolVaults.Bojnickyzamok,
+        "MontStMichel": contract.poolVaults.MontStMichel,
+        "SchwerinCastle": contract.poolVaults.SchwerinCastle,
+        "Pierrefonds": contract.poolVaults.Pierrefonds,
+        "Obidos": contract.poolVaults.Obidos,
+        "Mespelbrunn": contract.poolVaults.Mespelbrunn
     }
 
     const iTokenAddress = {
@@ -102,7 +120,13 @@ const migration = async (deployer, network, accounts) => {
         "BNB_rETH": contract.lpTokenAddress.BNB_rETH,
         "Cake_rUSD": contract.lpTokenAddress.Cake_rUSD,
         "Cake_rBTC": contract.lpTokenAddress.Cake_rBTC,
-        "Cake_rETH": contract.lpTokenAddress.Cake_rETH
+        "Cake_rETH": contract.lpTokenAddress.Cake_rETH,
+        "XVS_rUSD": contract.lpTokenAddress.XVS_rUSD,
+        "XVS_rBTC": contract.lpTokenAddress.XVS_rBTC,
+        "XVS_rETH": contract.lpTokenAddress.XVS_rETH,
+        "DEGO_rUSD": contract.lpTokenAddress.DEGO_rUSD,
+        "DEGO_rBTC": contract.lpTokenAddress.DEGO_rBTC,
+        "DEGO_rETH": contract.lpTokenAddress.DEGO_rETH
     }
     this.Calculators = [
         CalculatorAddress.BirrCastleCalculator,
@@ -153,9 +177,16 @@ const migration = async (deployer, network, accounts) => {
         // await setPools(10, deployer, network, accounts),
         // await setPools(11, deployer, network, accounts),
 
-        await setPools(12, deployer, network, accounts),
-        await setPools(13, deployer, network, accounts),
-        await setPools(14, deployer, network, accounts)
+        // await setPools(12, deployer, network, accounts),
+        // await setPools(13, deployer, network, accounts),
+        // await setPools(14, deployer, network, accounts),
+
+        await setPools(15, deployer, network, accounts),
+        await setPools(16, deployer, network, accounts),
+        await setPools(17, deployer, network, accounts),
+        await setPools(18, deployer, network, accounts),
+        await setPools(19, deployer, network, accounts),
+        await setPools(20, deployer, network, accounts)
     ]);
 };
 

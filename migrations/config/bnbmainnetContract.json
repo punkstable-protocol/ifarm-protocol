@@ -15,7 +15,11 @@
         "WHT": "",
         "RICE": "0xa13283562827D0Dff6D6811464D927edE029Ff46",
         "USDT": "0x55d398326f99059fF775485246999027B3197955",
-        "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+        "BNB": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+        "Cake": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
+        "XVS": "0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63",
+        "DEGO": "0x3fda9383a84c05ec8f7630fe10adf1fac13241cc",
+        "BUNNY": "0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51"
     },
     "lpTokenAddress": {
         "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
@@ -24,9 +28,21 @@
         "RICE_rUSD": "0x08ac513df9ad4f1b40bd860d31ff7a3d1b594b60",
         "RICE_rBTC": "0xbf9949920a16fae5b364dc0aee19fa3c08e30cd2",
         "RICE_rETH": "0xa69878b4beff03de6860ad54960ac916e3b44f7b",
-        "BNB_rUSD": "",
-        "BNB_rBTC": "",
-        "BNB_rETH": ""
+        "BNB_rUSD": "0x8f7c7cdb6d4737be7f0bc902aaa671a35c7e5a14",
+        "BNB_rBTC": "0x983137e75b9679afdcf686418a4ba153afb20754",
+        "BNB_rETH": "0x682fdc08965f0acf4b651d90566532f051214723",
+        "Cake_rUSD": "0x35a79fb030b7cf6db330cb213166fcc316eb838b",
+        "Cake_rBTC": "0xaaf1420cc76a9bddebb9a6bb1bed27b960c753f5",
+        "Cake_rETH": "0x41fef0e9d9301c2f4a98fcb4108a2ae2e6232b8c",
+        "XVS_rUSD": "0x1b55205e744b76fc94d19382396f27a2dd9cef3b",
+        "XVS_rBTC": "0x8a5b2103183153fe9dcda5165407fff12459b83b",
+        "XVS_rETH": "0xf3ef05b15b3dac997b72e186151e887fd0a29a37",
+        "DEGO_rUSD": "0xe19784a60d6479fc0ff0d2d376568a2a1770a286",
+        "DEGO_rBTC": "0x9babb881698be4d797a4dc86970e278c82e616b0",
+        "DEGO_rETH": "0xfb7f8ab54eaf3944ddd286248f573605b06bb933",
+        "BUNNY_rUSD": "",
+        "BUNNY_rBTC": "",
+        "BUNNY_rETH": ""
     },
     "public": {
         "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
@@ -49,9 +65,21 @@
         "VillaFarnese": "0xc110A949B61fc47cFE4a40cB87925faeC18CAE34",
         "ChatsworthHouse": "0x36E74cBf30DE88FD1aAAb87E259A2BC5663a2249",
         "ChateauMargaux": "0x92C70177e94c49E5688ce69306C5173816e515E9",
-        "Chillon": "",
-        "Frederiksborg": "",
-        "Prague": ""
+        "Chillon": "0x6fe523879CDCC1c83263ca026b261698c408AAb9",
+        "Frederiksborg": "0xa2d11C7110D163592f26bc3D8e84d94E08bA251E",
+        "Prague": "0x08a7dC961CC8F8f254E0C780c000Bf92E715f040",
+        "RossCastle": "0xFE8a2664e10ddfeA13354C7fBeC1A25a485A0800",
+        "HunyadCastle": "0x50B5D38d764DC55dF15856CeB4bBc39a7888dE08",
+        "WhittingtonCastle": "0x13c4F8D7e4AEf9F9fE5861632d5143a0BfDdE4D5",
+        "Bojnickyzamok": "0xF5A4f41D247FE37e7B6215BD6d6e607b277dd31b",
+        "MontStMichel": "0x38E6375ADFAbf6Ca0fe3B475c4B0Bd845d62D89F",
+        "SchwerinCastle": "0x5919562B975d552393d21008BEC179a55A558992",
+        "Pierrefonds": "0xb8626B624f59d18010cdC90a1877427866710c86",
+        "Obidos": "0x1cB70413C17CF033d8c6a9706bF76108720234FA",
+        "Mespelbrunn": "0x4B711377d83B676191aD1DaD947e5BF607506E2b",
+        "Medieval": "",
+        "Cinderella": "",
+        "Alcazar": ""
     },
     "calculatorsAddress": {
         "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",

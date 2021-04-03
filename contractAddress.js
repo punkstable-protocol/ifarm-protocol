@@ -14,7 +14,7 @@ const ChainName = {
 }
 
 current_net = ChainNet.MainNet
-current_chain = ChainName.RINKEBY
+current_chain = ChainName.LOCAL
 
 const rinkebyNetContract = {
     'mdex': {
@@ -85,9 +85,9 @@ const localNetContract = {
         'router': "0x61b305165D158bee6e78805530DaDcBf42B858B9",
     },
     'itokens': {
-        'rETH': "0xac1F7D00cC80359b62D8C86e01f30Af0a50827D3",
-        'rBTC': "0x582595CAFfB71866318482362e11622318e06825",
-        'rUSD': "0x635e883095F4819bDE6b26Ce080EcbD78b704319",
+        'rETH': "0x752163CBB22622EF8837D6192e23010B077Fc036",
+        'rBTC': "0xe1D60c229E2EaB1e3deb40e28A3f3BD3F623B69C",
+        'rUSD': "0x5e6c6Ca2CA1B2AC27974374133F20F1C5FDA4df4",
     },
     'tokens': {
         'HUSD': '',

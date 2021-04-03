@@ -1,0 +1,54 @@
+{
+    "uniswap":{
+        "factory":"0x223a74cab41a9AE8ca339c7F0c1a99E6AF7D8d6C",
+        "router":"0x61b305165D158bee6e78805530DaDcBf42B858B9"
+    },
+    "itokensAddress":{
+        "rETH":"0x752163CBB22622EF8837D6192e23010B077Fc036",
+        "rBTC":"0xe1D60c229E2EaB1e3deb40e28A3f3BD3F623B69C",
+        "rUSD":"0x5e6c6Ca2CA1B2AC27974374133F20F1C5FDA4df4"
+    },
+    "tokensAddress":{
+        "HUSD":"0xed93DBFEd358ffbCc0289c4f26Ac18847C064111",
+        "HBTC":"0x00684C4E9EF18717D52e954aB5b13db14E4db0bA",
+        "HETH":"0x2f3872146B0a4f7582cC4B5871438E295A819c90",
+        "WHT":"",
+        "RICE":"0x406Fefb3A0C75F6bd2260FfCA0622415ECa508f7",
+        "USDT":"0x1E3f81E0fc7e2Db8bFD60bA90334fe38E55273a9"
+    },
+    "lpTokenAddress":{
+        "rUSD_USDT":"0xfcF0E7Fd28947b7495c7B18782e494ec17c8F1B3",
+        "rBTC_HBTC":"0x38B5281D7F820A01Bb10a26116154b3df67a623C",
+        "rETH_HETH":"0x763E1dDe820EbD8d5e189BE4E3dA3a35407D545F",
+        "RICE_rUSD":"0xf44B8263a9e271631F4212721d6d6Eb12a0352fb",
+        "RICE_rBTC":"0x5AE865e2efbbE6aE4cb21F1012aCac505B37e1D6",
+        "RICE_rETH":"0x038eE7f56fFdc5Ff860Bfbbff22B2Baf78123A7B"
+    },
+    "public":{
+        "IFAMaster":"0x60f5B3C300a9477a31b277b92Ecc649B9149B7DB",
+        "IFAPool":"0x4a2F01774D8106B0CE06611af9DC41A54efB8607",
+        "IFABank":"0x5b1aB4717724B2e584612aAc6EB2d326d373b2e2",
+        "IFARevenue":"0xdaBD0f72c82384c8467AD1314a9b10b338F2eFBC",
+        "Costco":"0x7588a2F7d9da31800d9087a8D74F1bf7ABb792f0",
+        "IFADataBoard":"0x4e0A0e4F1E6227468D42BeDbcf0814722E8fF07d",
+        "CreateIFA":"0x98565Ca2ae34002aDC8Db4711E6BbAadA5182156",
+        "ShareRevenue":"0x99b8010CEcf22C4fc44420031005e0ec4dBb0c7d",
+        "Parities":"0xD540D8282998ca504D529e3cF4143331eA1ADD65"
+    },
+    "poolVaults":{
+        "BirrCastle":"0xF75d953cacFDdCaccc40385C8B72A6F564eFae8d",
+        "Sunnylands":"0x916C779e76f85964C11d2bCdA3Fb4374c94892B0",
+        "ChateauLafitte":"0xB1c7910B7A828afD0EAef33b0E14E31226Dcf114",
+        "AdareManor":"0xE803f4f7fF4D71E2415B513d5e4fec00693105d8",
+        "VillaDEste":"0xe41c9F397AB7dc70f7B53Ee15a9475a1c0cE98A2",
+        "VillaLant":"0xA9B351Df3ae855BF93A6A96DcD58DEB822D8Bc80",
+        "VillaFarnese":"0x572aB6c525bdacD8185a8210485774b4f86EAB55",
+        "ChatsworthHouse":"0x75Bb3186d1C3979c0EECB93d9aAc005D5051D5fa",
+        "ChateauMargaux":"0x1C35CF804F484B8CfAcDaE9Fd6b1582AdC6096C4"
+    },
+    "calculatorsAddress":{
+        "BirrCastleCalculators": "0xb870EdC0a3e266f31b337aA0a84089589890Fc3f",
+        "SunnylandsCalculators": "0x1233CAF92E55ABd00B384d8ed920c9BfbF9D9A77",
+        "ChateauLafitteCalculators": "0x9866D1C56A449cfd1254Ba927C22Cf5f681c60E1"
+    }
+}

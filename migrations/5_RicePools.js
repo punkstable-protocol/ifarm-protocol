@@ -135,13 +135,13 @@ const allocPointBase = 1;
 
 // Whether to enable the pool
 const POOL_ENABLE_STATUS = {
-    0: true,
+    0: false,
     1: false,
     2: false,
-    3: true,
+    3: false,
     4: false,
     5: false,
-    6: true,
+    6: false,
     7: false,
     8: false
 }
@@ -168,7 +168,7 @@ const migration = async (deployer, network, accounts) => {
 
 module.exports = migration;
 
-const debug = false
+const debug = true
 
 // tools functions
 async function mockTokenTool(_tokenJson, _tokenName, _account) {

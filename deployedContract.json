@@ -34,12 +34,12 @@
             "Cake_rUSD": "0x35a79fb030b7cf6db330cb213166fcc316eb838b",
             "Cake_rBTC": "0xaaf1420cc76a9bddebb9a6bb1bed27b960c753f5",
             "Cake_rETH": "0x41fef0e9d9301c2f4a98fcb4108a2ae2e6232b8c",
-            "XVS_rUSD": "",
-            "XVS_rBTC": "",
-            "XVS_rETH": "",
-            "DEGO_rUSD": "",
-            "DEGO_rBTC": "",
-            "DEGO_rETH": ""
+            "XVS_rUSD": "0x1b55205e744b76fc94d19382396f27a2dd9cef3b",
+            "XVS_rBTC": "0x8a5b2103183153fe9dcda5165407fff12459b83b",
+            "XVS_rETH": "0xf3ef05b15b3dac997b72e186151e887fd0a29a37",
+            "DEGO_rUSD": "0xe19784a60d6479fc0ff0d2d376568a2a1770a286",
+            "DEGO_rBTC": "0x9babb881698be4d797a4dc86970e278c82e616b0",
+            "DEGO_rETH": "0xfb7f8ab54eaf3944ddd286248f573605b06bb933"
         },
         "public": {
             "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
@@ -68,12 +68,12 @@
             "RossCastle": "0xFE8a2664e10ddfeA13354C7fBeC1A25a485A0800",
             "HunyadCastle": "0x50B5D38d764DC55dF15856CeB4bBc39a7888dE08",
             "WhittingtonCastle": "0x13c4F8D7e4AEf9F9fE5861632d5143a0BfDdE4D5",
-            "Bojnickyzamok": "",
-            "MontStMichel": "",
-            "SchwerinCastle": "",
-            "Pierrefonds": "",
-            "Obidos": "",
-            "Mespelbrunn": ""
+            "Bojnickyzamok": "0xF5A4f41D247FE37e7B6215BD6d6e607b277dd31b",
+            "MontStMichel": "0x38E6375ADFAbf6Ca0fe3B475c4B0Bd845d62D89F",
+            "SchwerinCastle": "0x5919562B975d552393d21008BEC179a55A558992",
+            "Pierrefonds": "0xb8626B624f59d18010cdC90a1877427866710c86",
+            "Obidos": "0x1cB70413C17CF033d8c6a9706bF76108720234FA",
+            "Mespelbrunn": "0x4B711377d83B676191aD1DaD947e5BF607506E2b"
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
@@ -127,7 +127,10 @@
             "XVS_rETH": "0x0e1febb1c80ac9b0378784611b4df468e33ff517",
             "DEGO_rUSD": "0x00d7c5ba1f623e044a684bf1a7f4afe3dd019f62",
             "DEGO_rBTC": "0x6d76e4354e7046f811246209eee9c2cac80d89cc",
-            "DEGO_rETH": "0x411c841acd6a522457e38a64732e74c5b08ebcb7"
+            "DEGO_rETH": "0x411c841acd6a522457e38a64732e74c5b08ebcb7",
+            "BUNNY_rUSD": "",
+            "BUNNY_rBTC": "",
+            "BUNNY_rETH": ""
         },
         "public": {
             "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
@@ -156,12 +159,12 @@
             "RossCastle": "0x2B1b92f5a48323DBe8fF1fE1f04C38544eBC3e1c",
             "HunyadCastle": "0x197c15a3AF6628C5782D444b8a3196678845FDAB",
             "WhittingtonCastle": "0x871c7222D4F3403394524cc6D578DaBD5Bb7160a",
-            "Bojnickyzamok": "",
-            "MontStMichel": "",
-            "SchwerinCastle": "",
-            "Pierrefonds": "",
-            "Obidos": "",
-            "Mespelbrunn": ""
+            "Bojnickyzamok": "0x4b093E83B002f12D90F6D2504585CdCd1Bd0EE8c",
+            "MontStMichel": "0x21D69961aEF014c3B1979A58eb1C69943Cd3895B",
+            "SchwerinCastle": "0x807bA2C22919C113E2a21B8ED7f6b352A2e0f8F9",
+            "Pierrefonds": "0x374B4Dc7FAcE83c9F69741F5e118b3138acf8E41",
+            "Obidos": "0xCDf14a0A1C9b22Bd8440dC15Bd8787e2ebC95d25",
+            "Mespelbrunn": "0xd449769fab74Cb2FcAD25dc7dC5938d5488EBa70"
         },
         "calculatorsAddress": {
             "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",

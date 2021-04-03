@@ -102,9 +102,13 @@ module.exports = {
   compilers: {
     solc: {
       version: "0.6.12",
-      "optimizer": {
-        "enabled": true,
-        "runs": 200
+      parser: 'solcjs',
+      settings: {
+        optimizer: {
+          enabled: false,
+          runs: 200
+        },
+        evmVersion: 'istanbul',
       }
     }
   }

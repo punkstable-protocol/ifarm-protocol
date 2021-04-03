@@ -1,1 +1,6 @@
- truffle run verify iTokenDelegator@0x4779DAEa8E7259514aBAEa2918B767B0B576FBC1 --network bnbmainnet
+truffle run verify Bojnickyzamok@0xF5A4f41D247FE37e7B6215BD6d6e607b277dd31b --network bnbmainnet
+truffle run verify MontStMichel@0x38E6375ADFAbf6Ca0fe3B475c4B0Bd845d62D89F --network bnbmainnet
+truffle run verify SchwerinCastle@0x5919562B975d552393d21008BEC179a55A558992 --network bnbmainnet
+truffle run verify Pierrefonds@0xb8626B624f59d18010cdC90a1877427866710c86 --network bnbmainnet
+truffle run verify Obidos@0x1cB70413C17CF033d8c6a9706bF76108720234FA --network bnbmainnet
+truffle run verify Mespelbrunn@0x4B711377d83B676191aD1DaD947e5BF607506E2b --network bnbmainnet

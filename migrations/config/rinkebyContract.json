@@ -40,9 +40,9 @@
         "DEGO_rUSD": "0x00d7c5ba1f623e044a684bf1a7f4afe3dd019f62",
         "DEGO_rBTC": "0x6d76e4354e7046f811246209eee9c2cac80d89cc",
         "DEGO_rETH": "0x411c841acd6a522457e38a64732e74c5b08ebcb7",
-        "BUNNY_rUSD": "",
-        "BUNNY_rBTC": "",
-        "BUNNY_rETH": ""
+        "BUNNY_rUSD": "0xb46367f8acbeb61c4beba7c3331aa3cc1e2cd486",
+        "BUNNY_rBTC": "0x3ff906b6ad75c3af444d87bf53d695f009f9ae38",
+        "BUNNY_rETH": "0x34c2bfc00e206fef3360f60a1711894145c59e9e"
     },
     "public": {
         "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
@@ -77,9 +77,9 @@
         "Pierrefonds": "0x374B4Dc7FAcE83c9F69741F5e118b3138acf8E41",
         "Obidos": "0xCDf14a0A1C9b22Bd8440dC15Bd8787e2ebC95d25",
         "Mespelbrunn": "0xd449769fab74Cb2FcAD25dc7dC5938d5488EBa70",
-        "Medieval": "",
-        "Cinderella": "",
-        "Alcazar": ""
+        "Medieval": "0x0a04615e18751a26C0E3E9Cde7dd85e2d00D4cc6",
+        "Cinderella": "0x022BEeB9BA7F96983a0d7C486E5c4669ab33220B",
+        "Alcazar": "0xd477a2a397AD59b44A30f15f465ff483B8c548E1"
     },
     "calculatorsAddress": {
         "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",

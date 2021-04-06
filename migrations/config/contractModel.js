@@ -19,12 +19,23 @@ class ContractModel {
     }
 
     static formatAddress(_network) {
+        if (_network.length == 0) {
+            throw "not network null"
+        }
         let _allContract = contractItem[_network]
         let contracts = {}
         for (let key in _allContract) {
             let kContract = _allContract[key]
-            for (let k1 in kContract) {
-                contracts[k1] = kContract[k1]
+            if (Array.isArray(kContract)) {
+                contracts[key] = kContract
+            }
+            else if (typeof kContract == "object") {
+                for (let k1 in kContract) {
+                    contracts[k1] = kContract[k1]
+                }
+            }
+            else {
+                contracts[key] = kContract
             }
         }
         return contracts

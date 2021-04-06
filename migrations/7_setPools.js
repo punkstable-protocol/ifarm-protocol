@@ -2,15 +2,12 @@
 const poolsInfo = require("./config/poolsInfo")
 const contractModels = require("./config/contractModel")
 const fs = require("fs")
-// ============ Contracts ============
-const { expectRevert, time, ether } = require('@openzeppelin/test-helpers');
-const iTokenDelegator = require("../test/contractsJson/iTokenDelegator.json");
 
 // public
 const IFAPool = artifacts.require('IFAPool');
 const IFABank = artifacts.require('IFABank');
 
-// all pool vaults,total:21
+// all pool vaults,total:24
 const vaultsContractList = fs.readdirSync("../contracts/tokens/vaults/")
 const IFAVaultContractItem = {}
 for (let i = 0; i < vaultsContractList.length; i++) {
@@ -19,7 +16,7 @@ for (let i = 0; i < vaultsContractList.length; i++) {
 }
 
 // Whether to enable the pool
-const enablePoolsId = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+const enablePoolsId = [21, 22, 23]
 
 
 // ============ Main Migration ============

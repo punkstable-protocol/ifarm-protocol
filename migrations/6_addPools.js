@@ -23,10 +23,6 @@ for (let i = 0; i < vaultsContractList.length; i++) {
     IFAVaultContractItem[vaultName] = artifacts.require(vaultName);
 }
 
-
-// Contract ID of the pool to be added
-const addPoolIdList = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-
 function logDeployedContract(pool, name, address, result = false) {
     if (result) {
         console.log(`\n------  Completed deployment contract address information  ------`)
@@ -45,6 +41,10 @@ function logDeployedContract(pool, name, address, result = false) {
         console.log(`${name}: ${address}`)
     }
 }
+
+
+// Contract ID of the pool to be added
+const addPoolIdList = [21, 22, 23]
 
 
 // ============ Main Migration ============

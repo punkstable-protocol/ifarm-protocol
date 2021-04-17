@@ -63,7 +63,7 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
         this.pool = await IFAPool.new({ from: alice });
 
         this.ifaMaster = await IFAMaster.new({ from: alice });
-        await this.ifaMaster.setsCRV(this.sCRV.address);
+        await this.ifaMaster.setDAI(this.sCRV.address);
         await this.ifaMaster.setPool(this.pool.address);
 
         this.ifa = await IFAToken.new({ from: alice });
@@ -87,7 +87,7 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
     });
 
     context('Only harvest without exit', async () => {
-        it('Single user', async () => {
+        it.only('Single user', async () => {
             let amount = toWei('10')
 
             await this.sCRV.approve(this.pool.address, amount, { from: bob });
@@ -101,9 +101,10 @@ contract('IFA Pool', ([alice, bob, carol, breeze, joy, weifong, mickjoy, vk, ato
             let multiplier = await getMultiplier(lastRewardBlock)
 
             let valuePerShare = getValuePerShare(multiplier, amount);
+            console.log(`valuePerShare: ${valuePerShare.toString()}`)
             let expectedEarned = updateReward(amount, valuePerShare);
             ifaReward = await this.ifa.balanceOf(bob, { from: bob });
-            assert.equal(expectedEarned, ifaReward.valueOf());
+            assert.equal(expectedEarned, ifaReward.toString());
         });
 
         it.skip('Single user mul seed', async () => {
@@ -285,7 +286,7 @@ contract('pool Over-limit mining', ([alice, bob, breeze]) => {
         this.createIFA = await CreateIFA.at("0xd41Df588a967708C158F5084ef6E3004279eB708")
     })
 
-    it.only('seed usdt chaim rusd', async () => {
+    it('seed usdt chaim rusd', async () => {
         let endBlock = await this.createIFA.endBlock()
         let startBlock = await this.createIFA.startBlock()
         console.log(startBlock.toString())

@@ -60,8 +60,8 @@ contract IFADataBoard is Ownable {
 
         uint256 vaultSupply = vault.totalSupply();
 
-        // 8 IFA per block
-        uint256 factor = 8;
+        // 6 IFA per block
+        uint256 factor = 6;
 
         if (vaultSupply == 0) {
             // Assume $1 is put in.
@@ -204,18 +204,21 @@ contract IFADataBoard is Ownable {
         }
     }
 
-    // Return the 6 digit price of eth on uniswap.
+    // Return the 18 digit price of eth on uniswap.
     function getIFAPrice() public view returns (uint256) {
+        uint iusdPrice = getiUsdPrice();
+
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
         IUniswapV2Pair ifaiUSDPair = IUniswapV2Pair(factory.getPair(ifaMaster.ifa(), ifaMaster.iUSD()));
         require(address(ifaiUSDPair) != address(0), "RICE-rUSD Pair need set by a specified owner");
         (uint reserve0, uint reserve1,) = ifaiUSDPair.getReserves();
         uint iusdDecimals = IERC20IFA(ifaMaster.iUSD()).decimals();
+        iusdDecimals = 10 ** iusdDecimals;
 
-        if (ifaiUSDPair.token0() == ifaMaster.iUSD()) {
-            return reserve1 * (10 ** iusdDecimals) / reserve0;
+        if (ifaiUSDPair.token0() == ifaMaster.ifa()) {
+            return reserve1 * iusdDecimals / reserve0 * iusdPrice / iusdDecimals;
         } else {
-            return reserve0 * (10 ** iusdDecimals) / reserve1;
+            return reserve0 * iusdDecimals / reserve1 * iusdPrice / iusdDecimals;
         }
     }
 
@@ -284,18 +287,22 @@ contract IFADataBoard is Ownable {
         if(_token == ifaMaster.wETH()){
             return getEthPrice();
         }
+        if(_token == ifaMaster.ifa()){
+            return getIFAPrice();
+        }
         IUniswapV2Factory factory = IUniswapV2Factory(ifaMaster.uniswapV2Factory());
         IUniswapV2Pair tokenWETHPair = IUniswapV2Pair(factory.getPair(_token, ifaMaster.wETH()));
         require(address(tokenWETHPair) != address(0), "token-WETH Pair need set by a specified owner");
         (uint reserve0, uint reserve1,) = tokenWETHPair.getReserves();
         uint wETHDecimals = IERC20IFA(ifaMaster.wETH()).decimals();
 
-        if (tokenWETHPair.token0() == _token) {
-            return getEthPrice() * reserve1 / reserve0;
-        } else {
+        if (tokenWETHPair.token0() == ifaMaster.wETH()) {
             return getEthPrice() * reserve0 / reserve1;
+        } else {
+            return getEthPrice() * reserve1 / reserve0;
         }
-        return 0;
+        // should not happen
+        return uint256(-1);
     }
 }
 

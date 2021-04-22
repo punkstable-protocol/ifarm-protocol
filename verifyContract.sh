@@ -4,3 +4,12 @@ truffle run verify SchwerinCastle@0x5919562B975d552393d21008BEC179a55A558992 --n
 truffle run verify Pierrefonds@0xb8626B624f59d18010cdC90a1877427866710c86 --network bnbmainnet
 truffle run verify Obidos@0x1cB70413C17CF033d8c6a9706bF76108720234FA --network bnbmainnet
 truffle run verify Mespelbrunn@0x4B711377d83B676191aD1DaD947e5BF607506E2b --network bnbmainnet
+
+truffle run verify Oxford@0xA35D1dd0986a27A574E58625f09c70e602Ec167c --network bnbmainnet
+truffle run verify Edinburgh@0x7Cf4a9327a53Ae1f49988Fab6432D3ec331f9bB5 --network bnbmainnet
+truffle run verify Cambridge@0x94192F79944f06d9d1D5007352f941c2C78CeAfe --network bnbmainnet
+
+
+truffle run verify Zelda@0xaDe733d8D7D682FEC06f1c6921099a0Ab562528e --network bnbmainnet
+truffle run verify Mario@0x8ee15aa1AF97E82e5c441C1ce6c1b18EA848eeDa --network bnbmainnet
+truffle run verify Breeder@0x79a3F59065DcD1FDbBFCe85D3394D0f25d105855 --network bnbmainnet

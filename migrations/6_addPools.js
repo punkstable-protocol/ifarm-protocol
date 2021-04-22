@@ -23,6 +23,18 @@ for (let i = 0; i < vaultsContractList.length; i++) {
     IFAVaultContractItem[vaultName] = artifacts.require(vaultName);
 }
 
+// get Liquidity Url
+const getLiquidityUrl = (_pool, contractsAddr, _lpTokenSymbol) => {
+    let tokenItem = _pool.seedToken.split('_')
+    if (tokenItem.length < 2) {
+        return ""
+    }
+    let token0 = contractsAddr[tokenItem[0]]
+    let token1 = contractsAddr[tokenItem[1]]
+    return `https://exchange.pancakeswap.finance/#/add/${token0}/${token1}`
+}
+
+
 function logDeployedContract(pool, name, address, result = false) {
     if (result) {
         console.log(`\n------  Completed deployment contract address information  ------`)
@@ -44,7 +56,7 @@ function logDeployedContract(pool, name, address, result = false) {
 
 
 // Contract ID of the pool to be added
-const addPoolIdList = [21, 22, 23]
+const addPoolIdList = [27, 28, 29]
 
 
 // ============ Main Migration ============
@@ -52,7 +64,6 @@ const migration = async (deployer, network, accounts) => {
     if (network.indexOf('fork') != -1) {
         return
     }
-
     this.contractsAddr = contractModels.formatAddress(network)
     this.ifaMasterInstance = await IFAMaster.at(this.contractsAddr.IFAMaster);
     this.ifaBankInstance = await IFABank.at(this.contractsAddr.IFABank);
@@ -130,5 +141,6 @@ async function addPoolContracts(accounts) {
         await this.createIFAInstance.setPoolInfo(poolId, vaultInstance.address, seedTokenAddress, allocPoint, false)
         logDeployedContract(pool, `${pool.name}`, vaultInstance.address)
         logDeployedContract(pool, `${pool.seedToken}`, seedTokenAddress)
+        // logDeployedContract(pool, `${seedSymbol}_liquidity`, getLiquidityUrl(pool, this.contractsAddr, seedSymbol))
     }
 }

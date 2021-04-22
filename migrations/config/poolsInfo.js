@@ -218,4 +218,52 @@ module.exports = {
         "borrowParams": {},
         "contractsAddr": {}
     },
+    24: {
+        "name": "Oxford",
+        "allocPoint": 10,
+        "seedToken": "AIOZ_rUSD",
+        "borrow": false,
+        "borrowParams": {},
+        "contractsAddr": {}
+    },
+    25: {
+        "name": "Edinburgh",
+        "allocPoint": 10,
+        "seedToken": "AIOZ_rBTC",
+        "borrow": false,
+        "borrowParams": {},
+        "contractsAddr": {}
+    },
+    26: {
+        "name": "Cambridge",
+        "allocPoint": 10,
+        "seedToken": "AIOZ_rETH",
+        "borrow": false,
+        "borrowParams": {},
+        "contractsAddr": {}
+    },
+    27: {
+        "name": "Zelda",
+        "allocPoint": 10,
+        "seedToken": "DODO_rUSD",
+        "borrow": false,
+        "borrowParams": {},
+        "contractsAddr": {}
+    },
+    28: {
+        "name": "Mario",
+        "allocPoint": 10,
+        "seedToken": "DODO_rBTC",
+        "borrow": false,
+        "borrowParams": {},
+        "contractsAddr": {}
+    },
+    29: {
+        "name": "Breeder",
+        "allocPoint": 10,
+        "seedToken": "DODO_rETH",
+        "borrow": false,
+        "borrowParams": {},
+        "contractsAddr": {}
+    },
 }

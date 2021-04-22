@@ -19,7 +19,9 @@
         "Cake": "0xCc2a0afCFA5546159aF2f9274631be7de6578af7",
         "XVS": "0x9a8C922c6ae32F23CbE56fC8dB2471A39BdFfFfa",
         "DEGO": "0xA028447145d4A929bC2f23c491E9b3C44ED364d3",
-        "BUNNY": "0x62083E488Dce4623AD7fD9e734a8ba091f0748C0"
+        "BUNNY": "0x62083E488Dce4623AD7fD9e734a8ba091f0748C0",
+        "AIOZ": "0xFb6bE90437B1679aAc1B85Ef9f7B5fe7dB09ee1f",
+        "DODO": "0xF7EC356Bc0D66a7938433307AC8b21D910Bd8B7a"
     },
     "lpTokenAddress": {
         "rUSD_USDT": "0x197ad94fe35dF4Ee20016EF0b549597e9629D95f",
@@ -42,7 +44,13 @@
         "DEGO_rETH": "0x411c841acd6a522457e38a64732e74c5b08ebcb7",
         "BUNNY_rUSD": "0xb46367f8acbeb61c4beba7c3331aa3cc1e2cd486",
         "BUNNY_rBTC": "0x3ff906b6ad75c3af444d87bf53d695f009f9ae38",
-        "BUNNY_rETH": "0x34c2bfc00e206fef3360f60a1711894145c59e9e"
+        "BUNNY_rETH": "0x34c2bfc00e206fef3360f60a1711894145c59e9e",
+        "AIOZ_rUSD": "0x3a4214d20988992c100329cd5094a754ee8b51cf",
+        "AIOZ_rBTC": "0xa4b0e73da733b6428e154769af75863f65c1e2a6",
+        "AIOZ_rETH": "0xb150b309c5a720dac5f74b33cff49fe3ccd73d8c",
+        "DODO_rUSD": "0x3efc0509cd06b8eca1e82ece3d7c193e15188ca9",
+        "DODO_rBTC": "0xbd234b34aacebae47bf614cbcecc33da6070d2ad",
+        "DODO_rETH": "0xe35aa07acc0c3a6ee7740aa15c27d48a58dde625"
     },
     "public": {
         "IFAMaster": "0x8B93fb2bac81b3cB2664CaC8295091053Ed28d15",
@@ -79,7 +87,13 @@
         "Mespelbrunn": "0xd449769fab74Cb2FcAD25dc7dC5938d5488EBa70",
         "Medieval": "0x0a04615e18751a26C0E3E9Cde7dd85e2d00D4cc6",
         "Cinderella": "0x022BEeB9BA7F96983a0d7C486E5c4669ab33220B",
-        "Alcazar": "0xd477a2a397AD59b44A30f15f465ff483B8c548E1"
+        "Alcazar": "0xd477a2a397AD59b44A30f15f465ff483B8c548E1",
+        "Oxford": "0x21700F2Eb242B4153E5C15AB5B1a04810D1453f5",
+        "Edinburgh": "0x510FAecfc6201B5e4c6Cd8e2F0A5271C0dd76b23",
+        "Cambridge": "0x4da07dB9F6a6fA7813DfeE515C1b2009e640e804",
+        "Zelda": "0xCC8e2261DB83FA0E4E936575bAc4DA9FC05a5B74",
+        "Mario": "0x882F3eac627Bab773fc1043aEF045acA7EcA8C30",
+        "Breeder": "0xf6161aF6bccc3138e77B626238cBdF291Dc9F180"
     },
     "calculatorsAddress": {
         "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",

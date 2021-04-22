@@ -16,7 +16,7 @@ for (let i = 0; i < vaultsContractList.length; i++) {
 }
 
 // Whether to enable the pool
-const enablePoolsId = [21, 22, 23]
+const enablePoolsId = [27, 28, 29]
 
 
 // ============ Main Migration ============

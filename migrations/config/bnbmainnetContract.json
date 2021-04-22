@@ -19,7 +19,9 @@
         "Cake": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
         "XVS": "0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63",
         "DEGO": "0x3fda9383a84c05ec8f7630fe10adf1fac13241cc",
-        "BUNNY": "0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51"
+        "BUNNY": "0xc9849e6fdb743d08faee3e34dd2d1bc69ea11a51",
+        "AIOZ": "0x33d08D8C7a168333a85285a68C0042b39fC3741D",
+        "DODO": "0x67ee3cb086f8a16f34bee3ca72fad36f7db929e2"
     },
     "lpTokenAddress": {
         "rUSD_USDT": "0x12c0e8b32f43df781fbfd26d38b7ee6cf4b6b62f",
@@ -42,7 +44,13 @@
         "DEGO_rETH": "0xfb7f8ab54eaf3944ddd286248f573605b06bb933",
         "BUNNY_rUSD": "0x6e152366401e8ef74468a442aeef546666fcabcc",
         "BUNNY_rBTC": "0x57981b6cecbc37c3d94dc20daf0e3fe09ab9e389",
-        "BUNNY_rETH": "0x328bdea85c1bc05bde04ef3415b5df1bdd8a0710"
+        "BUNNY_rETH": "0x328bdea85c1bc05bde04ef3415b5df1bdd8a0710",
+        "AIOZ_rUSD": "0x680066b413bca212406aaf5d9166f51527cc395a",
+        "AIOZ_rBTC": "0xa73d46234fcb13f9e5fcc99386b65cfcbaba42b0",
+        "AIOZ_rETH": "0x1084af0682bb1401197aabd6063db2c667f18370",
+        "DODO_rUSD": "0x5f21f5ded0d912a3e73c4d30da890aeff138aab2",
+        "DODO_rBTC": "0x95301fbd53ef2cf1c5b27e336625d7f049f665e3",
+        "DODO_rETH": "0x43141b3d67f60eb661ecf3262534b14b4e5061ac"
     },
     "public": {
         "IFAMaster": "0xfd65DA2ADE6CaAE2E0bBC0DB5bC15225Faf210fb",
@@ -79,16 +87,25 @@
         "Mespelbrunn": "0x4B711377d83B676191aD1DaD947e5BF607506E2b",
         "Medieval": "0xFa7cA3d87c5925B63a6E56142AE52Dfb8Ed8663e",
         "Cinderella": "0x8bE0B25093855A5d0DB4E31B54a7ACdB57b4fd03",
-        "Alcazar": "0x16253DbEBC48297Fbe7A9d8B3d4c4fA514f6D2e7"
+        "Alcazar": "0x16253DbEBC48297Fbe7A9d8B3d4c4fA514f6D2e7",
+        "Oxford": "0xA35D1dd0986a27A574E58625f09c70e602Ec167c",
+        "Edinburgh": "0x7Cf4a9327a53Ae1f49988Fab6432D3ec331f9bB5",
+        "Cambridge": "0x94192F79944f06d9d1D5007352f941c2C78CeAfe",
+        "Zelda": "0xaDe733d8D7D682FEC06f1c6921099a0Ab562528e",
+        "Mario": "0x8ee15aa1AF97E82e5c441C1ce6c1b18EA848eeDa",
+        "Breeder": "0x79a3F59065DcD1FDbBFCe85D3394D0f25d105855"
     },
     "calculatorsAddress": {
         "BirrCastleCalculators": "0x2C21448675B849d4C1b209F298ADaBECdBBE1D67",
         "SunnylandsCalculators": "0xf3288B2cf29596F136d3c21eFcdeC6a0f4C002F4",
         "ChateauLafitteCalculators": "0xB0e832619C40E8D59B26aC28d930D953fb66bA19"
     },
-    "merkleDistributor": [
+    "RICEmerkleDistributor": [
         "0xDaD5C85e6aAf02C7C67601946204ea6294A99656",
         "0x7F0901010e524A16ee42b91A782D6474b8194749"
+    ],
+    "rUSDmerkleDistributor": [
+        "0x2d517fb368884b66604b71C8ACB1690bDD1da689"
     ],
     "MasterChef": "0x604E27adcD21a79A76D12e502C715a1fB9F845b0",
     "Salt": "0x4B7739c0965542E9822aE51908e1977fC6771fDE"

@@ -95,6 +95,9 @@
         "Mario": "0x882F3eac627Bab773fc1043aEF045acA7EcA8C30",
         "Breeder": "0xf6161aF6bccc3138e77B626238cBdF291Dc9F180"
     },
+    "rETHmerkleDistributor": [
+        "0x70E4476846f3A163116c320c85482dA59E4421E2"
+    ],
     "calculatorsAddress": {
         "BirrCastleCalculators": "0x30ddD575E578C9340F7C382ac70756f47e537C92",
         "ChateauLafitteCalculators": "0x0c5Af1508B9016fC4cA0Ef9bfFE45738e64F2Def",

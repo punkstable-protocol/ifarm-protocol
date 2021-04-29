@@ -107,6 +107,9 @@
     "rUSDmerkleDistributor": [
         "0x2d517fb368884b66604b71C8ACB1690bDD1da689"
     ],
+    "rETHmerkleDistributor": [
+        "0x8c221aa6fA9c2301f770BDB4aaDe6b9386eDe741"
+    ],
     "MasterChef": "0x604E27adcD21a79A76D12e502C715a1fB9F845b0",
     "Salt": "0x4B7739c0965542E9822aE51908e1977fC6771fDE"
 }
